@@ -9,6 +9,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.List;
 public class NguoiDungService {
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
+    @Autowired
     NguoiDungMapper nguoiDungMapper;
 
     public NguoiDung createNguoiDung(NguoiDungCreateRequest request) {
@@ -47,5 +52,10 @@ public class NguoiDungService {
         nguoiDungRepository.save(existingNguoiDung);
 
         return "Cập nhật thành công";
+    }
+
+    public Page<NguoiDung> timNguoiDung(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("HoTen").ascending());
+        return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
     }
 }

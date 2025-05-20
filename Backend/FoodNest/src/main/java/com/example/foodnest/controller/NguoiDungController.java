@@ -4,8 +4,13 @@ import com.example.foodnest.dto.request.ApiResponse;
 import com.example.foodnest.dto.request.NguoiDungCreateRequest;
 import com.example.foodnest.dto.request.NguoiDungUpdateRequest;
 import com.example.foodnest.entity.NguoiDung;
+import com.example.foodnest.repository.NguoiDungRepository;
 import com.example.foodnest.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +21,8 @@ import java.util.List;
 public class NguoiDungController {
     @Autowired
     private NguoiDungService nguoiDungService;
+    @Autowired
+    NguoiDungRepository nguoiDungRepository;
 
     @PostMapping
     public ApiResponse<NguoiDung> createNguoiDung(@RequestBody NguoiDungCreateRequest request) {
@@ -39,4 +46,14 @@ public class NguoiDungController {
     public String updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
         return nguoiDungService.updateNguoiDung(id, request);
     }
+
+    @GetMapping("/timkiem")
+    public Page<NguoiDung> timKiemNguoiDung(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("HoTen").ascending());
+        return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
+    }
+
 }
