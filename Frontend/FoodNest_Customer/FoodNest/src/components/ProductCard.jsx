@@ -48,11 +48,11 @@ const ProductCard = ({ product }) => {
           </div>
           <div className="flex items-end justify-between mt-3">
             <p className="md:text-xl text-base font-medium text-primary">
-              {currency}
-              {product.offerPrice}{" "}
+              {product.offerPrice}
+              {currency}{" "}
               <span className="text-gray-500/60 md:text-sm text-xs line-through">
-                {currency}
                 {product.price}
+                {currency}
               </span>
             </p>
             <div
@@ -67,7 +67,7 @@ const ProductCard = ({ product }) => {
                   onClick={() => addToCart(product._id)}
                 >
                   <img src={assets.cart_icon} alt="cart_icon" />
-                  Add
+                  Thêm
                 </button>
               ) : (
                 <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">

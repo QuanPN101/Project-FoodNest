@@ -42,14 +42,14 @@ const Cart = () => {
     <div className="flex flex-col md:flex-row mt-16">
       <div className="flex-1 max-w-4xl">
         <h1 className="text-3xl font-medium mb-6">
-          Shopping Cart{" "}
+          Giỏ hàng{" "}
           <span className="text-sm text-primary">{getCartCount()}Items</span>
         </h1>
 
         <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
-          <p className="text-left">Product Details</p>
-          <p className="text-center">Subtotal</p>
-          <p className="text-center">Action</p>
+          <p className="text-left">Chi tiết sản phẩm</p>
+          <p className="text-center">Tổng</p>
+          <p className="text-center"></p>
         </div>
 
         {cartArray.map((product, index) => (
@@ -77,10 +77,10 @@ const Cart = () => {
                 <p className="hidden md:block font-semibold">{product.name}</p>
                 <div className="font-normal text-gray-500/70">
                   <p>
-                    Weight: <span>{product.weight || "N/A"}</span>
+                    Ghi chú: <span>{"không hàng, không tỏi,..."}</span>
                   </p>
                   <div className="flex items-center">
-                    <p>Qty:</p>
+                    <p>Số lượng:</p>
                     <select
                       onChange={(e) =>
                         updateCartItem(product._id, Number(e.target.value))
@@ -133,16 +133,16 @@ const Cart = () => {
             alt="arrow"
             className="group-hover:-translate-x-1 transition"
           />
-          Continue Shopping
+          Tiếp tục mua hàng
         </button>
       </div>
 
       <div className="max-w-[360px] w-full bg-gray-100/40 p-5 max-md:mt-16 border border-gray-300/70">
-        <h2 className="text-xl md:text-xl font-medium">Order Summary</h2>
+        <h2 className="text-xl md:text-xl font-medium">Tóm tắt đơn hàng</h2>
         <hr className="border-gray-300 my-5" />
 
         <div className="mb-6">
-          <p className="text-sm font-medium uppercase">Delivery Address</p>
+          <p className="text-sm font-medium uppercase">Địa chỉ giao hàng</p>
           <div className="relative flex justify-between items-start mt-2">
             <p className="text-gray-500">
               {setAddresses
@@ -153,7 +153,7 @@ const Cart = () => {
               onClick={() => setShowAddress(!showAddress)}
               className="text-primary hover:underline cursor-pointer"
             >
-              Change
+              Thay đổi
             </button>
             {showAddress && (
               <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
@@ -173,20 +173,22 @@ const Cart = () => {
                   onClick={() => navigate("/add-address")}
                   className="text-primary text-center cursor-pointer p-2 hover:bg-iprimary-dull/10"
                 >
-                  Add address
+                  Thêm địa chỉ giao hàng
                 </p>
               </div>
             )}
           </div>
 
-          <p className="text-sm font-medium uppercase mt-6">Payment Method</p>
+          <p className="text-sm font-medium uppercase mt-6">
+            Phương thức thanh toán
+          </p>
 
           <select
             onChange={(e) => setPaymentOption(e.target.value)}
             className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none"
           >
-            <option value="COD">Cash On Delivery</option>
-            <option value="Online">Online Payment</option>
+            <option value="COD">Thanh toán khi nhận hàng</option>
+            <option value="Online">Thanh toán trực tuyến</option>
           </select>
         </div>
 
@@ -194,28 +196,29 @@ const Cart = () => {
 
         <div className="text-gray-500 mt-4 space-y-2">
           <p className="flex justify-between">
-            <span>Price</span>
+            <span>Giá </span>
             <span>
               {currency}
               {getCartAmount()}
             </span>
           </p>
           <p className="flex justify-between">
-            <span>Shipping Fee</span>
-            <span className="text-green-600">Free</span>
+            <span>Phí giao hàng</span>
+            <span className="text-green-600">Miễn phí</span>
           </p>
-          <p className="flex justify-between">
+          {/* <p className="flex justify-between">
             <span>Tax (2%)</span>
             <span>
               {currency}
               {(getCartAmount() * 2) / 100}
             </span>
-          </p>
+          </p> */}
           <p className="flex justify-between text-lg font-medium mt-3">
-            <span>Total Amount:</span>
+            <span>Tổng tiền:</span>
             <span>
+              {/* {getCartAmount() + (getCartAmount() * 2) / 100} */}
+              {getCartAmount()}
               {currency}
-              {getCartAmount() + (getCartAmount() * 2) / 100}
             </span>
           </p>
         </div>
@@ -224,7 +227,7 @@ const Cart = () => {
           onClick={placeOrder}
           className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition"
         >
-          {paymentOption === "COD" ? "Place Order" : "Proceed to Checkout"}
+          {paymentOption === "COD" ? "Đặt hàng" : "Tiến hành thanh toán"}
         </button>
       </div>
     </div>

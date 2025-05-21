@@ -7,9 +7,9 @@ const Footer = () => {
         <div>
           <img className="w-34 md:w-32" src={assets.logo} alt="logo" />
           <p className="max-w-[410px] mt-6">
-            We deliver fresh groceries and snacks straight to your door. Trusted
-            by thousands, we aim to make your shopping experience simple and
-            affordable.
+            Chúng tôi giao món ăn nóng hổi và nước uống tận nơi. Hàng ngàn khách
+            hàng tin tưởng lựa chọn. Cam kết trải nghiệm đơn giản, nhanh chóng
+            và tiết kiệm.
           </p>
         </div>
         <div className="flex flex-wrap justify-between w-full md:w-[45%] gap-5">

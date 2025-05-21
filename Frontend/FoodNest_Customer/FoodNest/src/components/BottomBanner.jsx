@@ -17,7 +17,7 @@ const BottomBanner = () => {
       <div className="absolute inset-0 flex flex-col items-center md:items-end md:justify-center pt-16 md:pt-0 md:pr-24">
         <div className="">
           <h1 className="text-2xl md:text-3xl font-semibold text-primary mb-6">
-            Why we are the best?
+            Vì sao bạn nên chọn chúng tôi?
           </h1>
           {features.map((feature, index) => (
             <div key={index} className="flex items-center gap-4 mt-2">

@@ -70,6 +70,8 @@ import quinoa_image from "./quinoa_image.png";
 import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
 
+import image_contact from "./image-contact.jpg";
+
 export const assets = {
   logo,
   search_icon,
@@ -98,6 +100,7 @@ export const assets = {
   bottom_banner_image_sm,
   add_address_iamge,
   box_icon,
+  image_contact,
 };
 
 export const categories = [
@@ -147,27 +150,27 @@ export const categories = [
 
 export const footerLinks = [
   {
-    title: "Quick Links",
+    title: "Liên kết nhanh",
     links: [
-      { text: "Home", url: "#" },
-      { text: "Best Sellers", url: "#" },
-      { text: "Offers & Deals", url: "#" },
-      { text: "Contact Us", url: "#" },
-      { text: "FAQs", url: "#" },
+      { text: "Trang chủ", url: "/" },
+      { text: "Món bán chạy", url: "products" },
+      { text: "Ưu đãi & khuyến mãi", url: "/" },
+      { text: "Liên hệ", url: "/contact" },
+      { text: "Câu hỏi thường gặp", url: "#" },
     ],
   },
   {
-    title: "Need help?",
+    title: "Cần hỗ trợ?",
     links: [
-      { text: "Delivery Information", url: "#" },
-      { text: "Return & Refund Policy", url: "#" },
-      { text: "Payment Methods", url: "#" },
-      { text: "Track your Order", url: "#" },
-      { text: "Contact Us", url: "#" },
+      { text: "Thông tin giao hàng", url: "#" },
+      { text: "Chính sách đổi/trả món", url: "#" },
+      { text: "Phương thức thanh toán", url: "#" },
+      { text: "Tra cứu đơn hàng", url: "#" },
+      { text: "Liên hệ chúng tôi", url: "#" },
     ],
   },
   {
-    title: "Follow Us",
+    title: "Theo dõi chúng tôi",
     links: [
       { text: "Instagram", url: "#" },
       { text: "Twitter", url: "#" },
@@ -180,23 +183,23 @@ export const footerLinks = [
 export const features = [
   {
     icon: delivery_truck_icon,
-    title: "Fastest Delivery",
-    description: "Groceries delivered in under 30 minutes.",
+    title: "Giao hàng siêu tốc",
+    description: "Hàng hóa được giao tận nơi chỉ trong vòng 30 phút.",
   },
   {
     icon: leaf_icon,
-    title: "Freshness Guaranteed",
-    description: "Fresh produce straight from the source.",
+    title: "Tươi ngon tuyệt đối",
+    description: "Thực phẩm sạch, nguồn gốc rõ ràng, giao từ nơi sản xuất.",
   },
   {
     icon: coin_icon,
-    title: "Affordable Prices",
-    description: "Quality groceries at unbeatable prices.",
+    title: "Giá cả hợp lý",
+    description: "Chất lượng cao – giá siêu tốt, không lo bị “hớ.",
   },
   {
     icon: trust_icon,
-    title: "Trusted by Thousands",
-    description: "Loved by 10,000+ happy customers.",
+    title: "Hàng ngàn khách hàng tin tưởng",
+    description: "Hơn 10.000+ khách hàng hài lòng và quay lại mỗi ngày.",
   },
 ];
 

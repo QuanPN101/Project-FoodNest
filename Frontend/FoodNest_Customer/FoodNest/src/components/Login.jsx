@@ -27,16 +27,16 @@ const Login = () => {
         className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white"
       >
         <p className="text-2xl font-medium m-auto">
-          <span className="text-primary">User</span>{" "}
-          {state === "login" ? "Login" : "Sign Up"}
+          {/* <span className="text-primary">Đăng nhập</span>{" "} */}
+          {state === "login" ? "Đăng nhập" : "Đăng ký"}
         </p>
         {state === "register" && (
           <div className="w-full">
-            <p>Name</p>
+            <p>Họ và tên</p>
             <input
               onChange={(e) => setName(e.target.value)}
               value={name}
-              placeholder="type here"
+              placeholder="Nhập họ và tên"
               className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary"
               type="text"
               required
@@ -48,46 +48,59 @@ const Login = () => {
           <input
             onChange={(e) => setEmail(e.target.value)}
             value={email}
-            placeholder="type here"
+            placeholder="Nhập địa chỉ email"
             className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary"
-            type="email"
+            type="text"
             required
           />
         </div>
         <div className="w-full ">
-          <p>Password</p>
+          <p>Mật khẩu</p>
           <input
             onChange={(e) => setPassword(e.target.value)}
             value={password}
-            placeholder="type here"
+            placeholder="Nhập mật khẩu"
             className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary"
             type="password"
             required
           />
         </div>
+        {state === "register" && (
+          <div className="w-full">
+            <p>Nhập lại mật khẩu</p>
+            <input
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              placeholder="Nhập lại mật khẩu"
+              className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary"
+              type="password"
+              required
+            />
+          </div>
+        )}
         {state === "register" ? (
           <p>
-            Already have account?{" "}
+            Bạn đã có tài khoản?{" "}
             <span
               onClick={() => setState("login")}
               className="text-primary cursor-pointer"
             >
-              click here
+              Đăng nhập ngay
             </span>
           </p>
         ) : (
           <p>
-            Create an account?{" "}
+            Bạn chưa có tài khoản?{" "}
             <span
               onClick={() => setState("register")}
               className="text-primary cursor-pointer"
             >
-              click here
+              Đăng ký ngay
             </span>
           </p>
         )}
         <button className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
-          {state === "register" ? "Create Account" : "Login"}
+          {state === "register" ? "Tạo tài khoản" : "Đăng nhập"}
         </button>
       </form>
     </div>

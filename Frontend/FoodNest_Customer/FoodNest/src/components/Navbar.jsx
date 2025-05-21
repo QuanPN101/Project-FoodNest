@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import { NavLink } from "react-router-dom";
 import { useAppContext } from "../context/Appcontext";
@@ -14,6 +14,8 @@ const Navbar = () => {
     searchQuery,
     getCartCount,
   } = useAppContext();
+
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
   const logout = async () => {
     setUser(null);
@@ -34,16 +36,40 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-8">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/products">All Product</NavLink>
-        <NavLink to="/">Contact</NavLink>
+        <NavLink to="/">Trang chủ</NavLink>
+        <div
+          className="relative group"
+          onMouseEnter={() => setShowCategoryDropdown(true)}
+          onMouseLeave={() => setShowCategoryDropdown(false)}
+        >
+          <button className="hover:text-primary-dull">Danh mục</button>
+
+          {showCategoryDropdown && (
+            <div className="absolute hidden group-hover:flex flex-col bg-white shadow-md rounded-md p-2  min-w-[120px] z-10">
+              <NavLink
+                to="/category/rau-cu"
+                className="hover:text-primary px-2 py-1"
+              >
+                Rau củ
+              </NavLink>
+              <NavLink
+                to="/category/trai-cay"
+                className="hover:text-primary px-2 py-1"
+              >
+                Trái cây
+              </NavLink>
+            </div>
+          )}
+        </div>
+        <NavLink to="/products">Tất cả sản phẩm</NavLink>
+        <NavLink to="/contact">Liên hệ</NavLink>
 
         <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
           <input
             onChange={(e) => setSearchQuery(e.target.value)}
             className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
             type="text"
-            placeholder="Search products"
+            placeholder="Nhập tên sản phẩm"
           />
           <img
             onClick={() => setOpen(false)}
@@ -72,24 +98,25 @@ const Navbar = () => {
             onClick={() => setShowUserLogin(true)}
             className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition text-white rounded-full"
           >
-            Login
+            Đăng nhập
           </button>
         ) : (
           <div className="relative group">
             <img src={assets.profile_icon} className="w-10" alt="profile" />
             <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 min-w-max rounded-md text-sm z-40 ">
               <li
-                onClick={() => navigate("my-orders")}
-                className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer"
-              >
-                My Order
-              </li>
-              <li
                 onClick={() => navigate("account-management")}
                 className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer"
               >
                 Quản lý tài khoản
               </li>
+              <li
+                onClick={() => navigate("my-orders")}
+                className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer"
+              >
+                Đơn hàng
+              </li>
+
               <li
                 onClick={logout}
                 className="p-2 pl-3 hover:bg-primary/10 cursor-pointer"
