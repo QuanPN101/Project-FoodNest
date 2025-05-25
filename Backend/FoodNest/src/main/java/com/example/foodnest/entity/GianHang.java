@@ -15,9 +15,9 @@ public class GianHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaGianHang")
-    private int maGianHang;
+    private Integer maGianHang;
 
-    @Column(name = "TenGianHang", nullable = false)
+    @Column(name = "TenGianHang", nullable = false, length = 100)
     private String tenGianHang;
 
     @Column (name = "MoTa")

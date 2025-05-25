@@ -1,10 +1,9 @@
 package com.example.foodnest.controller;
 
-import com.example.foodnest.dto.request.GianHangCreateRequest;
-import com.example.foodnest.dto.request.GianHangResponse;
-import com.example.foodnest.dto.request.GianHangUpdateRequest;
+import com.example.foodnest.dto.request.*;
 import com.example.foodnest.service.GianHangService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,4 +49,11 @@ public class GianHangController {
         List<GianHangResponse> list = gianHangService.getAllGianHang();
         return ResponseEntity.ok(list);
     }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<GianHangSearchResponse>> searchGianHang(@RequestBody GianHangSearchRequest request) {
+        Page<GianHangSearchResponse> result = gianHangService.searchGianHang(request);
+        return ResponseEntity.ok(result);
+    }
+
 }
