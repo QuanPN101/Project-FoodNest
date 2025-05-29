@@ -1,0 +1,52 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-create-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px; /* Khoảng cách giữa SearchBar và button */
+  margin-bottom: 1rem;
+}
+
+
+.btn-create {
+  white-space: nowrap;
+  border-radius: 4px;
+}
+
+.card-ads {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.card-ads:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.promo-detail {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+@media (max-width: 768px) {
+  .search-create-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-create-row input[type="search"],
+  .btn-create {
+    max-width: 100%;
+  }
+}
+
