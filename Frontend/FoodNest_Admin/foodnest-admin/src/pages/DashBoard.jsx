@@ -1,5 +1,5 @@
 import React from 'react'
-import InfoCard from '../components/item/InforCard'
+import InfoCard from '../components/card/InforCard'
 import '../assets/style/style.css'
 import ReportsChart from '../components/item/ReportsChart'
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/item/SearchBar';
-import ReusableTable from '../components/ReusableTable';
+import ReusableTable from '../components/table/ReusableTable';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

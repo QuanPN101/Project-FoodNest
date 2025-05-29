@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../pages/PromotionList.css'; // CSS riêng để giữ style đẹp như bản gốc
+import '../components/item/PromotionList.css'; // CSS riêng để giữ style đẹp như bản gốc
 import SearchBar from '../components/item/SearchBar';
 import { 
   Pagination, Stack

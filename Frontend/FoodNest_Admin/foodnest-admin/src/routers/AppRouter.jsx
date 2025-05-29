@@ -9,9 +9,9 @@ import FormLogin from '../components/form/FormLogin';
 import OrderAndTransaction from '../pages/OrderAndTransaction';
 import AdvertisementAndPromotion from '../pages/AdvertisementAndPromotion';
 import ComplaintAndViolation from '../pages/ComplaintAndViolation';
-import UserDetail from '../pages/UserDetail';
+import UserDetail from '../components/item/UserDetail';
 import Profile from '../pages/Profile';
-import FormAddPromotion from '../components/card/FormAddPromotion';
+import FormAddPromotion from '../components/form/FormAddPromotion';
 
 function AppRouter() {
   return (
