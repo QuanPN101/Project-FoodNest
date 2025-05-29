@@ -1,6 +1,6 @@
 package com.example.foodnest.controller;
 
-import com.example.foodnest.dto.request.ApiResponse;
+import com.example.foodnest.dto.response.ApiResponse;
 import com.example.foodnest.dto.request.LoginRequest;
 import com.example.foodnest.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;

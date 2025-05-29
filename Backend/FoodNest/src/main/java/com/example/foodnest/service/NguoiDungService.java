@@ -27,6 +27,7 @@ public class NguoiDungService {
     NguoiDungMapper nguoiDungMapper;
 
     public NguoiDung createNguoiDung(NguoiDungCreateRequest request) {
+
         if (nguoiDungRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email đã được sử dụng.");
         }
