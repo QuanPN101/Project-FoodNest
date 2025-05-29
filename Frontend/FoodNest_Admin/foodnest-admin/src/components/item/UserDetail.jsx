@@ -33,7 +33,7 @@ function UserDetail() {
                 <label className="col-sm-2 col-form-label">Họ và tên</label>
                 <div className="col-sm-10">
                   <p class="form-control" style={{margin: '0'}}>
-                    {user.email}
+                    {user.hoTen}
                   </p>
                 </div>
               </div>
@@ -53,7 +53,7 @@ function UserDetail() {
                 <label className="col-sm-2 col-form-label">Địa chỉ</label>
                 <div className="col-sm-10">
                   <p class="form-control">
-                    {user.email}
+                    {user.diaChi}
                   </p>
                 </div>
               </div>
@@ -63,7 +63,7 @@ function UserDetail() {
                 <label className="col-sm-2 col-form-label">Số điện thoại</label>
                 <div className="col-sm-10">
                   <p class="form-control">
-                    {user.email}
+                    {user.soDienThoai}
                   </p>
                 </div>
               </div>

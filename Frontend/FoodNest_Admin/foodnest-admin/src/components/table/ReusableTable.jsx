@@ -5,9 +5,15 @@ import {
 } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
-function ReusableTable({ columns = [], rows = [], onActionClick = () => {}, pagination = { count: 1, page: 1, onChange: () => {} }, loading = false }) {
+function ReusableTable({
+  columns = [],
+  rows = [],
+  onActionClick = () => {},
+  pagination = { count: 1, page: 1, onChange: () => {} },
+  loading = false
+}) {
   return (
-    <>
+    <div style={{ position: 'relative', minHeight: '500px' }}>
       <TableContainer component={Paper} style={{ marginTop: 10 }}>
         <Table sx={{ minWidth: 650 }} aria-label="reusable table">
           <TableHead>
@@ -64,7 +70,8 @@ function ReusableTable({ columns = [], rows = [], onActionClick = () => {}, pagi
         </Table>
       </TableContainer>
 
-      <Stack spacing={1} direction="row" justifyContent="flex-end" style={{ marginTop: '10px' }}>
+      {/* Pagination cố định ở dưới cùng bên phải */}
+      <div style={{ position: 'absolute', bottom: 0, right: 0 }}>
         <Pagination
           count={pagination.count}
           page={pagination.page}
@@ -72,8 +79,8 @@ function ReusableTable({ columns = [], rows = [], onActionClick = () => {}, pagi
           variant="outlined"
           shape="rounded"
         />
-      </Stack>
-    </>
+      </div>
+    </div>
   );
 }
 
