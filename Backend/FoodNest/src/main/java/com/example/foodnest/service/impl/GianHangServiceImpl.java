@@ -1,8 +1,8 @@
 package com.example.foodnest.service.impl;
 
 import com.example.foodnest.dto.request.GianHangCreateRequest;
-import com.example.foodnest.dto.request.GianHangResponse;
 import com.example.foodnest.dto.request.GianHangUpdateRequest;
+import com.example.foodnest.dto.response.GianHangResponse;
 import com.example.foodnest.entity.GianHang;
 import com.example.foodnest.entity.NguoiDung;
 import com.example.foodnest.mapper.GianHangMapper;

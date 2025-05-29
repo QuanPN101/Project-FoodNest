@@ -1,0 +1,6 @@
+<svg width="300" height="60" viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Text "FoodNest" -->
+  <text y="38" font-family="Poppins, sans-serif" font-size="40" font-weight="600" fill="#4fbf8b">Food</text>
+  <text x="100" y="38" font-family="Poppins, sans-serif" font-size="40" font-weight="600" fill="#4E342E">Nest</text>
+</svg>

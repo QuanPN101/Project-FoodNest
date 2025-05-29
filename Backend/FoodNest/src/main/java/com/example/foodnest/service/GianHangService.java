@@ -2,7 +2,7 @@ package com.example.foodnest.service;
 
 import com.example.foodnest.dto.request.GianHangCreateRequest;
 import com.example.foodnest.dto.request.GianHangUpdateRequest;
-import com.example.foodnest.dto.request.GianHangResponse;
+import com.example.foodnest.dto.response.GianHangResponse;
 
 import java.util.List;
 

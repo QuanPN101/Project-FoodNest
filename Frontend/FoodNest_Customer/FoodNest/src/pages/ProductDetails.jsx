@@ -10,7 +10,7 @@ const ProductDetails = () => {
   const [thumbnail, setThumbnail] = useState([]);
   const [relatedProducts, setRelatedProducts] = useState([]);
 
-  const product = products.find((item) => item._id === id);
+  const product = products.find((item) => item.maSanPham === id);
 
   const [note, setNote] = useState("");
 
@@ -23,9 +23,10 @@ const ProductDetails = () => {
       setRelatedProducts(productsCopy.slice(0, 5));
     }
   }, [products]);
-  useEffect(() => {
-    setThumbnail(product?.image[0] ? product.image[0] : null);
-  }, [product]);
+
+  // useEffect(() => {
+  //   setThumbnail(product?.image[0] ? product.image[0] : null);
+  // }, [product]);
 
   return (
     product && (
@@ -33,24 +34,16 @@ const ProductDetails = () => {
         <p>
           <Link to={"/"}>Trang chủ</Link> /
           <Link to={"/products"}> Tất cả sản phẩm</Link> /
-          <Link to={`/products/${product.category.toLowerCase()}`}>
+          {/* <Link to={`/products/${product.category.toLowerCase()}`}>
             {product.category}
-          </Link>
-          /<span className="text-primary"> {product.name}</span>
+          </Link> */}
+          /<span className="text-primary"> {product.tenSanPham}</span>
         </p>
 
         <div className="flex flex-col md:flex-row gap-16 mt-4">
           <div className="flex gap-3">
             <div className="flex flex-col gap-3">
-              {product.image.map((image, index) => (
-                <div
-                  key={index}
-                  onClick={() => setThumbnail(image)}
-                  className="border max-w-24 border-gray-500/30 rounded overflow-hidden cursor-pointer"
-                >
-                  <img src={image} alt={`Thumbnail ${index + 1}`} />
-                </div>
-              ))}
+              <img src={product.anhChinh} alt="" />
             </div>
 
             <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
@@ -59,22 +52,21 @@ const ProductDetails = () => {
           </div>
 
           <div className="text-sm w-full md:w-1/2">
-            <h1 className="text-3xl font-medium">{product.name}</h1>
+            <h1 className="text-3xl font-medium">{product.tenSanPham}</h1>
 
             <div className="flex items-center gap-0.5 mt-1">
-              {Array(5)
-                .fill("")
-                .map((_, i) => (
-                  <img
-                    className="md:w-4 w-3.5"
-                    src={i < 4 ? assets.star_icon : assets.star_dull_icon}
-                    alt=""
-                  />
-                ))}
+              <img
+                className="md:w-4 w-3.5"
+                src={
+                  product.anhChinh ? assets.star_icon : assets.star_dull_icon
+                }
+                alt=""
+              />
+
               <p className="text-base ml-2">4</p>
             </div>
 
-            <div className="flex items-center gap-2 mt-4">
+            {/* <div className="flex items-center gap-2 mt-4">
               <span className="inline-block px-3 py-1 text-sm bg-primary text-white font-semibold rounded-full shadow-sm">
                 {product.restaurant || "Tên shop"}
               </span>
@@ -86,23 +78,24 @@ const ProductDetails = () => {
               >
                 Xem thêm món của nhà hàng này
               </NavLink>
-            </div>
+            </div> */}
 
             <p className="text-base font-medium mt-6">Mô tả sản phẩm</p>
             <ul className="list-disc ml-4 text-gray-500/70">
-              {product.description.map((desc, index) => (
+              {/* {product.description.map((desc, index) => (
                 <li key={index}>{desc}</li>
-              ))}
+              ))} */}
+              <li>{product.moTa}</li>
             </ul>
             <div className="mt-6">
               <p className="text-gray-400 line-through">
-                Giá: {product.price}
+                Giá: {product.gia}
                 {currency}
               </p>
-              <p className="text-2xl font-semibold text-primary">
+              {/* <p className="text-2xl font-semibold text-primary">
                 Giá: {product.offerPrice}
                 {currency}
-              </p>
+              </p> */}
             </div>
 
             {/* Extra Options */}
@@ -130,14 +123,14 @@ const ProductDetails = () => {
 
             <div className="flex items-center mt-10 gap-4 text-base">
               <button
-                onClick={() => addToCart(product._id)}
+                onClick={() => addToCart(product.maSanPham)}
                 className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition"
               >
                 Thêm vào giỏ
               </button>
               <button
                 onClick={() => {
-                  addToCart(product._id);
+                  addToCart(product.maSanPham);
                   navigate("/cart");
                 }}
                 className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition"
@@ -153,13 +146,13 @@ const ProductDetails = () => {
             <p className="text-3xl font-medium">Sản phẩm liên quan</p>
             <div className="w-20 h-0.5 bg-primary rounded-full mt-2"></div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
+          {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
             {relatedProducts
               .filter((product) => product.inStock)
               .map((product, index) => (
                 <ProductCard key={index} product={product} />
               ))}
-          </div>
+          </div> */}
           <button
             onClick={() => {
               navigate("/products");
