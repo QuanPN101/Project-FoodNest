@@ -4,7 +4,7 @@ import { useAppContext } from '../context/Appcontext';
 
 const BestSeller = () => {
     const { products } = useAppContext();
-    console.log(products);
+    // console.log(products);
     return (
         <div className="mt-16">
             <p className="text-2xl md:text-3xl font-medium">Món bán chạy</p>

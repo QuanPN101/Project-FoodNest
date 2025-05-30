@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
                     <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={assets.no_image} alt={product.tenSanPham} />
                 </div>
                 <div className="text-gray-500/60 text-sm">
-                    <p>{product.maloai}</p>
+                    <p>{product.loaiSanPham.tenLoai}</p>
                     <p className="text-gray-700 font-medium text-lg truncate w-full">{product.tenSanPham}</p>
                     <div className="flex items-center gap-0.5">
                         {Array(5)

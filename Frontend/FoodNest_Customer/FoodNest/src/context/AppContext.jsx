@@ -23,9 +23,9 @@ export const AppContextProvider = ({ children }) => {
 
             setProducts(data); // du lieu tra tu sprb
 
-            console.log('data: ', data);
+            // console.log('data: ', data);
 
-            console.log('product: ', products);
+            // console.log('product: ', products);
         } catch (error) {
             console.error('Lỗi khi fetch dữ liệu từ backend:', error);
         }

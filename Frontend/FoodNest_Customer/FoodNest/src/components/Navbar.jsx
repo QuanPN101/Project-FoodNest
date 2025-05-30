@@ -44,7 +44,7 @@ const Navbar = () => {
                             {loaiSanPham.map((item, index) => (
                                 <NavLink
                                     key={index}
-                                    to={`/category/${item.tenLoai
+                                    to={`/products/${item.tenLoai
                                         .toLowerCase()
                                         .replace(/\s+/g, '-')
                                         .normalize('NFD')

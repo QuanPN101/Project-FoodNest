@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class NguoiDungService {
         }
 
         NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(request);
+        nguoiDung.setMaVaiTro(1);
         return nguoiDungRepository.save(nguoiDung);
     }
 

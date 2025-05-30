@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GianHangResponse {
-    private int maGianHang;
+    private String maGianHang;
     private String tenGianHang;
     private String maNguoiDung;
 
@@ -18,7 +18,7 @@ public class GianHangResponse {
     public GianHangResponse() {
     }
 
-    public GianHangResponse(int maGianHang, String tenGianHang, String maNguoiDung,
+    public GianHangResponse(String maGianHang, String tenGianHang, String maNguoiDung,
                             String hoTenChuGianHang, String emailChuGianHang, String soDienThoaiChuGianHang) {
         this.maGianHang = maGianHang;
         this.tenGianHang = tenGianHang;
@@ -28,11 +28,11 @@ public class GianHangResponse {
         this.soDienThoaiChuGianHang = soDienThoaiChuGianHang;
     }
 
-    public int getMaGianHang() {
+    public String getMaGianHang() {
         return maGianHang;
     }
 
-    public void setMaGianHang(int maGianHang) {
+    public void setMaGianHang(String maGianHang) {
         this.maGianHang = maGianHang;
     }
 

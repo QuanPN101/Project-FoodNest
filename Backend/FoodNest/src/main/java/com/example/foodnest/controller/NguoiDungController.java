@@ -27,6 +27,7 @@ public class NguoiDungController {
     @PostMapping
     public ApiResponse<NguoiDung> createNguoiDung(@RequestBody NguoiDungCreateRequest request) {
         return ApiResponse.<NguoiDung>builder()
+                .code(1000)
                 .result(nguoiDungService.createNguoiDung(request))
                 .message("Successfully Created NguoiDung")
                 .build();
