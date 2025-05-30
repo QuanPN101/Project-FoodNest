@@ -20,7 +20,7 @@ function AppRouter() {
       <Route path="/login" element={<FormLogin />} />
       
       <Route path="" element={<AdminLayout />}>
-        <Route path="ads/1" element={<FormAddPromotion />} />
+        <Route path="ads/add" element={<FormAddPromotion />} />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<DashBoard />} />
         <Route path="store/list" element={<ListStore />} />

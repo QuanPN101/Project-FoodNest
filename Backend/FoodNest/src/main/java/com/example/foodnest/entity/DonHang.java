@@ -17,7 +17,7 @@ import java.time.Instant;
 public class DonHang {
     @Id
     @Column(name = "MaDonHang", nullable = false)
-    private Integer id;
+    private String maDonHang;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

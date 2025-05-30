@@ -15,9 +15,9 @@ function ListStore() {
 
   const columns = [
     { label: 'Tên gian hàng', field: 'TenGianHang' },
-    { label: 'Họ và tên', field: 'HoTenChuGianHang' },
-    { label: 'Email', field: 'EmailChuGianHang' },
-    { label: 'Số điện thoại', field: 'SoDienThoaiChuGianHang' }
+    { label: 'Địa chỉ', field: 'DiaChi' },
+    { label: 'Trạng thái', field: 'TrangThai' },
+    { label: 'Số điện thoại', field: '' }
   ];
 
   useEffect(() => {

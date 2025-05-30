@@ -38,10 +38,10 @@ const FormAddPromotion = () => {
       <h1>Tạo Chương Trình Khuyến Mãi</h1>
       <form onSubmit={handleSubmit} className="promo-form" style={{marginTop: '10px'}}>
         <div className="row g-3">
-          <div className="col-md-6">
+          {/* <div className="col-md-6">
             <label className="form-label">Ảnh chương trình</label>
             <input type="file" className="form-control" name="anh" value={formData.anh} onChange={handleChange} placeholder="URL ảnh hoặc đường dẫn" />
-          </div>
+          </div> */}
           <div className="col-md-6">
             <label className="form-label">Tên chương trình</label>
             <input type="text" className="form-control" name="ten_khuyen_mai" value={formData.ten_khuyen_mai} onChange={handleChange} required />
@@ -63,11 +63,11 @@ const FormAddPromotion = () => {
 
           <div className="col-md-6">
             <label className="form-label">Ngày bắt đầu</label>
-            <input type="datetime-local" className="form-control" name="ngay_bat_dau" value={formData.ngay_bat_dau} onChange={handleChange} />
+            <input type="date" className="form-control" name="ngay_bat_dau" value={formData.ngay_bat_dau} onChange={handleChange} />
           </div>
           <div className="col-md-6">
             <label className="form-label">Ngày kết thúc</label>
-            <input type="datetime-local" className="form-control" name="ngay_ket_thuc" value={formData.ngay_ket_thuc} onChange={handleChange} />
+            <input type="date" className="form-control" name="ngay_ket_thuc" value={formData.ngay_ket_thuc} onChange={handleChange} />
           </div>
 
           <div className="col-md-6">

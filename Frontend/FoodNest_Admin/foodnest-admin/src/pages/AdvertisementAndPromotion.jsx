@@ -63,8 +63,10 @@ const AdvertisementAndPromotion = () => {
         <div className="col-10" style={{margin: '0'}}>
           <SearchBar />
         </div>
-        <div className="col-2 text-end" style={{paddingTop: '10px'}}>
-          <button className="btn btn-primary w-100 btn-create">Tạo mới</button>
+        <div className="col-2 text-end" style={{ paddingTop: '10px' }}>
+          <Link to="add">
+            <button className="btn btn-primary w-100 btn-create">Tạo mới</button>
+          </Link>
         </div>
       </div>
 
