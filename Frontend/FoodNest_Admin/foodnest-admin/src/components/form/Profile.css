@@ -1,0 +1,66 @@
+
+    .top-form-profile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%; /* Điều chỉnh theo nhu cầu */
+    }
+
+
+    .group-img-name-email {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Khoảng cách giữa ảnh và name-email */
+    }
+
+    .img-profile {
+        width: 50px; /* Kích thước ảnh */
+        height: 50px;
+        border-radius: 50%; /* Biến ảnh thành hình tròn */
+        object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    }
+
+    .div-name-email {
+        display: flex;
+        flex-direction: column; /* Sắp xếp name và email theo chiều dọc */
+    }
+
+    .container-func {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+
+    .container-func-right {
+        width: 100%;
+        padding: 20px;
+        background-color: white;
+        min-height: 558px;
+    }
+
+    .form-edit-profile {
+        display: flex;
+        flex-direction: row;
+    }
+    a{
+        color: red;
+        text-decoration: none !important;
+    }
+
+    a {
+        color: #333; /* Màu mặc định */
+    }
+
+        a.active {
+            color: #007bff; /* Màu khi đang ở trên trang này */
+        }
+
+        a:hover {
+            color: #0056b3; /* Màu khi hover */
+        }
+
+    span{
+        color: black;
+    }

@@ -83,7 +83,7 @@ function ListUsers() {
         loading={loading}
         onActionClick={handleActionClick}
         pagination={{
-          count: Math.ceil(totalCount / 10),
+          count: Math.ceil(totalCount / 7),
           page: page,
           onChange: (e, value) => setPage(value)
         }}

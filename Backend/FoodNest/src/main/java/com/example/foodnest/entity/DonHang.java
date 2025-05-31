@@ -1,5 +1,6 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,6 +15,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DonHang {
     @Id
     @Column(name = "MaDonHang", nullable = false)
