@@ -9,9 +9,10 @@ const Navbar = () => {
 
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
-    const logout = async () => {
-        setUser(false);
+    const logout = () => {
+        setUser(null);
         localStorage.removeItem('isLogin');
+        localStorage.removeItem('user');
         navigate('/');
     };
 
@@ -84,7 +85,7 @@ const Navbar = () => {
                     <div className="relative group">
                         <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                             <img src={assets.profile_icon} className="w-10" alt="profile" />
-                            <p className="text-sm font-medium pt-2">Xin chào, Tuấn Anh</p>
+                            {user && user.hoTen ? <p className="text-sm font-medium pt-2">Xin chào, {user.hoTen}</p> : null}
                         </div>
                         <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 min-w-max rounded-md text-sm z-40">
                             <li onClick={() => navigate('account-management')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">

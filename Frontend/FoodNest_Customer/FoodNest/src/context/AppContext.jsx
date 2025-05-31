@@ -9,7 +9,16 @@ export const AppContextProvider = ({ children }) => {
     const currency = import.meta.env.VITE_CURRENCY;
     const navigate = useNavigate();
 
-    const [user, setUser] = useState(localStorage.getItem('isLogin') ? localStorage.getItem('isLogin') : false);
+    const [user, setUser] = useState(() => {
+        try {
+            const storedUser = localStorage.getItem('user');
+            return storedUser ? JSON.parse(storedUser) : null;
+        } catch (error) {
+            console.error('Lỗi khi parse user từ localStorage:', error);
+            return null;
+        }
+    });
+
     const [showUserLogin, setShowUserLogin] = useState(false);
     const [isSeller, setisSeller] = useState(false);
     const [products, setProducts] = useState([]);
@@ -80,9 +89,9 @@ export const AppContextProvider = ({ children }) => {
     const getCartAmount = () => {
         let totalAmount = 0;
         for (const items in cartItems) {
-            let itemInfo = products.find((product) => product._id === items);
+            let itemInfo = products.find((product) => product.maSanPham === items);
             if (cartItems[items] > 0) {
-                totalAmount += itemInfo.offerPrice * cartItems[items];
+                totalAmount += itemInfo.gia * cartItems[items];
             }
         }
         return Math.floor(totalAmount * 100) / 100;
@@ -91,12 +100,18 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         fetchLoaiSanPham();
         fetchProducts();
-        const isLogin = localStorage.getItem('isLogin');
-        if (isLogin === 'true') {
-            setUser(true);
+
+        const userData = localStorage.getItem('user');
+        try {
+            if (userData && userData !== 'undefined') {
+                setUser(JSON.parse(userData));
+            }
+        } catch (error) {
+            console.error('Error parsing user data from localStorage:', error);
+            // Có thể clear localStorage nếu dữ liệu sai định dạng:
+            // localStorage.removeItem('user');
         }
     }, []);
-
     const value = {
         currency,
         navigate,
