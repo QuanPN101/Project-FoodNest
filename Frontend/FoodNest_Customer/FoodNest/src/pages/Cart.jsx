@@ -14,7 +14,8 @@ const Cart = () => {
     const getCart = () => {
         let tempArray = [];
         for (const key in cartItems) {
-            const product = products.find((item) => item._id === key);
+            const product = products.find((item) => item.maSanPham === key);
+
             tempArray.push(product);
         }
         setCartArray(tempArray);
@@ -52,7 +53,7 @@ const Cart = () => {
                                 }}
                                 className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded"
                             >
-                                <img className="max-w-full h-full object-cover" src={product.anhChinh} alt={product.tenSanPham} />
+                                <img className="max-w-full h-full object-cover" src={assets.no_image} alt={product.tenSanPham} />
                             </div>
                             <div>
                                 <p className="hidden md:block font-semibold">{product.tenSanPham}</p>
@@ -147,8 +148,7 @@ const Cart = () => {
                     <p className="flex justify-between">
                         <span>Giá </span>
                         <span>
-                            {currency}
-                            {getCartAmount()}
+                            {Number(getCartAmount()).toLocaleString('vi-VN')} {currency}
                         </span>
                     </p>
                     <p className="flex justify-between">
@@ -165,9 +165,7 @@ const Cart = () => {
                     <p className="flex justify-between text-lg font-medium mt-3">
                         <span>Tổng tiền:</span>
                         <span>
-                            {/* {getCartAmount() + (getCartAmount() * 2) / 100} */}
-                            {getCartAmount()}
-                            {currency}
+                            {Number(getCartAmount()).toLocaleString('vi-VN')} {currency}
                         </span>
                     </p>
                 </div>

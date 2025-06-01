@@ -22,7 +22,16 @@ export const AppContextProvider = ({ children }) => {
     const [showUserLogin, setShowUserLogin] = useState(false);
     const [isSeller, setisSeller] = useState(false);
     const [products, setProducts] = useState([]);
-    const [cartItems, setCartItems] = useState({});
+    // const [cartItems, setCartItems] = useState({});
+    const [cartItems, setCartItems] = useState(() => {
+        try {
+            const storedCart = localStorage.getItem('cartItems');
+            return storedCart ? JSON.parse(storedCart) : {};
+        } catch (error) {
+            console.error('Lỗi khi parse cart từ localStorage:', error);
+            return {};
+        }
+    });
     const [searchQuery, setSearchQuery] = useState({});
     const [loaiSanPham, setLoaiSanPham] = useState([]);
     // Fetch all product
@@ -45,23 +54,54 @@ export const AppContextProvider = ({ children }) => {
         setLoaiSanPham(result);
     };
     // Add product to cart
+    // const addToCart = (itemId) => {
+    //     let cartData = structuredClone(cartItems);
+    //     if (cartData[itemId]) {
+    //         cartData[itemId] += 1;
+    //     } else {
+    //         cartData[itemId] = 1;
+    //     }
+    //     setCartItems(cartData);
+    //     toast.success('Thêm thành công');
+    // };
+
     const addToCart = (itemId) => {
-        let cartData = structuredClone(cartItems);
-        if (cartData[itemId]) {
-            cartData[itemId] += 1;
-        } else {
-            cartData[itemId] = 1;
+        const product = products.find((p) => p.maSanPham === itemId);
+        if (!product) return;
+
+        const currentQty = cartItems[itemId] || 0;
+        if (currentQty + 1 > product.soLuong) {
+            toast.error('Vượt quá số lượng tồn kho');
+            return;
         }
+
+        let cartData = structuredClone(cartItems);
+        cartData[itemId] = currentQty + 1;
         setCartItems(cartData);
-        toast.success('Add To Cart');
+        toast.success('Đã thêm vào giỏ hàng');
     };
 
     // Update Cart Item Quantity
+    // const updateCartItem = (itemId, quantity) => {
+    //     let cartData = structuredClone(cartItems);
+    //     cartData[itemId] = quantity;
+    //     setCartItems(cartData);
+    //     toast.success('Đã cập nhật giỏ hàng');
+    // };
+
     const updateCartItem = (itemId, quantity) => {
+        const product = products.find((p) => p.maSanPham === itemId);
+        if (!product) return;
+
+        if (quantity > product.soLuong) {
+            toast.error('Vượt quá số lượng tồn kho');
+            return;
+        }
+
         let cartData = structuredClone(cartItems);
         cartData[itemId] = quantity;
         setCartItems(cartData);
-        toast.success('Cart Update');
+        toast.success('Đã cập nhật giỏ hàng');
     };
 
     // Remove Product from Cart
@@ -73,7 +113,7 @@ export const AppContextProvider = ({ children }) => {
                 delete cartData[itemId];
             }
         }
-        toast.success('Remove from cart');
+        toast.success('Xóa sản phẩm thành công');
         setCartItems(cartData);
     };
 
@@ -89,13 +129,17 @@ export const AppContextProvider = ({ children }) => {
     const getCartAmount = () => {
         let totalAmount = 0;
         for (const items in cartItems) {
-            let itemInfo = products.find((product) => product.maSanPham === items);
-            if (cartItems[items] > 0) {
+            const itemInfo = products.find((product) => product.maSanPham === items);
+            if (itemInfo && cartItems[items] > 0) {
                 totalAmount += itemInfo.gia * cartItems[items];
             }
         }
         return Math.floor(totalAmount * 100) / 100;
     };
+
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     useEffect(() => {
         fetchLoaiSanPham();

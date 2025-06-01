@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
         currency,
         addToCart,
         updateCartItem,
-        removeCartItem,
+        removeFromCart,
         cartItems,
 
         navigate,
@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
                                 <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
                                     <button
                                         onClick={() => {
-                                            removeCartItem(product.maSanPham);
+                                            removeFromCart(product.maSanPham);
                                         }}
                                         className="cursor-pointer text-md px-2 h-full"
                                     >
