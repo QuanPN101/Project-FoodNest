@@ -32,7 +32,7 @@ public class SanPhamController {
     }
 
     @GetMapping("/gianhang/{maGianHang}")
-    public List<SanPham> getSanPhamByMaGianHang(@PathVariable int maGianHang) {
+    public List<SanPham> getSanPhamByMaGianHang(@PathVariable String maGianHang) {
         return sanPhamService.getSanPhamByMaGianHang(maGianHang);
     }
 
@@ -44,6 +44,7 @@ public class SanPhamController {
         }
         return ResponseEntity.ok(sanPhams);
     }
+
 //    @PutMapping("/image/{id}")
 //    public ResponseEntity<?> UploadImage(@PathVariable final String id, @RequestPart final MultipartFile file) {
 //        this.sanPhamService.uploadImage(id,file);

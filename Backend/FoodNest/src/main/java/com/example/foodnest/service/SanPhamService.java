@@ -29,6 +29,7 @@ public class SanPhamService {
 //    @Autowired
 //    private CloudinaryService cloudinaryService;
 
+
     public List<SanPham> getAllSanPham(){
         List<SanPham> sp = sanPhamRepository.findAll();
         log.info(sp.toString());
@@ -48,7 +49,7 @@ public class SanPhamService {
         return sanPham;
     }
 
-    public List<SanPham> getSanPhamByMaGianHang(int maGianHang){
+    public List<SanPham> getSanPhamByMaGianHang(String maGianHang){
         return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
     }
 

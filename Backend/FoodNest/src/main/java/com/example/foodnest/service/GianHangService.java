@@ -1,5 +1,8 @@
 package com.example.foodnest.service;
 
+import com.example.foodnest.dto.request.*;
+import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 import com.example.foodnest.dto.request.GianHangCreateRequest;
 import com.example.foodnest.dto.request.GianHangUpdateRequest;
 import com.example.foodnest.dto.response.GianHangResponse;
@@ -9,9 +12,11 @@ import java.util.List;
 
 public interface GianHangService {
     GianHangResponse createGianHang(GianHangCreateRequest request);
-    GianHangResponse updateGianHang(int maGianHang, GianHangUpdateRequest request);
-    void deleteGianHang(int maGianHang);
-    GianHangResponse getGianHangById(int maGianHang);
+    GianHangResponse updateGianHang(String maGianHang, GianHangUpdateRequest request);
+    void deleteGianHang(String maGianHang);
+    GianHangResponse getGianHangById(String maGianHang);
     List<GianHangResponse> getAllGianHang();
-    GianHang getGianHangByMaGianHang(int maGianHang);
+    Page<GianHangSearchResponse> searchGianHang(GianHangSearchRequest request);
+
+    GianHang getGianHangByMaGianHang(String maGianHang);
 }
