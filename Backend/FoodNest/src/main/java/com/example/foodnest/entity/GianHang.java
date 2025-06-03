@@ -1,7 +1,11 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="GianHang")
@@ -10,12 +14,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class GianHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaGianHang")
-    private int maGianHang;
+    private String maGianHang;
 
     @Column(name = "TenGianHang", nullable = false)
     private String tenGianHang;
@@ -35,4 +39,5 @@ public class GianHang {
 
     @Column(name = "NgayTao")
     private java.time.LocalDateTime ngayTao;
+
 }

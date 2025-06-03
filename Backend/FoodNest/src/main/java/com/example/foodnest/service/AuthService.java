@@ -2,6 +2,7 @@ package com.example.foodnest.service;
 
 import com.example.foodnest.dto.request.LoginRequest;
 import com.example.foodnest.dto.response.LoginResponse;
+import com.example.foodnest.entity.NguoiDung;
 import com.example.foodnest.repository.NguoiDungRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

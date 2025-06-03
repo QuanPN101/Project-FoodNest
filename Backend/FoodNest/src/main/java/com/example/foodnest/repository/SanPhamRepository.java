@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SanPhamRepository extends JpaRepository<SanPham, String> {
+    List<SanPham> findByLoaiSanPham_MaLoai(String maLoai);
     List<SanPham> findByMaGianHang_MaGianHang(Integer maGianHang);
 }

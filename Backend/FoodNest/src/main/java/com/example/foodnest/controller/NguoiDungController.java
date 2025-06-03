@@ -1,5 +1,6 @@
 package com.example.foodnest.controller;
 
+import com.example.foodnest.dto.request.NguoiDungChangePassRequest;
 import com.example.foodnest.dto.response.ApiResponse;
 import com.example.foodnest.dto.request.NguoiDungCreateRequest;
 import com.example.foodnest.dto.request.NguoiDungUpdateRequest;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -29,6 +31,7 @@ public class NguoiDungController {
     @PostMapping
     public ApiResponse<NguoiDung> createNguoiDung(@RequestBody NguoiDungCreateRequest request) {
         return ApiResponse.<NguoiDung>builder()
+                .code(1000)
                 .result(nguoiDungService.createNguoiDung(request))
                 .message("Successfully Created NguoiDung")
                 .build();
@@ -59,6 +62,8 @@ public class NguoiDungController {
         }
     }
 
+
+
     @GetMapping("/timkiem")
     public Page<NguoiDung> timKiemNguoiDung(
             @RequestParam(defaultValue = "") String keyword,
@@ -66,6 +71,21 @@ public class NguoiDungController {
             @RequestParam(defaultValue = "7") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("HoTen").ascending());
         return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
+    }
+
+    @PutMapping("/{id}/doimatkhau")
+    public ResponseEntity<?> doiMatKhau(
+            @PathVariable("id") String maNguoiDung,
+            @RequestBody NguoiDungChangePassRequest request) {
+
+        boolean result = nguoiDungService.doiMatKhau(maNguoiDung, request.getCurrentPassword(), request.getNewPassword());
+
+        if (!result) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("message", "Mật khẩu hiện tại không đúng hoặc người dùng không tồn tại."));
+        }
+
+        return ResponseEntity.ok(Collections.singletonMap("message", "Đổi mật khẩu thành công."));
     }
 
 }
