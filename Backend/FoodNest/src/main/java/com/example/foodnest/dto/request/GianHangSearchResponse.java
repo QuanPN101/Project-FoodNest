@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class GianHangSearchResponse {
-    private Integer maGianHang;
+    private String maGianHang;
     private String tenGianHang;
     private String diaChi;
     private Boolean trangThai;

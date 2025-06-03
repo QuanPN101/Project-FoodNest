@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface GianHangService {
     GianHangResponse createGianHang(GianHangCreateRequest request);
-    GianHangResponse updateGianHang(int maGianHang, GianHangUpdateRequest request);
-    void deleteGianHang(int maGianHang);
-    GianHangResponse getGianHangById(int maGianHang);
+    GianHangResponse updateGianHang(String maGianHang, GianHangUpdateRequest request);
+    void deleteGianHang(String maGianHang);
+    GianHangResponse getGianHangById(String maGianHang);
     List<GianHangResponse> getAllGianHang();
     Page<GianHangSearchResponse> searchGianHang(GianHangSearchRequest request);
 

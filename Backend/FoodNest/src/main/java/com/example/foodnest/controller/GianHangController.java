@@ -6,12 +6,12 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.net.URI;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/gianhang")
-@CrossOrigin(origins = "http://localhost:3000") //Cho phép React gọi API
+@CrossOrigin(origins = "http://localhost:3000")
 public class GianHangController {
 
     private final GianHangService gianHangService;
@@ -23,24 +23,25 @@ public class GianHangController {
     @PostMapping
     public ResponseEntity<GianHangResponse> createGianHang(@Valid @RequestBody GianHangCreateRequest request) {
         GianHangResponse response = gianHangService.createGianHang(request);
-        return ResponseEntity.ok(response);
+        URI location = URI.create("/api/gianhang/" + response.getMaGianHang());
+        return ResponseEntity.created(location).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GianHangResponse> updateGianHang(@PathVariable("id") int id,
-                                                           @RequestBody GianHangUpdateRequest request) {
+    public ResponseEntity<GianHangResponse> updateGianHang(@PathVariable("id") String id,
+                                                           @Valid @RequestBody GianHangUpdateRequest request) {
         GianHangResponse response = gianHangService.updateGianHang(id, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGianHang(@PathVariable("id") int id) {
+    public ResponseEntity<Void> deleteGianHang(@PathVariable("id") String id) {
         gianHangService.deleteGianHang(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GianHangResponse> getGianHangById(@PathVariable("id") int id) {
+    public ResponseEntity<GianHangResponse> getGianHangById(@PathVariable("id") String id) {
         GianHangResponse response = gianHangService.getGianHangById(id);
         return ResponseEntity.ok(response);
     }
@@ -52,7 +53,7 @@ public class GianHangController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Page<GianHangSearchResponse>> searchGianHang(@RequestBody GianHangSearchRequest request) {
+    public ResponseEntity<Page<GianHangSearchResponse>> searchGianHang(@Valid @RequestBody GianHangSearchRequest request) {
         Page<GianHangSearchResponse> result = gianHangService.searchGianHang(request);
         return ResponseEntity.ok(result);
     }

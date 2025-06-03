@@ -68,7 +68,7 @@ public class GianHangServiceImpl implements GianHangService {
 
 
     @Override
-    public GianHangResponse updateGianHang(int maGianHang, GianHangUpdateRequest request) {
+    public GianHangResponse updateGianHang(String maGianHang, GianHangUpdateRequest request) {
         GianHang gianHang = gianHangRepository.findById(maGianHang)
                 .orElseThrow(() -> new NoSuchElementException("Gian hàng không tồn tại"));
 
@@ -85,7 +85,7 @@ public class GianHangServiceImpl implements GianHangService {
 
 
     @Override
-    public void deleteGianHang(int maGianHang) {
+    public void deleteGianHang(String maGianHang) {
         if (!gianHangRepository.existsById(maGianHang)) {
             throw new NoSuchElementException("Gian hàng không tồn tại");
         }
@@ -93,7 +93,7 @@ public class GianHangServiceImpl implements GianHangService {
     }
 
     @Override
-    public GianHangResponse getGianHangById(int maGianHang) {
+    public GianHangResponse getGianHangById(String maGianHang) {
         GianHang gianHang = gianHangRepository.findById(maGianHang)
                 .orElseThrow(() -> new NoSuchElementException("Gian hàng không tồn tại"));
         return gianHangMapper.toGianHangResponse(gianHang);

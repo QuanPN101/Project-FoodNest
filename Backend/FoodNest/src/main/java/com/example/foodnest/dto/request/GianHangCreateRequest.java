@@ -12,6 +12,9 @@ public class GianHangCreateRequest {
     private String moTa;
     @NotBlank(message = "Địa chỉ không được để trống")
     private String diaChi;
-    @NotBlank(message = "Mã người dùng không được để trống")
     private String maNguoiDung;
+    @NotBlank(message = "Ảnh bìa không được để trống")
+    private String anhBiaPreview;
+    private boolean trangThai;
+
 }

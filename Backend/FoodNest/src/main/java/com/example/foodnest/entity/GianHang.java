@@ -2,6 +2,7 @@ package com.example.foodnest.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="GianHang")
@@ -13,9 +14,8 @@ import lombok.*;
 
 public class GianHang {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaGianHang")
-    private Integer maGianHang;
+    private String maGianHang;
 
     @Column(name = "TenGianHang", nullable = false, length = 100)
     private String tenGianHang;
@@ -30,10 +30,14 @@ public class GianHang {
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
 
-    @Column(name = "TrangThai")
+    @Column(name = "TrangThai", updatable = false)
+    @CreationTimestamp
     private Boolean trangThai;
 
     @Column(name = "NgayTao")
     private java.time.LocalDateTime ngayTao;
+
+    @Column(name = "AnhBiaPreview")
+    private String anhBiaPreview;
 
 }

@@ -12,7 +12,6 @@ import lombok.*;
 @Builder
 public class NguoiDung {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MaNguoiDung")
     private String maNguoiDung;
 
