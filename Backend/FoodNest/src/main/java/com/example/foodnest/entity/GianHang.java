@@ -19,7 +19,7 @@ public class GianHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaGianHang")
-    private String maGianHang;
+    private int maGianHang;
 
     @Column(name = "TenGianHang", nullable = false)
     private String tenGianHang;

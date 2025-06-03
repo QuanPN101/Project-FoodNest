@@ -45,9 +45,9 @@ public class SanPhamController {
         return ResponseEntity.ok(sanPhams);
     }
 
-    @PutMapping("/image/{id}")
-    public ResponseEntity<?> UploadImage(@PathVariable final String id, @RequestPart final MultipartFile file) {
-        this.sanPhamService.uploadImage(id,file);
-        return ResponseEntity.ok("Upload thành công");
-    }
+//    @PutMapping("/image/{id}")
+//    public ResponseEntity<?> UploadImage(@PathVariable final String id, @RequestPart final MultipartFile file) {
+//        this.sanPhamService.uploadImage(id,file);
+//        return ResponseEntity.ok("Upload thành công");
+//    }
 }
