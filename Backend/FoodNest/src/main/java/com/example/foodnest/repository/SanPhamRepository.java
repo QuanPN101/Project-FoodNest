@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SanPhamRepository extends JpaRepository<SanPham, String> {
     List<SanPham> findByLoaiSanPham_MaLoai(String maLoai);
-    List<SanPham> findByMaGianHang_MaGianHang(Integer maGianHang);
+    List<SanPham> findByMaGianHang_MaGianHang(int maGianHang);
 }
