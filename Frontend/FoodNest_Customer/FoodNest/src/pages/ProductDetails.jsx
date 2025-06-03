@@ -3,6 +3,7 @@ import { useAppContext } from '../context/Appcontext';
 import { Link, Links, Navigate, NavLink, useParams } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import ProductCard from '../components/ProductCard';
+import toast from 'react-hot-toast';
 const ProductDetails = () => {
     const { products, navigate, currency, addToCart, setListProduct, listProduct } = useAppContext();
     const { id } = useParams();
@@ -97,8 +98,9 @@ const ProductDetails = () => {
                         </ul>
                         <div className="mt-6">
                             <p className="text-2xl font-semibold text-primary">
-                                Giá: {product.gia}
-                                {currency}
+                                Giá:
+                                {Number(product.gia).toLocaleString('vi-VN')}
+                                {currency}{' '}
                             </p>
                             <span className="text-gray-500/60 md:text-sm text-xs line-through">
                                 {Number(product.gia + 15000).toLocaleString('vi-VN')}
@@ -124,10 +126,33 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="flex items-center mt-10 gap-4 text-base">
-                            <button onClick={() => addToCart(product.maSanPham)} className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition">
+                            <button
+                                className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition"
+                                onClick={() => {
+                                    const existed = listProduct.find((p) => p.maSanPham === product.maSanPham && JSON.stringify(p.options) === JSON.stringify(selectedTuyChon) && p.note === note);
+
+                                    if (!existed) {
+                                        setListProduct((prevList) => [
+                                            ...prevList,
+                                            {
+                                                ...product,
+                                                note: note,
+                                                options: selectedTuyChon,
+                                                soLuongMua: 1,
+                                            },
+                                        ]);
+                                        toast.success('Thêm vào giỏ hàng thành công.');
+                                    } else {
+                                        const updated = listProduct.map((p) => (p.maSanPham === product.maSanPham && JSON.stringify(p.options) === JSON.stringify(selectedTuyChon) && p.note === note ? { ...p, soLuongMua: p.soLuongMua + 1 } : p));
+                                        setListProduct(updated);
+                                        toast.success('Thêm vào giỏ hàng thành công.');
+                                    }
+                                }}
+                            >
                                 Thêm vào giỏ
                             </button>
-                            <button
+
+                            {/* <button //  code
                                 onClick={() => {
                                     const newProduct = {
                                         ...product,
@@ -139,6 +164,30 @@ const ProductDetails = () => {
                                     navigate('/cart');
                                 }}
                                 className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition"
+                            >
+                                Mua ngay
+                            </button> */}
+                            <button
+                                className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition"
+                                onClick={() => {
+                                    const existed = listProduct.find((p) => p.maSanPham === product.maSanPham && JSON.stringify(p.options) === JSON.stringify(selectedTuyChon) && p.note === note);
+
+                                    if (!existed) {
+                                        setListProduct((prevList) => [
+                                            ...prevList,
+                                            {
+                                                ...product,
+                                                note: note,
+                                                options: selectedTuyChon,
+                                                soLuongMua: 1,
+                                            },
+                                        ]);
+                                    } else {
+                                        const updated = listProduct.map((p) => (p.maSanPham === product.maSanPham && JSON.stringify(p.options) === JSON.stringify(selectedTuyChon) && p.note === note ? { ...p, soLuongMua: p.soLuongMua + 1 } : p));
+                                        setListProduct(updated);
+                                    }
+                                    navigate('/cart');
+                                }}
                             >
                                 Mua ngay
                             </button>

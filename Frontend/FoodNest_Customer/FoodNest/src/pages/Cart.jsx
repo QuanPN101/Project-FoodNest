@@ -80,7 +80,7 @@ const Cart = () => {
                                         </select> */}
                                         <button
                                             onClick={() => {
-                                                removeFromCart(product.maSanPham);
+                                                removeFromCart(product.maSanPham, product.options, product.note);
                                             }}
                                             className="w-4 h-4 rounded-full border-2 border-blue-500 text-blue-500 text-xl flex items-center justify-center hover:bg-blue-100 mr-2"
                                         >
@@ -89,7 +89,7 @@ const Cart = () => {
                                         {product.soLuongMua}
                                         <button
                                             onClick={() => {
-                                                increaseQuantity(product.maSanPham);
+                                                increaseQuantity(product.maSanPham, product.options, product.note);
                                             }}
                                             className="w-4 h-4 rounded-full border-2 border-blue-500 text-blue-500 text-xl flex items-center justify-center hover:bg-blue-100 ml-2"
                                         >

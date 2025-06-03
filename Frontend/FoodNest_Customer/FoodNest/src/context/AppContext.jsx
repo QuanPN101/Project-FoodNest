@@ -120,12 +120,39 @@ export const AppContextProvider = ({ children }) => {
     };
 
     // Remove Product from Cart
-    const removeFromCart = (id) => {
+    // const removeFromCart = (id) => {
+    //     let itemWasRemoved = false;
+
+    //     const updatedCart = listProduct
+    //         .map((item) => {
+    //             if (item.maSanPham === id) {
+    //                 const newQty = item.soLuongMua - 1;
+    //                 if (newQty <= 0) {
+    //                     itemWasRemoved = true;
+    //                     return null;
+    //                 }
+    //                 return { ...item, soLuongMua: newQty };
+    //             }
+    //             return item;
+    //         })
+    //         .filter((item) => item !== null); // loại bỏ item đã đánh dấu
+
+    //     setListProduct(updatedCart);
+
+    //     if (itemWasRemoved) {
+    //         toast.success('Xóa sản phẩm thành công');
+    //     } else {
+    //         toast.success('Giảm số lượng sản phẩm thành công');
+    //     }
+    // };
+    const removeFromCart = (id, options, note) => {
         let itemWasRemoved = false;
 
         const updatedCart = listProduct
             .map((item) => {
-                if (item.maSanPham === id) {
+                const isSameProduct = item.maSanPham === id && JSON.stringify(item.options) === JSON.stringify(options) && item.note === note;
+
+                if (isSameProduct) {
                     const newQty = item.soLuongMua - 1;
                     if (newQty <= 0) {
                         itemWasRemoved = true;
@@ -135,7 +162,7 @@ export const AppContextProvider = ({ children }) => {
                 }
                 return item;
             })
-            .filter((item) => item !== null); // loại bỏ item đã đánh dấu
+            .filter((item) => item !== null); // loại bỏ item đã đánh dấu null
 
         setListProduct(updatedCart);
 
@@ -146,22 +173,37 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    const increaseQuantity = (itemId) => {
-        const updatedCart = listProduct
-            .map((item) => {
-                if (item.maSanPham === itemId) {
-                    const newQty = item.soLuongMua + 1;
+    // const increaseQuantity = (itemId) => {
+    //     const updatedCart = listProduct
+    //         .map((item) => {
+    //             if (item.maSanPham === itemId) {
+    //                 const newQty = item.soLuongMua + 1;
 
-                    return { ...item, soLuongMua: newQty };
-                }
-                return item;
-            })
-            .filter((item) => item !== null);
+    //                 return { ...item, soLuongMua: newQty };
+    //             }
+    //             return item;
+    //         })
+    //         .filter((item) => item !== null);
+
+    //     setListProduct(updatedCart);
+
+    //     toast.success('Cập nhập số lượng thành công');
+    // };
+    const increaseQuantity = (id, options, note) => {
+        const updatedCart = listProduct.map((item) => {
+            const isSameProduct = item.maSanPham === id && JSON.stringify(item.options) === JSON.stringify(options) && item.note === note;
+
+            if (isSameProduct) {
+                const newQty = item.soLuongMua + 1;
+                return { ...item, soLuongMua: newQty };
+            }
+            return item;
+        });
 
         setListProduct(updatedCart);
-
-        toast.success('Cập nhập số lượng thành công');
+        toast.success('Cập nhật số lượng thành công');
     };
+
     // Get Cart Item Count
     const getCartCount = () => {
         return listProduct.length;

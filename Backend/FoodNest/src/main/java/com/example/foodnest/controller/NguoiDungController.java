@@ -47,11 +47,21 @@ public class NguoiDungController {
         return nguoiDungService.getNguoiDungById(id);
     }
 
+//    @PutMapping("/{id}")
+//    public String updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+//        return nguoiDungService.updateNguoiDung(id, request);
+//    }
     @PutMapping("/{id}")
-    public String updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
-        return nguoiDungService.updateNguoiDung(id, request);
-    }
+    public ResponseEntity<?> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+        String result = nguoiDungService.updateNguoiDung(id, request);
 
+        if ("Email đã được sử dụng.".equals(result)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("message", result));
+        }
+
+        return ResponseEntity.ok(Collections.singletonMap("message", result));
+    }
 
 
     @GetMapping("/timkiem")
@@ -72,7 +82,7 @@ public class NguoiDungController {
 
         if (!result) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Collections.singletonMap("message", "Mật khẩu hiện tại không đúng hoặc người dùng không tồn tại."));
+                    .body(Collections.singletonMap("message", "Mật khẩu hiện tại không đúng."));
         }
 
         return ResponseEntity.ok(Collections.singletonMap("message", "Đổi mật khẩu thành công."));
