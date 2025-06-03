@@ -11,9 +11,12 @@ import ProductCategory from './pages/ProductCategory';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import AddAddress from './pages/AddAddress';
-import MyOrder from './pages/MyOrder';
 import Contact from './pages/Contact';
 import AccountPage from './pages/AccountPage';
+import ChangePasswordForm from './pages/ChangePasswordForm';
+import Payment from './pages/Payment';
+import MyOrder from './pages/MyOrder';
+
 export const App = () => {
     const isSellerPath = useLocation().pathname.includes('seller');
     const { showUserLogin } = useAppContext();
@@ -21,7 +24,12 @@ export const App = () => {
         <div>
             {isSellerPath ? null : <Navbar />}
             {showUserLogin ? <Login /> : null}
-            <Toaster />
+            <Toaster
+                position="top-right"
+                toastOptions={{
+                    duration: 4000,
+                }}
+            />
             <div className={`${isSellerPath ? '' : 'px-6 md:px-16 lg:px-24 xl:px-32'}`}>
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -30,10 +38,12 @@ export const App = () => {
                     <Route path="/products/detail/:id" element={<ProductDetails />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/add-address" element={<AddAddress />} />
-                    <Route path="/my-orders" element={<MyOrder />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/account" element={<AccountPage />} />
+                    <Route path="/changepassword" element={<ChangePasswordForm />} />
+                    <Route path="/order" element={<Payment />} />
+                    <Route path="/myorders" element={<MyOrder />} />
                 </Routes>
             </div>
             {!isSellerPath && <Footer />}

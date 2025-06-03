@@ -1,6 +1,7 @@
 package com.example.foodnest.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,10 +44,12 @@ public class SanPham {
     @Column(name = "SoLuong")
     private Integer soLuong;
 
-    @NotNull
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "MaGianHang", nullable = false)
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "MaGianHang", nullable = false, referencedColumnName = "MaGianHang")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaGianHang", nullable = false, referencedColumnName = "MaGianHang")
     private GianHang maGianHang;
 
     @Size(max = 255)
@@ -67,6 +71,14 @@ public class SanPham {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaLoai")
-    @JsonIgnore
     private LoaiSanPham loaiSanPham;
+
+    @ManyToMany
+    @JoinTable(
+            name = "sanpham_tuychon",
+            joinColumns = @JoinColumn(name = "MaSanPham"),
+            inverseJoinColumns = @JoinColumn(name = "MaTuyChon")
+    )
+
+    private List<TuyChon> tuyChon;
 }

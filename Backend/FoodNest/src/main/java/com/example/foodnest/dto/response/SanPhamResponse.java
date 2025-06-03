@@ -1,5 +1,6 @@
 package com.example.foodnest.dto.response;
 
+import com.example.foodnest.entity.GianHang;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class SanPhamResponse {
     private Boolean trangThai;
     private Instant ngayTao;
 
-    private String tenGianHang;
+    private String maGianHang;
     private String tenLoai;
+    private String maLoai;
 }

@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
         currency,
         addToCart,
         updateCartItem,
-        removeCartItem,
+        removeFromCart,
         cartItems,
 
         navigate,
@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
                     <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={assets.no_image} alt={product.tenSanPham} />
                 </div>
                 <div className="text-gray-500/60 text-sm">
-                    <p>{product.maloai}</p>
+                    <p>{product.loaiSanPham.tenLoai}</p>
                     <p className="text-gray-700 font-medium text-lg truncate w-full">{product.tenSanPham}</p>
                     <div className="flex items-center gap-0.5">
                         {Array(5)
@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
                                 <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
                                     <button
                                         onClick={() => {
-                                            removeCartItem(product.maSanPham);
+                                            removeFromCart(product.maSanPham);
                                         }}
                                         className="cursor-pointer text-md px-2 h-full"
                                     >

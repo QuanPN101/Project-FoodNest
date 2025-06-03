@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +35,7 @@ public class NguoiDungService {
         }
 
         NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(request);
+        nguoiDung.setMaVaiTro(1);
         return nguoiDungRepository.save(nguoiDung);
     }
 
@@ -48,6 +51,16 @@ public class NguoiDungService {
     public String updateNguoiDung(String id, NguoiDungUpdateRequest request) {
         NguoiDung existingNguoiDung = nguoiDungRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+        if (request.getEmail() != null) {
+            if (existingNguoiDung.getMaVaiTro() != 1) {
+                throw new RuntimeException("Bạn không có quyền thay đổi email!");
+            }
+            existingNguoiDung.setEmail(request.getEmail());
+        }
+
+        if (request.getMatKhau() != null && !request.getMatKhau().isBlank()) {
+            existingNguoiDung.setMatKhau(request.getMatKhau());
+        }
 
         nguoiDungMapper.updateNguoiDung(request, existingNguoiDung);
         nguoiDungRepository.save(existingNguoiDung);
@@ -58,5 +71,22 @@ public class NguoiDungService {
     public Page<NguoiDung> timNguoiDung(String keyword, int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("HoTen").ascending());
         return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
+    }
+
+    public boolean doiMatKhau(String maNguoiDung, String currentPassword, String newPassword) {
+        Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findById(maNguoiDung); // tránh null khi gọi từ csdl
+        if(!optionalNguoiDung.isPresent()) {
+            return false;
+        }
+        NguoiDung nguoiDung = optionalNguoiDung.get();
+
+        // Kiểm tra mật khẩu hiện tại có đúng không
+        if (!currentPassword.equals(nguoiDung.getMatKhau())) {
+            return false;
+        }
+
+        nguoiDung.setMatKhau(newPassword);
+        nguoiDungRepository.save(nguoiDung);
+        return true;
     }
 }

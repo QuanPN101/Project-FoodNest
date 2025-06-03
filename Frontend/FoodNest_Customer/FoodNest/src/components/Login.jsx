@@ -1,25 +1,83 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/Appcontext';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 const Login = () => {
     const { setShowUserLogin, setUser } = useAppContext();
     const [state, setState] = React.useState('login');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [matKhau, setPassword] = React.useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    // const onSubmitHandler = async (event) => {
+    //     event.preventDefault();
+
+    //     const { data } = await axios.post('http://localhost:8080/api/auth', { email, matKhau });
+
+    //     console.log('data: ', data);
+    //     if (data.code === 1000) {
+    //         setUser(true);
+    //         localStorage.setItem('isLogin', true);
+    //     }
+
+    //     setShowUserLogin(false);
+    // };
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
 
-        const { data } = await axios.post('http://localhost:8080/api/auth', { email, matKhau });
+        try {
+            if (state === 'login') {
+                const { data } = await axios.post('http://localhost:8080/api/auth', { email, matKhau });
+                console.log('Login data: ', data);
+                // if (data.code === 1000) {
+                //     toast.success('Đăng nhập thành công', {
+                //         duration: 4000,
+                //         position: 'top-right',
+                //     });
+                //     setUser(true);
+                //     localStorage.setItem('isLogin', true);
+                //     setShowUserLogin(false);
+                // }
+                if (data.code === 1000) {
+                    toast.success('Đăng nhập thành công', { duration: 4000, position: 'top-right' });
 
-        console.log('data: ', data);
-        if (data.code === 1000) {
-            setUser(true);
-            localStorage.setItem('isLogin', true);
+                    // Giả sử data.result chứa thông tin người dùng
+                    const userData = data.result; // { id, name, email, ... }
+
+                    localStorage.setItem('isLogin', true);
+                    if (userData) {
+                        localStorage.setItem('user', JSON.stringify(userData));
+                    }
+
+                    setUser(userData); // Đặt vào context
+                    setShowUserLogin(false);
+                }
+            } else {
+                // Đăng ký
+                const { data } = await axios.post('http://localhost:8080/api/nguoidung', {
+                    email,
+                    matKhau,
+                    hoTen: name,
+                });
+                console.log('Register data:', data);
+                console.log('name: ', name);
+
+                if (data.code === 1000) {
+                    toast.success('Tạo tài khoản thành công! Hãy đăng nhập.', {
+                        duration: 4000,
+                        position: 'top-right',
+                    });
+                    setState('login');
+                } else {
+                    alert(data.message || 'Đăng ký thất bại!');
+                }
+            }
+        } catch (error) {
+            console.log(error);
+
+            toast.error('Đã có lỗi xảy ra!');
         }
-
-        setShowUserLogin(false);
     };
 
     return (
@@ -46,7 +104,7 @@ const Login = () => {
                 {state === 'register' && (
                     <div className="w-full">
                         <p>Nhập lại mật khẩu</p>
-                        <input onChange={(e) => setName(e.target.value)} value={name} placeholder="Nhập lại mật khẩu" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="password" required />
+                        <input onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} placeholder="Nhập lại mật khẩu" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="password" required />
                     </div>
                 )}
                 {state === 'register' ? (
