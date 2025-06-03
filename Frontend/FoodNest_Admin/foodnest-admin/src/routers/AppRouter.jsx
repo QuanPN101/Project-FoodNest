@@ -14,6 +14,7 @@ import Profile from '../components/form/Profile';
 import FormAddPromotion from '../components/form/FormAddPromotion';
 import EditProfile from '../components/form/EditProfile';
 import RequireAuth from '../components/RequireAuth';
+import StoreDetail from '../pages/StoreDetail';
 
 function AppRouter() {
   return (
@@ -21,21 +22,22 @@ function AppRouter() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<FormLogin />} />
       
-      <Route path="" element={<RequireAuth />}>
+      {/* <Route path="" element={<RequireAuth />}> */}
         <Route path="" element={<AdminLayout />}>
           <Route path="ads/add" element={<FormAddPromotion />} />
           <Route path="profile" element={<Profile />} />
           <Route path="profile/edit" element={<EditProfile />} />
           <Route path="dashboard" element={<DashBoard />} />
-          <Route path="store/list" element={<ListStore />} />
-          <Route path="store/register" element={<ListStoreRegister />} />
+          <Route path="ListStore" element={<ListStore />} />
+          <Route path="ListStore/:id" element={<StoreDetail />} />
+          <Route path="StoreRegister" element={<ListStoreRegister />} />
           <Route path="account" element={<ListUser />} />
           <Route path="orders" element={<OrderAndTransaction />} />
           <Route path="ads" element={<AdvertisementAndPromotion />} />
           <Route path="complaints" element={<ComplaintAndViolation />} />
           <Route path="account/:id" element={<UserDetail />} />
         </Route>
-      </Route>
+      {/* </Route> */}
     </Routes>
   );
 }

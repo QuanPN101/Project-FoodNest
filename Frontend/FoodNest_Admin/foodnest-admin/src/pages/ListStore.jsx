@@ -14,10 +14,13 @@ function ListStore() {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const columns = [
-    { label: 'Tên gian hàng', field: 'TenGianHang' },
-    { label: 'Địa chỉ', field: 'DiaChi' },
+    { label: 'Tên gian hàng', field: 'tenGianHang' },
+    { label: 'Địa chỉ', field: 'diaChi' },
+    { label: 'Chủ gian hàng', field: 'hoTenChuGianHang' },
+    { label: 'Email', field: 'emailChuGianHang' },
+    { label: 'Số điện thoại', field: 'soDienThoaiChuGianHang' },
     { label: 'Trạng thái', field: 'TrangThai' },
-    { label: 'Số điện thoại', field: '' }
+    { label: 'Ngày tạo', field: 'ngayTao' }
   ];
 
   useEffect(() => {
@@ -38,11 +41,14 @@ function ListStore() {
       const pageData = response.data;
 
       const mappedData = (pageData.content || []).map(store => ({
-        MaGianHang: store.maGianHang,
-        TenGianHang: store.tenGianHang,
-        HoTenChuGianHang: store.hoTenChuGianHang,
-        EmailChuGianHang: store.emailChuGianHang,
-        SoDienThoaiChuGianHang: store.soDienThoaiChuGianHang
+        maGianHang: store.maGianHang,
+        tenGianHang: store.tenGianHang,
+        diaChi: store.diaChi,
+        hoTenChuGianHang: store.nguoiDung?.hoTen || '',
+        emailChuGianHang: store.nguoiDung?.email || '',
+        soDienThoaiChuGianHang: store.nguoiDung?.soDienThoai || '',
+        TrangThai: store.trangThai ? 'Hoạt động' : 'Ngừng hoạt động',
+        ngayTao: new Date(store.ngayTao).toLocaleDateString('vi-VN')
       }));
 
       setStoreRows(mappedData);
@@ -62,8 +68,8 @@ function ListStore() {
   };
 
   const handleActionClick = (row) => {
-    if (row.MaGianHang) {
-      navigate(`/store/${row.MaGianHang}`);
+    if (row.maGianHang) {
+      navigate(`/ListStore/${row.maGianHang}`);
     } else {
       alert('Không tìm thấy ID gian hàng');
     }
@@ -81,7 +87,7 @@ function ListStore() {
         loading={loading}
         onActionClick={handleActionClick}
         pagination={{
-          count: Math.ceil(totalCount / 10),
+          count: Math.ceil(totalCount / 7), // vì size = 7
           page: page,
           onChange: (e, value) => setPage(value)
         }}

@@ -1,31 +1,30 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// src/context/UserContext.js
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-// 1. Tạo context
 const UserContext = createContext();
 
-// 2. Custom hook để dễ dùng
-export const useUser = () => useContext(UserContext);
-
-// 3. Provider
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Đọc từ localStorage khi load trang (giữ phiên)
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  // Lấy user từ localStorage khi load lần đầu
+  // Mỗi khi user thay đổi thì cập nhật localStorage
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
     }
-  }, []);
+  }, [user]);
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
   };
 
   return (
@@ -34,3 +33,6 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
+// Hook tiện dụng để gọi
+export const useUser = () => useContext(UserContext);

@@ -1,16 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../form/Profile.css';
-import { Link, Links } from 'react-router-dom';
-import avata from '../../assets/images/no-avatar.png'
-import {useUser} from '../../context/UserContect'
+import { Link } from 'react-router-dom';
+import avata from '../../assets/images/no-avatar.png';
+import { useUser } from '../../context/UserContect';
 
 const Profile = () => {
   const { user } = useUser();
-
-  if (!user) {
-    return <h1>Vui lòng đăng nhập để xem thông tin cá nhân.</h1>;
-  }
-
+  
   return (
     <div className="container-func">
       <div className="container-func-right" id="func-right-container">
@@ -23,22 +19,22 @@ const Profile = () => {
                 <div style={{ width: '70%' }}>
                   <div className="form-group">
                     <label>Họ và tên:</label>
-                    <input class="form-control" type="text" value={user.hoTen || 'Không có thông tin'} disabled readonly />
+                    <input className="form-control" type="text" value={user.hoTen || ''} disabled readOnly />
                   </div>
 
                   <div className="form-group">
                     <label>Email:</label>
-                    <input class="form-control" type="text" value={user.email || 'Không có thông tin'} disabled readonly />
+                    <input className="form-control" type="text" value={user.email || ''} disabled readOnly />
                   </div>
 
                   <div className="form-group">
                     <label>Số điện thoại:</label>
-                    <input class="form-control" type="text" value={user.soDienThoai || 'Không có thông tin'} disabled readonly />
+                    <input className="form-control" type="text" value={user.soDienThoai || ''} disabled readOnly />
                   </div>
 
                   <div className="form-group">
                     <label>Địa chỉ:</label>
-                    <input class="form-control" type="text" value={user.diaChi || 'Không có thông tin'} disabled readonly />
+                    <input className="form-control" type="text" value={user.diaChi || ''} disabled readOnly />
                   </div>
 
                   <div className="form-group">
@@ -53,13 +49,12 @@ const Profile = () => {
                           ? 'Chủ gian hàng'
                           : user.maVaiTro === 3
                           ? 'Admin'
-                          : ''
+                          : 'Không rõ'
                       }
                       disabled
                       readOnly
                     />
                   </div>
-
                 </div>
 
                 <div style={{ width: '1px', backgroundColor: 'rgb(187, 187, 187)', margin: '0 10px' }}></div>
@@ -68,7 +63,7 @@ const Profile = () => {
                   <div className="form-group" style={{ display: 'flex', justifyContent: 'center' }}>
                     <img
                       id="Photo"
-                      src={avata}
+                      src={user.anhDaiDien || avata}
                       className="img img-bordered"
                       style={{ width: '300px', height: '300px', borderRadius: '50%' }}
                       alt="Ảnh đại diện"
@@ -76,7 +71,7 @@ const Profile = () => {
                   </div>
 
                   <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                    <Link to="/account/edit" className="btn btn-success">
+                    <Link to="/profile/edit" className="btn btn-success">
                       <i className="fa fa-pencil"></i> Chỉnh sửa
                     </Link>
                   </div>

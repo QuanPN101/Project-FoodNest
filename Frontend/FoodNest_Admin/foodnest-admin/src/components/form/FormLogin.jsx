@@ -3,6 +3,7 @@ import '../form/FormLogin.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../../context/UserContect';
+import { toast } from "react-toastify";
 
 const FormLogin = () => {
   const navigate = useNavigate();
@@ -34,19 +35,33 @@ const FormLogin = () => {
     if (hasError) return;
 
     try {
+      // 1. Gọi api đăng nhập
       const res = await axios.post("http://localhost:8080/api/auth", formData);
       if (res.data.code === 1000) {
-        const user = res.data.result;
-        login(user);  // lưu user vào context + localStorage
-        navigate('/dashboard');
+        const basicUser = res.data.result; // chỉ có id, hoTen, anhDaiDien, maVaiTro
+
+        if (basicUser.maVaiTro === 3) {
+          // 2. Gọi api lấy user chi tiết theo id
+          const resDetail = await axios.get(`http://localhost:8080/api/nguoidung/${basicUser.maNguoiDung}`);
+          const fullUser = resDetail.data;
+
+          // 3. Lưu full user vào context + localStorage (login)
+          login(fullUser);
+
+          navigate("/dashboard");
+        } else {
+          toast.warn("Bạn không có quyền truy cập trang này.");
+        }
       } else {
-        alert("Đăng nhập thất bại: " + res.data.message);
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.error(error);
-      alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+      toast.error("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
     }
   };
+
+
 
   return (
     <div className="body_RegisterForm">

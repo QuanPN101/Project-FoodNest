@@ -16,20 +16,31 @@ public class AuthController {
     private AuthService authService;
     @PostMapping
     public ApiResponse<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse response = authService.login(request);
-        if (response != null) {
+        try {
+            LoginResponse response = authService.login(request);
+            if (response != null) {
+                return ApiResponse.<LoginResponse>builder()
+                        .code(1000)
+                        .message("Login Success")
+                        .result(response)
+                        .build();
+            } else {
+                // Không tìm thấy user hoặc sai mật khẩu
+                return ApiResponse.<LoginResponse>builder()
+                        .code(1002)
+                        .message("Sai tài khoản hoặc mật khẩu")
+                        .result(null)
+                        .build();
+            }
+        } catch (Exception e) {
+            // Lỗi hệ thống hoặc exception khác
             return ApiResponse.<LoginResponse>builder()
-                    .code(1000)
-                    .message("Login Success")
-                    .result(response)
-                    .build();
-        } else {
-            return ApiResponse.<LoginResponse>builder()
-                    .code(1001)
-                    .message("Login Failed")
+                    .code(5000)
+                    .message("Lỗi server: " + e.getMessage())
                     .result(null)
                     .build();
         }
     }
+
 
 }

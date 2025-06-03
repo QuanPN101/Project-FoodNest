@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,9 +45,15 @@ public class NguoiDungController {
     }
 
     @PutMapping("/{id}")
-    public String updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
-        return nguoiDungService.updateNguoiDung(id, request);
+    public ResponseEntity<String> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+        try {
+            String result = nguoiDungService.updateNguoiDung(id, request);
+            return ResponseEntity.ok(result);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
     }
+
 
     @GetMapping("/timkiem")
     public Page<NguoiDung> timKiemNguoiDung(

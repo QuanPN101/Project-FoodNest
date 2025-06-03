@@ -1,73 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import '../form/Profile.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContect';
-import noAvatar from '../../assets/images/no-avatar.png';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useUser } from "../../context/UserContect";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import noavata from '../../assets/images/no-avatar.png'
+import { Link } from "react-router-dom";
 
 const EditProfile = () => {
+  
   const { user, setUser } = useUser();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    hoTen: '',
-    email: '',
-    soDienThoai: '',
-    diaChi: '',
-    maVaiTro: '',
-    avatar: ''
+    maNguoiDung: "",
+    email: "",
+    matKhau: "",
+    hoTen: "",
+    soDienThoai: "",
+    anhDaiDien: "",
+    maVaiTro: "",
+    trangThai: "",
+    diaChi: "",
   });
-  const [previewImage, setPreviewImage] = useState(noAvatar);
 
   useEffect(() => {
     if (user) {
       setFormData({
-        hoTen: user.hoTen || '',
-        email: user.email || '',
-        soDienThoai: user.soDienThoai || '',
-        diaChi: user.diaChi || '',
-        maVaiTro: user.maVaiTro || '',
-        avatar: user.avatar || ''
+        maNguoiDung: user.maNguoiDung || "",
+        hoTen: user.hoTen || "",
+        email: user.email || "",
+        diaChi: user.diaChi || "",
+        soDienThoai: user.soDienThoai || "",
+        matKhau: user.matKhau || "",
+        anhDaiDien: user.anhDaiDien || "",
+        maVaiTro: user.maVaiTro || "",
+        trangThai: user.trangThai || "",
       });
-      setPreviewImage(user.avatar || noAvatar);
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'avatar' && files && files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => setPreviewImage(e.target.result);
-      reader.readAsDataURL(files[0]);
-    }
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'avatar' ? files[0] : value
-    }));
+  if (!user) return null
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
-      // Gửi dữ liệu chỉnh sửa đến backend ở đây nếu cần
-
-      const updatedUser = {
-        ...user,
-        ...formData,
-        avatar: previewImage // Cập nhật preview nếu dùng base64
-      };
-
-      setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-
-      alert('Cập nhật thành công');
-      navigate('/profile');
-    } catch (error) {
-      console.error('Lỗi cập nhật thông tin:', error);
-      alert('Đã xảy ra lỗi khi cập nhật');
+      await axios.put(`http://localhost:8080/api/nguoidung/${user.maNguoiDung}`, formData); 
+      toast.success("Cập nhật thành công!");
+    } catch (err) {
+      console.error("Lỗi khi cập nhật:", err);
+      toast.error("Cập nhật thất bại!");
     }
   };
 
-  const onCancel = () => navigate(-1);
 
   return (
     <div className="container-func">
@@ -79,15 +67,16 @@ const EditProfile = () => {
             <div className="body-profile">
               <form onSubmit={handleSubmit}>
                 <div className="form-edit-profile">
-                  <div style={{ width: '70%' }}>
+                  <div style={{ width: "70%" }}>
                     <div className="form-group">
                       <label>Họ và tên:</label>
                       <input
                         type="text"
                         className="form-control"
                         name="hoTen"
-                        value={formData.hoTen}
+                        value={formData.hoTen || ""}
                         onChange={handleChange}
+                        required
                       />
                     </div>
 
@@ -97,7 +86,7 @@ const EditProfile = () => {
                         type="email"
                         className="form-control"
                         name="email"
-                        value={formData.email}
+                        value={formData.email || ""}
                         onChange={handleChange}
                       />
                     </div>
@@ -108,7 +97,7 @@ const EditProfile = () => {
                         type="text"
                         className="form-control"
                         name="soDienThoai"
-                        value={formData.soDienThoai}
+                        value={formData.soDienThoai || ""}
                         onChange={handleChange}
                       />
                     </div>
@@ -119,7 +108,7 @@ const EditProfile = () => {
                         type="text"
                         className="form-control"
                         name="diaChi"
-                        value={formData.diaChi}
+                        value={formData.diaChi || ""}
                         onChange={handleChange}
                       />
                     </div>
@@ -130,19 +119,35 @@ const EditProfile = () => {
                         type="text"
                         className="form-control"
                         value={
-                          formData.maVaiTro === 1 ? 'Khách hàng' :
-                          formData.maVaiTro === 2 ? 'Chủ gian hàng' :
-                          formData.maVaiTro === 3 ? 'Admin' : 'Không rõ'
+                          formData.maVaiTro === 1
+                            ? "Khách hàng"
+                            : formData.maVaiTro === 2
+                            ? "Chủ gian hàng"
+                            : formData.maVaiTro === 3
+                            ? "Admin"
+                            : "Không rõ"
                         }
                         disabled
                       />
                     </div>
                   </div>
 
-                  <div style={{ width: '1px', backgroundColor: 'rgb(187, 187, 187)', margin: '0 10px' }}></div>
+                  <div
+                    style={{
+                      width: "1px",
+                      backgroundColor: "rgb(187, 187, 187)",
+                      margin: "0 10px",
+                    }}
+                  ></div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <div className="form-group">
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {/* <div className="form-group">
                       <label>Ảnh cá nhân:</label>
                       <input
                         type="file"
@@ -150,30 +155,49 @@ const EditProfile = () => {
                         name="avatar"
                         accept="image/*"
                         onChange={handleChange}
+                        required
                       />
-                    </div>
+                    </div> */}
 
-                    <div className="form-group" style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div
+                      className="form-group"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
                       <img
                         id="Photo"
-                        src={previewImage}
+                        src={noavata}
                         className="img img-bordered"
-                        style={{ width: '300px', height: '300px', borderRadius: '50%' }}
+                        style={{
+                          width: "300px",
+                          height: "300px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
                         alt="Ảnh đại diện"
                       />
                     </div>
 
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <button type="submit" className="btn btn-success">
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <button type="submit" className="btn btn-primary">
                         <i className="fa fa-floppy-o"></i> Cập nhật
                       </button>
-                      <button type="button" className="btn btn-secondary" onClick={onCancel}>
+                      <Link
+                        to="/profile"
+                        className="btn btn-secondary"
+                      >
                         Quay lại
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </form>
+              <div style={{ display: "none" }}></div>
             </div>
           </div>
         </div>
