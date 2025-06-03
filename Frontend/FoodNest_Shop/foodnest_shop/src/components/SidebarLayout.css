@@ -1,0 +1,98 @@
+/* Sidebar cơ bản */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  z-index: 1050;
+  transition: transform 0.3s ease;
+}
+
+/* Desktop: sidebar luôn hiện */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+  .mobile-header {
+    display: none;
+  }
+  main.main-content {
+    margin-left: 250px;
+  }
+}
+
+/* Mobile: mặc định sidebar ẩn ngoài màn hình bên trái */
+@media (max-width: 767.98px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  main.main-content {
+    margin-left: 0;
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+  }
+
+  .mobile-header button {
+    font-size: 1.25rem;
+    border: none;
+  }
+
+  .mobile-header-user {
+    margin-left: 1rem;
+    font-weight: 600;
+  }
+
+  /* Nút đóng sidebar trên mobile */
+  .close-sidebar {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+  }
+}
+
+/* Link active */
+.nav-link.active {
+  background-color: #20c997; /* màu teal */
+  color: white !important;
+  font-weight: 600;
+}
+
+/* Chuẩn chỉnh link nav */
+.nav-link {
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.nav-link:hover {
+  background-color: #e9f7f7;
+  color: #20c997;
+  text-decoration: none;
+}
