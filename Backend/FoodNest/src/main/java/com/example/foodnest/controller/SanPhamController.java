@@ -17,8 +17,8 @@ public class SanPhamController {
 
     @GetMapping
     public List<SanPham> getAllSanPham() {
-            return sanPhamService.getAllSanPham()
-                ;}
+            return sanPhamService.getAllSanPham();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<SanPham> getSanPhamById(@PathVariable String id) {
@@ -30,4 +30,8 @@ public class SanPhamController {
         }
     }
 
+    @GetMapping("/gianhang/{maGianHang}")
+    public List<SanPham> getSanPhamByMaGianHang(@PathVariable int maGianHang) {
+        return sanPhamService.getSanPhamByMaGianHang(maGianHang);
+    }
 }

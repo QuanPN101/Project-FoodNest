@@ -23,8 +23,8 @@ const Sidebar = () => {
           icon="bi bi-shop"
           targetId="components-nav"
           items={[
-            { link: 'ListStore', text: 'Danh sách gian hàng' },
-            { link: 'StoreRegister', text: 'Gian hàng đăng ký mới' },
+            { link: 'liststores', text: 'Danh sách gian hàng' },
+            { link: 'storesregister', text: 'Gian hàng đăng ký mới' },
           ]}
         />
         

@@ -49,6 +49,9 @@ const EditProfile = () => {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:8080/api/nguoidung/${user.maNguoiDung}`, formData); 
+      const response = await axios.get(`http://localhost:8080/api/nguoidung/${user.maNguoiDung}`);
+      const userInfo = response.data;
+      setUser(userInfo)
       toast.success("Cập nhật thành công!");
     } catch (err) {
       console.error("Lỗi khi cập nhật:", err);

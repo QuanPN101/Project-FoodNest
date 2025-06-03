@@ -34,4 +34,8 @@ public class SanPhamService {
 
         return sanPham;
     }
+
+    public List<SanPham> getSanPhamByMaGianHang(int maGianHang){
+        return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
+    }
 }

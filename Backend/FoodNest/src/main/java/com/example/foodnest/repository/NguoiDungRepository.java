@@ -13,5 +13,5 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung,String> {
     Page<NguoiDung> findByHoTenContaining(String keyword, Pageable pageable);
     boolean existsByEmailAndMaNguoiDungNot(String email, String maNguoiDung);
     boolean existsBySoDienThoaiAndMaNguoiDungNot(String soDienThoai, String maNguoiDung);
-
+    long countNguoiDungByMaVaiTro(int maVaiTro);
 }

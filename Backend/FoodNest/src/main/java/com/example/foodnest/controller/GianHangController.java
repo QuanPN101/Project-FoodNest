@@ -74,4 +74,8 @@ public class GianHangController {
         return  gianHangRepository.findByTenGianHangContaining(keyword, pageable);
     }
 
+    @GetMapping("get/{maGianHang}")
+    public GianHang getGianHangByMaGianHang(@PathVariable("maGianHang") int maGianHang) {
+        return gianHangService.getGianHangByMaGianHang(maGianHang);
+    }
 }

@@ -28,9 +28,9 @@ function AppRouter() {
           <Route path="profile" element={<Profile />} />
           <Route path="profile/edit" element={<EditProfile />} />
           <Route path="dashboard" element={<DashBoard />} />
-          <Route path="ListStore" element={<ListStore />} />
-          <Route path="ListStore/:id" element={<StoreDetail />} />
-          <Route path="StoreRegister" element={<ListStoreRegister />} />
+          <Route path="liststores" element={<ListStore />} />
+          <Route path="liststores/:maGianHang" element={<StoreDetail />} />
+          <Route path="storeregister" element={<ListStoreRegister />} />
           <Route path="account" element={<ListUser />} />
           <Route path="orders" element={<OrderAndTransaction />} />
           <Route path="ads" element={<AdvertisementAndPromotion />} />

@@ -19,8 +19,8 @@ function ListStore() {
     { label: 'Chủ gian hàng', field: 'hoTenChuGianHang' },
     { label: 'Email', field: 'emailChuGianHang' },
     { label: 'Số điện thoại', field: 'soDienThoaiChuGianHang' },
-    { label: 'Trạng thái', field: 'TrangThai' },
-    { label: 'Ngày tạo', field: 'ngayTao' }
+    { label: 'Ngày tạo', field: 'ngayTao' },
+    { label: 'Trạng thái', field: 'TrangThai' }
   ];
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function ListStore() {
 
   const handleActionClick = (row) => {
     if (row.maGianHang) {
-      navigate(`/ListStore/${row.maGianHang}`);
+      navigate(`/liststores/${row.maGianHang}`);
     } else {
       alert('Không tìm thấy ID gian hàng');
     }
