@@ -68,18 +68,21 @@ export default function Payment() {
                 <div>
                     <h3 className="text-lg font-medium">Đơn hàng ({getCartCount()} sản phẩm)</h3>
                     <div className="items-center gap-4 border-b pb-4">
-                        {listProduct.map((item, index) => (
-                            <div className="flex items-center">
-                                <img src={assets.no_image} alt="Product" className="w-12 h-12 mr-4" />
-                                <div key={index}>
-                                    <p className="text-sm">{item.tenSanPham}</p>
-                                    <p className="font-semibold text-sm text-gray-600">
-                                        {item.soLuongMua} x {Number(item.gia).toLocaleString('vi-VN')}
-                                        {currency}{' '}
-                                    </p>
+                        <div>
+                            <p>Tên shop</p>
+                            {listProduct.map((item, index) => (
+                                <div className="flex items-center">
+                                    <img src={assets.no_image} alt="Product" className="w-12 h-12 mr-4" />
+                                    <div key={index}>
+                                        <p className="text-sm">{item.tenSanPham}</p>
+                                        <p className="font-semibold text-sm text-gray-600">
+                                            {item.soLuongMua} x {Number(item.gia).toLocaleString('vi-VN')}
+                                            {currency}{' '}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
 
                     {/* <div className="flex gap-2 mt-4">

@@ -3,16 +3,9 @@ import { assets } from '../assets/assets';
 import { useAppContext } from '../context/Appcontext';
 
 const ProductCard = ({ product }) => {
-    const {
-        currency,
-        addToCart,
-        updateCartItem,
-        removeFromCart,
-        cartItems,
-
-        navigate,
-    } = useAppContext();
+    const { currency, addToCart, updateCartItem, removeFromCart, cartItems, listProduct, navigate } = useAppContext();
     console.log(product);
+
     return (
         product && (
             <div

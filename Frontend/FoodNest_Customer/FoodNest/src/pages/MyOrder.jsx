@@ -15,17 +15,18 @@ const MyOrder = () => {
     return (
         <div className="mt-16 pb-16">
             <div className="flex flex-col items-end w-max mb-8">
-                <p className="text-2xl font-medium uppercase">My order</p>
+                <p className="text-2xl font-medium uppercase">Lịch sử đơn hàng</p>
                 <div className="w-16 h-0.5 bg-primary rounded-full"></div>
             </div>
             {myOrder.map((order, index) => (
                 <div key={index} className="border border-gray-300 rounded-lg mb-10 p-4 py-5 max-w-4xl">
                     <p className="flex justify-between md:items-center text-gray-400 md:font-medium max-md:flex-col">
-                        <span>OrderId: {order._id}</span>
-                        <span>Paymen: {order.paymentType}</span>
+                        <span>Mã đơn hàng: {order._id}</span>
+                        <span>Phương thức thanh toán: {order.paymentType}</span>
                         <span>
-                            Total Amount: {currency}
-                            {order.amount}
+                            Tổng tiền:
+                            {Number(order.amount).toLocaleString('vi-VN')}
+                            {currency}{' '}
                         </span>
                     </p>
                     {order.items.map((item, index) => (
@@ -36,17 +37,18 @@ const MyOrder = () => {
                                 </div>
                                 <div className="ml-4">
                                     <h2 className="text-xl font-medium text-gray-800">{item.product.name}</h2>
-                                    <p>Category: {item.product.category}</p>
+                                    <p>Danh mục: {item.product.category}</p>
                                 </div>
                             </div>
                             <div className=" flex flex-col justify-center md:ml-8 mb-4 md:mb-0">
-                                <p>Quantity: {item.quantity || '1'}</p>
-                                <p>Status: {order.status}</p>
-                                <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                                <p>Số lượnglượng: {item.quantity || '1'}</p>
+                                <p>Trạng thái: {order.status}</p>
+                                <p>Ngày đặt: {new Date(order.createdAt).toLocaleDateString()}</p>
                             </div>
                             <p className="text-primary text-lg font-medium">
-                                Amount: {currency}
-                                {item.product.offerPrice * item.quantity}
+                                Amount:
+                                {Number(item.product.offerPrice * item.quantity).toLocaleString('vi-VN')}
+                                {currency}{' '}
                             </p>
                         </div>
                     ))}

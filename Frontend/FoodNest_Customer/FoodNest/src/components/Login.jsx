@@ -29,30 +29,30 @@ const Login = () => {
         try {
             if (state === 'login') {
                 const { data } = await axios.post('http://localhost:8080/api/auth', { email, matKhau });
-                console.log('Login data: ', data);
-                // if (data.code === 1000) {
-                //     toast.success('Đăng nhập thành công', {
-                //         duration: 4000,
-                //         position: 'top-right',
-                //     });
-                //     setUser(true);
-                //     localStorage.setItem('isLogin', true);
-                //     setShowUserLogin(false);
-                // }
-                if (data.code === 1000) {
-                    toast.success('Đăng nhập thành công', { duration: 4000, position: 'top-right' });
 
-                    // Giả sử data.result chứa thông tin người dùng
-                    const userData = data.result; // { id, name, email, ... }
-
-                    localStorage.setItem('isLogin', true);
-                    if (userData) {
-                        localStorage.setItem('user', JSON.stringify(userData));
-                    }
-
-                    setUser(userData); // Đặt vào context
-                    setShowUserLogin(false);
+                if (data.code !== 1000) {
+                    toast.error('Email hoặc mật khẩu không đúng.');
+                    return;
                 }
+
+                const userData = data.result;
+
+                if (userData.maVaiTro !== 1) {
+                    // Xoá dữ liệu không hợp lệ
+                    localStorage.removeItem('isLogin');
+                    localStorage.removeItem('user');
+                    setUser(null);
+
+                    toast.error('Chỉ người dùng thông thường mới được đăng nhập.');
+                    return;
+                }
+
+                // Thành công
+                localStorage.setItem('isLogin', true);
+                localStorage.setItem('user', JSON.stringify(userData));
+                setUser(userData);
+                toast.success('Đăng nhập thành công', { duration: 4000, position: 'top-right' });
+                setShowUserLogin(false);
             } else {
                 // Đăng ký
                 const { data } = await axios.post('http://localhost:8080/api/nguoidung', {
@@ -62,7 +62,10 @@ const Login = () => {
                 });
                 console.log('Register data:', data);
                 console.log('name: ', name);
-
+                if (matKhau !== confirmPassword) {
+                    toast.error('Mật khẩu xác nhận không khớp!');
+                    return;
+                }
                 if (data.code === 1000) {
                     toast.success('Tạo tài khoản thành công! Hãy đăng nhập.', {
                         duration: 4000,
@@ -95,7 +98,7 @@ const Login = () => {
                 )}
                 <div className="w-full ">
                     <p>Email</p>
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Nhập địa chỉ email" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="text" required />
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Nhập địa chỉ email" className="border border-gray-200 rounded w-full p-2 mt-1 outline-primary" type="email" required />
                 </div>
                 <div className="w-full ">
                     <p>Mật khẩu</p>
