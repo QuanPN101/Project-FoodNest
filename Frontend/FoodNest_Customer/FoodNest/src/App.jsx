@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 import AccountPage from './pages/AccountPage';
 import ChangePasswordForm from './pages/ChangePasswordForm';
 import Payment from './pages/Payment';
+import MyOrder from './pages/MyOrder';
 
 export const App = () => {
     const isSellerPath = useLocation().pathname.includes('seller');
@@ -42,6 +43,7 @@ export const App = () => {
                     <Route path="/account" element={<AccountPage />} />
                     <Route path="/changepassword" element={<ChangePasswordForm />} />
                     <Route path="/order" element={<Payment />} />
+                    <Route path="/myorders" element={<MyOrder />} />
                 </Routes>
             </div>
             {!isSellerPath && <Footer />}

@@ -86,7 +86,7 @@ const Navbar = () => {
                             <li onClick={() => navigate('changepassword')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
                                 Đổi mật khẩu
                             </li>
-                            <li onClick={() => navigate('my-orders')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
+                            <li onClick={() => navigate('myorders')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
                                 Đơn hàng
                             </li>
                             <li onClick={logout} className="p-2 pl-3 hover:bg-primary/10 cursor-pointer">
