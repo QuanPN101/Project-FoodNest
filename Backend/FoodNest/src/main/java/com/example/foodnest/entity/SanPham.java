@@ -12,6 +12,7 @@ import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -71,4 +72,13 @@ public class SanPham {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaLoai")
     private LoaiSanPham loaiSanPham;
+
+    @ManyToMany
+    @JoinTable(
+            name = "sanpham_tuychon",
+            joinColumns = @JoinColumn(name = "MaSanPham"),
+            inverseJoinColumns = @JoinColumn(name = "MaTuyChon")
+    )
+
+    private List<TuyChon> tuyChon;
 }

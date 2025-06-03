@@ -11,5 +11,7 @@ import org.mapstruct.MappingTarget;
 public interface NguoiDungMapper {
     @Mapping(target = "maNguoiDung", ignore = true)
     NguoiDung toNguoiDung(NguoiDungCreateRequest request);
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "matKhau", ignore = true)
     void updateNguoiDung(NguoiDungUpdateRequest request, @MappingTarget NguoiDung nguoiDung);
 }

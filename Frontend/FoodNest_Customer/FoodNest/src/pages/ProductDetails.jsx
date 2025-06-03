@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Profiler, use, useEffect, useState } from 'react';
 import { useAppContext } from '../context/Appcontext';
 import { Link, Links, Navigate, NavLink, useParams } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import ProductCard from '../components/ProductCard';
 const ProductDetails = () => {
-    const { products, navigate, currency, addToCart } = useAppContext();
+    const { products, navigate, currency, addToCart, setListProduct, listProduct } = useAppContext();
     const { id } = useParams();
-
     const [thumbnail, setThumbnail] = useState([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
-
+    const [tuyChon, setTuyChon] = useState([]);
     const product = products.find((item) => item.maSanPham === id);
-
     const [note, setNote] = useState('');
-
+    const [selectedTuyChon, setSelectedTuyChon] = useState([]);
     useEffect(() => {
         if (products.length > 0) {
             let productsCopy = products.slice();
@@ -25,6 +23,15 @@ const ProductDetails = () => {
     // useEffect(() => {
     //   setThumbnail(product?.image[0] ? product.image[0] : null);
     // }, [product]);
+    console.log(selectedTuyChon);
+
+    const handleCheckboxChange = (e, item) => {
+        if (e.target.checked) {
+            setSelectedTuyChon((prev) => [...prev, { maTuyChon: item.maTuyChon, tenTuyChon: item.tenTuyChon }]);
+        } else {
+            setSelectedTuyChon((prev) => prev.filter((i) => i.maTuyChon !== item.maTuyChon));
+        }
+    };
 
     return (
         product && (
@@ -45,12 +52,12 @@ const ProductDetails = () => {
 
                 <div className="flex flex-col md:flex-row gap-16 mt-4">
                     <div className="flex gap-3">
-                        <div className="flex flex-col gap-3">
-                            <img src={product.anhChinh} alt="" />
-                        </div>
+                        {/* <div className="flex flex-col gap-3">
+                            <img src={product.anhChinh ? product.anhChinh : assets.no_image} alt="" />
+                        </div> */}
 
                         <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
-                            <img src={thumbnail} alt="Selected product" />
+                            <img src={assets.no_image} alt="Selected product" />
                         </div>
                     </div>
 
@@ -59,23 +66,27 @@ const ProductDetails = () => {
 
                         <div className="flex items-center gap-0.5 mt-1">
                             <img className="md:w-4 w-3.5" src={product.anhChinh ? assets.star_icon : assets.star_dull_icon} alt="" />
-
-                            <p className="text-base ml-2">4</p>
+                            {Array(4)
+                                .fill('')
+                                .map((_, i) => (
+                                    <img key={i} className="md:w-3.5 w3" src={i < 3 ? assets.star_icon : assets.star_dull_icon} alt="" />
+                                ))}
+                            <p>(4)</p>
                         </div>
 
-                        {/* <div className="flex items-center gap-2 mt-4">
-              <span className="inline-block px-3 py-1 text-sm bg-primary text-white font-semibold rounded-full shadow-sm">
-                {product.restaurant || "Tên shop"}
-              </span>
-              <NavLink
-                to={`/restaurant/${
-                  product.restaurant?.toLowerCase() || "shop"
-                }`}
-                className="text-blue-600 text-sm  hover:text-blue-800 "
-              >
-                Xem thêm món của nhà hàng này
-              </NavLink>
-            </div> */}
+                        <div className="flex items-center gap-2 mt-4">
+                            <span className="inline-block px-3 py-1 text-sm bg-primary text-white font-semibold rounded-full shadow-sm">{product.maGianHang.tenGianHang || 'Tên shop'}</span>
+                            <NavLink
+                                to={`/restaurant/${(product.maGianHang?.tenGianHang || 'shop')
+                                    .toLowerCase()
+                                    .replace(/\s+/g, '-')
+                                    .normalize('NFD')
+                                    .replace(/[\u0300-\u036f]/g, '')}`}
+                                className="text-blue-600 text-sm  hover:text-blue-800 "
+                            >
+                                Xem thêm món của nhà hàng này
+                            </NavLink>
+                        </div>
 
                         <p className="text-base font-medium mt-6">Mô tả sản phẩm</p>
                         <ul className="list-disc ml-4 text-gray-500/70">
@@ -98,10 +109,10 @@ const ProductDetails = () => {
                         {/* Extra Options */}
                         <div className="mt-6">
                             <h5 className="font-medium mb-2">Tùy chọn thêm</h5>
-                            {['Nhiều hành', 'Không hành', 'Không cay'].map((label, index) => (
+                            {product.tuyChon.map((item, index) => (
                                 <div key={index} className="flex items-center gap-2 mb-2">
-                                    <input type="checkbox" className="form-checkbox" />
-                                    <label>{label}</label>
+                                    <input id={`tuychon-${item.maTuyChon}`} type="checkbox" className="form-checkbox text-green-600" value={item.tenTuyChon} checked={selectedTuyChon.some((i) => i.maTuyChon === item.maTuyChon)} onChange={(e) => handleCheckboxChange(e, item)} />{' '}
+                                    <label>{item.tenTuyChon}</label>
                                 </div>
                             ))}
                         </div>
@@ -118,7 +129,13 @@ const ProductDetails = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    addToCart(product.maSanPham);
+                                    const newProduct = {
+                                        ...product,
+                                        note: note,
+                                        options: selectedTuyChon,
+                                        soLuongMua: 1,
+                                    };
+                                    setListProduct((prevList) => [...prevList, newProduct]);
                                     navigate('/cart');
                                 }}
                                 className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition"

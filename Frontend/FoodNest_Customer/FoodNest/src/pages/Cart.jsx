@@ -3,10 +3,9 @@ import { useAppContext } from '../context/Appcontext';
 import { assets, dummyAddress } from '../assets/assets';
 
 const Cart = () => {
-    const { products, currency, cartItems, removeFromCart, updateCartItem, getCartCount, navigate, getCartAmount } = useAppContext();
+    const { user, products, currency, cartItems, removeFromCart, updateCartItem, increaseQuantity, getCartCount, navigate, getCartAmount, listProduct } = useAppContext();
 
     const [cartArray, setCartArray] = useState([]);
-    const [addresses, setAddresses] = useState(dummyAddress);
     const [showAddress, setShowAddress] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(dummyAddress[0]);
     const [paymentOption, setPaymentOption] = useState('COD');
@@ -21,13 +20,14 @@ const Cart = () => {
         setCartArray(tempArray);
     };
 
-    const placeOrder = async () => {};
+    const placeOrder = async () => {
+        navigate('/order');
+    };
 
     useEffect(() => {
         if (products.length > 0 && cartItems) {
             getCart();
         }
-        console.log('products', products);
     }, [products, cartItems]);
 
     return products.length > 0 && cartItems ? (
@@ -43,7 +43,7 @@ const Cart = () => {
                     <p className="text-center"></p>
                 </div>
 
-                {cartArray.map((product, index) => (
+                {listProduct.map((product, index) => (
                     <div key={index} className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3">
                         <div className="flex items-center md:gap-6 gap-3">
                             <div
@@ -59,19 +59,42 @@ const Cart = () => {
                                 <p className="hidden md:block font-semibold">{product.tenSanPham}</p>
                                 <div className="font-normal text-gray-500/70">
                                     <p>
-                                        Ghi chú: <span>{'không hàng, không tỏi,...'}</span>
+                                        Ghi chú: <span>{product.note}</span>
                                     </p>
+
+                                    <ul>Tùy chọn</ul>
+                                    {product.options.map((item, index) => (
+                                        <li>{item.tenTuyChon}</li>
+                                    ))}
+
                                     <div className="flex items-center">
                                         <p>Số lượng:</p>
-                                        <select onChange={(e) => updateCartItem(product.maSanPham, Number(e.target.value))} value={cartItems[product.maSanPham]} className="outline-none">
-                                            {Array(cartItems[product.maSanPham] > 9 ? cartItems[product.maSanPham] : 9)
+                                        {/* <select onChange={(e) => updateCartItem(product.maSanPham, Number(e.target.value))} value={listProduct[product.maSanPham]} className="outline-none">
+                                            {Array(listProduct[product.maSanPham] > 9 ? listProduct[product.maSanPham] : 9)
                                                 .fill('')
                                                 .map((_, index) => (
                                                     <option key={index} value={index + 1}>
                                                         {index + 1}
                                                     </option>
                                                 ))}
-                                        </select>
+                                        </select> */}
+                                        <button
+                                            onClick={() => {
+                                                removeFromCart(product.maSanPham);
+                                            }}
+                                            className="w-4 h-4 rounded-full border-2 border-blue-500 text-blue-500 text-xl flex items-center justify-center hover:bg-blue-100 mr-2"
+                                        >
+                                            -
+                                        </button>
+                                        {product.soLuongMua}
+                                        <button
+                                            onClick={() => {
+                                                increaseQuantity(product.maSanPham);
+                                            }}
+                                            className="w-4 h-4 rounded-full border-2 border-blue-500 text-blue-500 text-xl flex items-center justify-center hover:bg-blue-100 ml-2"
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -80,14 +103,6 @@ const Cart = () => {
                             {Number(product.gia).toLocaleString('vi-VN')}
                             {currency}{' '}
                         </p>
-                        <button
-                            onClick={() => {
-                                removeFromCart(product.maSanPham);
-                            }}
-                            className="cursor-pointer mx-auto"
-                        >
-                            <img src={assets.remove_icon} alt="remove" className="inline-block w-6 h-6" />
-                        </button>
                     </div>
                 ))}
 
@@ -110,23 +125,20 @@ const Cart = () => {
                 <div className="mb-6">
                     <p className="text-sm font-medium uppercase">Địa chỉ giao hàng</p>
                     <div className="relative flex justify-between items-start mt-2">
-                        <p className="text-gray-500">{setAddresses ? `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state}, ${selectedAddress.country}` : 'No address found'}</p>
+                        <p className="text-gray-500">{user?.diaChi ? user.diaChi : 'No address found'}</p>
                         <button onClick={() => setShowAddress(!showAddress)} className="text-primary hover:underline cursor-pointer">
                             Thay đổi
                         </button>
                         {showAddress && (
                             <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
-                                {addresses.map((addresses, index) => (
-                                    <p
-                                        onClick={() => {
-                                            setSelectedAddress(addresses);
-                                            setShowAddress(false);
-                                        }}
-                                        className="text-gray-500 p-2 hover:bg-gray-100"
-                                    >
-                                        {addresses.street}, {addresses.city}, {addresses.state}, {addresses.country}
-                                    </p>
-                                ))}
+                                <p
+                                    onClick={() => {
+                                        setShowAddress(false);
+                                    }}
+                                    className="text-gray-500 p-2 hover:bg-gray-100"
+                                >
+                                    {user.diaChi ? user.diaChi : 'No address found'}
+                                </p>
                                 <p onClick={() => navigate('/add-address')} className="text-primary text-center cursor-pointer p-2 hover:bg-iprimary-dull/10">
                                     Thêm địa chỉ giao hàng
                                 </p>
@@ -155,13 +167,6 @@ const Cart = () => {
                         <span>Phí giao hàng</span>
                         <span className="text-green-600">Miễn phí</span>
                     </p>
-                    {/* <p className="flex justify-between">
-            <span>Tax (2%)</span>
-            <span>
-              {currency}
-              {(getCartAmount() * 2) / 100}
-            </span>
-          </p> */}
                     <p className="flex justify-between text-lg font-medium mt-3">
                         <span>Tổng tiền:</span>
                         <span>

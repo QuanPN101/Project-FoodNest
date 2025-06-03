@@ -43,15 +43,7 @@ const Navbar = () => {
                     {showCategoryDropdown && (
                         <div className="absolute hidden group-hover:flex flex-col bg-white shadow-md rounded-md p-2  min-w-[140px] z-10">
                             {loaiSanPham.map((item, index) => (
-                                <NavLink
-                                    key={index}
-                                    to={`/products/${item.tenLoai
-                                        .toLowerCase()
-                                        .replace(/\s+/g, '-')
-                                        .normalize('NFD')
-                                        .replace(/[\u0300-\u036f]/g, '')}`}
-                                    className={({ isActive }) => (isActive ? 'text-primary font-semibold px-2 py-1' : 'hover:text-primary px-2 py-1')}
-                                >
+                                <NavLink key={index} to={`/products/${item.maLoai}`} className={({ isActive }) => (isActive ? 'text-primary font-semibold px-2 py-1' : 'hover:text-primary px-2 py-1')}>
                                     {item.tenLoai}
                                 </NavLink>
                             ))}
@@ -88,14 +80,17 @@ const Navbar = () => {
                             {user && user.hoTen ? <p className="text-sm font-medium pt-2">Xin chào, {user.hoTen}</p> : null}
                         </div>
                         <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 min-w-max rounded-md text-sm z-40">
-                            <li onClick={() => navigate('account-management')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
+                            <li onClick={() => navigate('account')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
                                 Quản lý tài khoản
+                            </li>
+                            <li onClick={() => navigate('changepassword')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
+                                Đổi mật khẩu
                             </li>
                             <li onClick={() => navigate('my-orders')} className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer">
                                 Đơn hàng
                             </li>
                             <li onClick={logout} className="p-2 pl-3 hover:bg-primary/10 cursor-pointer">
-                                Logout
+                                Đăng xuất
                             </li>
                         </ul>
                     </div>
