@@ -2,6 +2,7 @@ package com.example.foodnest.service;
 
 import com.example.foodnest.dto.request.*;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

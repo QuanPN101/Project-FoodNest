@@ -13,9 +13,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,17 +41,18 @@ public class GianHangServiceImpl implements GianHangService {
 
     @Override
     public GianHangResponse createGianHang(GianHangCreateRequest request) {
-        String id = request.getMaNguoiDung();
-        NguoiDung nguoiDung = nguoiDungRepository.findById(id)
+        if (request.getMaNguoiDung() == null || request.getMaNguoiDung().isEmpty()) {
+            throw new IllegalArgumentException("Mã người dùng không được để trống");
+        }
+
+        NguoiDung nguoiDung = nguoiDungRepository.findById(request.getMaNguoiDung())
                 .orElseThrow(() -> new NoSuchElementException("Người dùng không tồn tại"));
 
-        // Kiểm tra xem người dùng đã có gian hàng chưa
         boolean exists = gianHangRepository.existsByNguoiDung(nguoiDung);
         if (exists) {
             throw new IllegalArgumentException("Người dùng đã có gian hàng, không thể tạo thêm.");
         }
 
-        // Kiểm tra tên gian hàng đã tồn tại chưa
         if (gianHangRepository.existsByTenGianHang(request.getTenGianHang())) {
             throw new IllegalArgumentException("Tên gian hàng đã tồn tại, vui lòng chọn tên khác.");
         }
@@ -58,7 +65,6 @@ public class GianHangServiceImpl implements GianHangService {
         GianHang saved = gianHangRepository.save(gianHang);
         return gianHangMapper.toGianHangResponse(saved);
     }
-
 
 
     @Override

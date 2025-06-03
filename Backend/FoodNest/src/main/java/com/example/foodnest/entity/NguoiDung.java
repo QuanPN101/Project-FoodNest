@@ -24,7 +24,7 @@ public class NguoiDung {
 
     @Column(name = "HoTen")
     private String hoTen;
-
+   
     @Column(name = "SoDienThoai")
     private String soDienThoai;
 

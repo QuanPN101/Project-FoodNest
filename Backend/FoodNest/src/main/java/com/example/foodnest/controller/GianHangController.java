@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/gianhang")
+@CrossOrigin(origins = "http://localhost:3000") //Cho phép React gọi API
 public class GianHangController {
 
     private final GianHangService gianHangService;

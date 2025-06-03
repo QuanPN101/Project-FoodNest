@@ -35,4 +35,5 @@ public class GianHang {
 
     @Column(name = "NgayTao")
     private java.time.LocalDateTime ngayTao;
+
 }

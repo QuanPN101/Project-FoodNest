@@ -10,7 +10,7 @@ public class GianHangResponse {
     private String tenGianHang;
     private String maNguoiDung;
 
-    //Thông tin chủ gian hàng
+    // Thông tin chủ gian hàng
     private String hoTenChuGianHang;
     private String emailChuGianHang;
     private String soDienThoaiChuGianHang;
@@ -81,7 +81,7 @@ public class GianHangResponse {
         return "GianHangResponse{" +
                 "maGianHang=" + maGianHang +
                 ", tenGianHang='" + tenGianHang + '\'' +
-                ", maNguoiDung=" + maNguoiDung +
+                ", maNguoiDung='" + maNguoiDung + '\'' +
                 ", hoTenChuGianHang='" + hoTenChuGianHang + '\'' +
                 ", emailChuGianHang='" + emailChuGianHang + '\'' +
                 ", soDienThoaiChuGianHang='" + soDienThoaiChuGianHang + '\'' +
