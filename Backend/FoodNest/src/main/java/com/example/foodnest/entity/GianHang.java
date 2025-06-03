@@ -1,8 +1,10 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+
 
 @Entity
 @Table(name="GianHang")
@@ -11,7 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class GianHang {
     @Id
     @Column(name = "MaGianHang")
@@ -39,5 +41,6 @@ public class GianHang {
 
     @Column(name = "AnhBiaPreview")
     private String anhBiaPreview;
+
 
 }

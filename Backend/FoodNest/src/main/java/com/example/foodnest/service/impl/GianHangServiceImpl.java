@@ -1,6 +1,9 @@
 package com.example.foodnest.service.impl;
 
 import com.example.foodnest.dto.request.*;
+import com.example.foodnest.dto.request.GianHangCreateRequest;
+import com.example.foodnest.dto.request.GianHangUpdateRequest;
+import com.example.foodnest.dto.response.GianHangResponse;
 import com.example.foodnest.entity.GianHang;
 import com.example.foodnest.entity.NguoiDung;
 import com.example.foodnest.mapper.GianHangMapper;
@@ -127,4 +130,7 @@ public class GianHangServiceImpl implements GianHangService {
                 .build());
     }
 
+    public GianHang getGianHangByMaGianHang(String maGianHang) {
+        return gianHangRepository.getGianHangByMaGianHang(maGianHang);
+    }
 }

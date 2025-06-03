@@ -2,6 +2,8 @@ package com.example.foodnest.repository;
 
 import com.example.foodnest.entity.GianHang;
 import com.example.foodnest.entity.NguoiDung;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public interface GianHangRepository extends JpaRepository<GianHang, String>, JpaSpecificationExecutor<GianHang> {
     // Thêm các method truy vấn riêng nếu cần
     List<GianHang> findByNguoiDung_MaNguoiDung(String maNguoiDung);
+
     // Kiểm tra trùng tên gian hàng
     boolean existsByTenGianHang(String tenGianHang);
 
@@ -21,4 +24,8 @@ public interface GianHangRepository extends JpaRepository<GianHang, String>, Jpa
 
     // Kiểm tra người dùng đã có gian hàng hay chưa theo mã người dùng
     boolean existsByNguoiDung_MaNguoiDung(String maNguoiDung);
+    Page<GianHang> findByTenGianHangContaining(String keyword, Pageable pageable);
+    GianHang getGianHangByMaGianHang(String maGianHang);
+    long countGianHangByTrangThai(boolean trangThai);
 }
+

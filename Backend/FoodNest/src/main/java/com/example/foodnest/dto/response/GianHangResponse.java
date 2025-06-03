@@ -1,4 +1,4 @@
-package com.example.foodnest.dto.request;
+package com.example.foodnest.dto.response;
 
 import lombok.Data;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class GianHangResponse {
-    private int maGianHang;
+    private String maGianHang;
     private String tenGianHang;
     private String maNguoiDung;
     private String moTa;
@@ -25,8 +25,9 @@ public class GianHangResponse {
     public GianHangResponse() {
     }
 
-    public GianHangResponse(int maGianHang, String tenGianHang, String moTa,
+    public GianHangResponse(String maGianHang, String tenGianHang, String moTa,
                             String diaChi, boolean trangThai, LocalDateTime ngayTao, String anhBiaPreview) {
+
         this.maGianHang = maGianHang;
         this.tenGianHang = tenGianHang;
         this.moTa = moTa;
@@ -34,19 +35,19 @@ public class GianHangResponse {
         this.trangThai = trangThai;
         this.ngayTao = ngayTao;
         this.anhBiaPreview = anhBiaPreview;
-
     }
 
-    @Override
-    public String toString() {
-        return "GianHangResponse{" +
-                "maGianHang=" + maGianHang +
-                ", tenGianHang='" + tenGianHang + '\'' +
-                ", moTa='" + moTa + '\'' +
-                ", diaChi='" + diaChi + '\'' +
-                ", trangThai='" + trangThai + '\'' +
-                ", ngayTao='" + ngayTao + '\'' +
-                ", anhBiaPreview='" + anhBiaPreview + '\'' +
-                '}';
+        public String toString (String maGianHang, String tenGianHang, String moTa, String diaChi,
+        boolean trangThai, LocalDateTime ngayTao, String anhBiaPreview){
+            return "GianHangResponse{" +
+                    "maGianHang=" + maGianHang +
+                    ", tenGianHang='" + tenGianHang + '\'' +
+                    ", moTa='" + moTa + '\'' +
+                    ", diaChi='" + diaChi + '\'' +
+                    ", trangThai='" + trangThai + '\'' +
+                    ", ngayTao='" + ngayTao + '\'' +
+                    ", anhBiaPreview='" + anhBiaPreview + '\'' +
+                    '}';
+        }
     }
-}
+

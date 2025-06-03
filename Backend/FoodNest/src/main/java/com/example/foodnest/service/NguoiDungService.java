@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +29,13 @@ public class NguoiDungService {
     NguoiDungMapper nguoiDungMapper;
 
     public NguoiDung createNguoiDung(NguoiDungCreateRequest request) {
+
         if (nguoiDungRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email đã được sử dụng.");
         }
 
         NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(request);
+        nguoiDung.setMaVaiTro(1);
         return nguoiDungRepository.save(nguoiDung);
     }
 
@@ -47,15 +51,61 @@ public class NguoiDungService {
     public String updateNguoiDung(String id, NguoiDungUpdateRequest request) {
         NguoiDung existingNguoiDung = nguoiDungRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+        if (request.getEmail() != null) {
+            if (existingNguoiDung.getMaVaiTro() != 1) {
+                throw new RuntimeException("Bạn không có quyền thay đổi email!");
+            }
+            existingNguoiDung.setEmail(request.getEmail());
+        }
 
+        if (request.getMatKhau() != null && !request.getMatKhau().isBlank()) {
+            existingNguoiDung.setMatKhau(request.getMatKhau());
+        }
+
+        if (request.getEmail() != null && !request.getEmail().equals(existingNguoiDung.getEmail())) {
+            boolean emailExists = nguoiDungRepository.existsByEmailAndMaNguoiDungNot(request.getEmail(), id);
+            if (emailExists) {
+                throw new RuntimeException("Email đã được sử dụng bởi người dùng khác");
+            }
+            existingNguoiDung.setEmail(request.getEmail());
+        }
+
+        if (request.getSoDienThoai() != null && !request.getSoDienThoai().equals(existingNguoiDung.getSoDienThoai())) {
+            boolean phoneExists = nguoiDungRepository.existsBySoDienThoaiAndMaNguoiDungNot(request.getSoDienThoai(), id);
+            if (phoneExists) {
+                throw new RuntimeException("Số điện thoại đã được sử dụng bởi người dùng khác");
+            }
+            existingNguoiDung.setSoDienThoai(request.getSoDienThoai());
+        }
+
+        // Cập nhật các trường khác (không gồm MatKhau) trong mapper
         nguoiDungMapper.updateNguoiDung(request, existingNguoiDung);
+
         nguoiDungRepository.save(existingNguoiDung);
 
         return "Cập nhật thành công";
     }
 
+
     public Page<NguoiDung> timNguoiDung(String keyword, int page) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("HoTen").ascending());
+        Pageable pageable = PageRequest.of(page, 7, Sort.by("HoTen").ascending());
         return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
+    }
+
+    public boolean doiMatKhau(String maNguoiDung, String currentPassword, String newPassword) {
+        Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findById(maNguoiDung); // tránh null khi gọi từ csdl
+        if(!optionalNguoiDung.isPresent()) {
+            return false;
+        }
+        NguoiDung nguoiDung = optionalNguoiDung.get();
+
+        // Kiểm tra mật khẩu hiện tại có đúng không
+        if (!currentPassword.equals(nguoiDung.getMatKhau())) {
+            return false;
+        }
+
+        nguoiDung.setMatKhau(newPassword);
+        nguoiDungRepository.save(nguoiDung);
+        return true;
     }
 }
