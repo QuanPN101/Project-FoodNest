@@ -44,7 +44,6 @@ public class SanPhamController {
         }
         return ResponseEntity.ok(sanPhams);
     }
-
 //    @PutMapping("/image/{id}")
 //    public ResponseEntity<?> UploadImage(@PathVariable final String id, @RequestPart final MultipartFile file) {
 //        this.sanPhamService.uploadImage(id,file);
