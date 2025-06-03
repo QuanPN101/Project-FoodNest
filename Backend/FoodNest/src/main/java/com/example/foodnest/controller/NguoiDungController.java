@@ -58,7 +58,7 @@ public class NguoiDungController {
     public Page<NguoiDung> timKiemNguoiDung(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "7") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("HoTen").ascending());
         return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
     }
