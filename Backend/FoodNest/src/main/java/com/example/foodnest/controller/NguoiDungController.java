@@ -39,6 +39,11 @@ public class NguoiDungController {
         return nguoiDungService.getAllNguoiDung();
     }
 
+    @GetMapping("/getAccount/{maVaiTro}")
+    public List<NguoiDung> getAllByMaVaiTro(@PathVariable int maVaiTro) {
+        return nguoiDungRepository.getAllByMaVaiTro(maVaiTro);
+    }
+
     @GetMapping("/{id}")
     public NguoiDung getNguoiDungById(@PathVariable String id) {
         return nguoiDungService.getNguoiDungById(id);
@@ -53,7 +58,6 @@ public class NguoiDungController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
-
 
     @GetMapping("/timkiem")
     public Page<NguoiDung> timKiemNguoiDung(

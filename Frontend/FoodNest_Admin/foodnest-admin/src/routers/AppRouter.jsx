@@ -15,6 +15,7 @@ import FormAddPromotion from '../components/form/FormAddPromotion';
 import EditProfile from '../components/form/EditProfile';
 import RequireAuth from '../components/RequireAuth';
 import StoreDetail from '../pages/StoreDetail';
+import ListAccountAdmin from '../pages/ListAccountAdmin';
 
 function AppRouter() {
   return (
@@ -32,6 +33,7 @@ function AppRouter() {
           <Route path="liststores/:maGianHang" element={<StoreDetail />} />
           <Route path="storeregister" element={<ListStoreRegister />} />
           <Route path="account" element={<ListUser />} />
+          <Route path="admins" element={<ListAccountAdmin />} />
           <Route path="orders" element={<OrderAndTransaction />} />
           <Route path="ads" element={<AdvertisementAndPromotion />} />
           <Route path="complaints" element={<ComplaintAndViolation />} />

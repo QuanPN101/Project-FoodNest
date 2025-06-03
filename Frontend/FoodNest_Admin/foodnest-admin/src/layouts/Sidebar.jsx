@@ -18,6 +18,17 @@ const Sidebar = () => {
         <SidebarItem link="complaints" icon="bi bi-exclamation-triangle" text="Khiếu nại và vi phạm" customClass="collapsed" />
         <SidebarItem link="account" icon="bi bi-person-gear" text="Tài khoản" customClass="collapsed" />
 
+
+        <SidebarDropdown
+          title="Tài khoản"
+          icon="bi bi-person-gear"
+          targetId="nav-account"
+          items={[
+            { link: 'customers', text: 'Khách hàng' },
+            { link: 'admins', text: 'Admin' },
+          ]}
+        />
+
         <SidebarDropdown
           title="Gian hàng"
           icon="bi bi-shop"
