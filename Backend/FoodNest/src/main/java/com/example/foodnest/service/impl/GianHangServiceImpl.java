@@ -87,4 +87,9 @@ public class GianHangServiceImpl implements GianHangService {
                 .map(gianHangMapper::toGianHangResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public GianHang getGianHangByMaGianHang(int maGianHang) {
+        return gianHangRepository.getGianHangByMaGianHang(maGianHang);
+    }
 }

@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import '../form/FormLogin.css'; // Có thể đổi tên thành FormLogin.css nếu bạn muốn tách biệt rõ ràng
+import '../form/FormLogin.css';
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUser } from '../../context/UserContect';
+import { toast } from "react-toastify";
 
 const FormLogin = () => {
-    const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    matKhau: ""
-  });
+  const navigate = useNavigate();
+  const { login } = useUser();
 
-  const [errors, setErrors] = useState({
-    email: "",
-    matKhau: ""
-  });
+  const [formData, setFormData] = useState({ email: "", matKhau: "" });
+  const [errors, setErrors] = useState({ email: "", matKhau: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,29 +21,47 @@ const FormLogin = () => {
     e.preventDefault();
 
     let hasError = false;
-    let errorMessages = {
-      email: "",
-      matKhau: ""
-    };
+    let errorMessages = { email: "", matKhau: "" };
 
+    if (!formData.email) {
+      errorMessages.email = "Vui lòng nhập email.";
+      hasError = true;
+    }
     if (!formData.matKhau) {
       errorMessages.matKhau = "Vui lòng nhập mật khẩu.";
       hasError = true;
     }
-
     setErrors(errorMessages);
-
     if (hasError) return;
 
     try {
-        console.log(formData);
+      // 1. Gọi api đăng nhập
       const res = await axios.post("http://localhost:8080/api/auth", formData);
-      res.data.code === 1000 ? navigate('/dashboard') :  alert("Đăng nhập thất bại");
+      if (res.data.code === 1000) {
+        const basicUser = res.data.result; // chỉ có id, hoTen, anhDaiDien, maVaiTro
+
+        if (basicUser.maVaiTro === 3) {
+          // 2. Gọi api lấy user chi tiết theo id
+          const resDetail = await axios.get(`http://localhost:8080/api/nguoidung/${basicUser.maNguoiDung}`);
+          const fullUser = resDetail.data;
+          
+          // 3. Lưu full user vào context + localStorage (login)
+          login(fullUser);
+
+          navigate("/dashboard");
+        } else {
+          toast.warn("Bạn không có quyền truy cập trang này.");
+        }
+      } else {
+        toast.error(res.data.message);
+      }
     } catch (error) {
       console.error(error);
-      alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+      toast.error("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
     }
   };
+
+
 
   return (
     <div className="body_RegisterForm">
@@ -65,7 +80,6 @@ const FormLogin = () => {
             />
             {errors.email && <span style={{ color: "#f00", fontSize: 13 }}>{errors.email}</span>}
           </div>
-
           <div className="form-group">
             <label>Mật khẩu</label>
             <input
@@ -77,12 +91,8 @@ const FormLogin = () => {
             />
             {errors.matKhau && <span style={{ color: "#f00", fontSize: 13 }}>{errors.matKhau}</span>}
           </div>
-
           <button type="submit" className="login-btn">Đăng nhập</button>
         </form>
-        <p className="signup-link">
-
-        </p>
       </div>
     </div>
   );

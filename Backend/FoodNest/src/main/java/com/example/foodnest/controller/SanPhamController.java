@@ -18,8 +18,8 @@ public class SanPhamController {
 
     @GetMapping
     public List<SanPham> getAllSanPham() {
-            return sanPhamService.getAllSanPham()
-                ;}
+            return sanPhamService.getAllSanPham();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<SanPham> getSanPhamById(@PathVariable String id) {
@@ -29,6 +29,11 @@ public class SanPhamController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/gianhang/{maGianHang}")
+    public List<SanPham> getSanPhamByMaGianHang(@PathVariable int maGianHang) {
+        return sanPhamService.getSanPhamByMaGianHang(maGianHang);
     }
 
     @GetMapping("/loai/{maLoai}")
@@ -45,5 +50,4 @@ public class SanPhamController {
         this.sanPhamService.uploadImage(id,file);
         return ResponseEntity.ok("Upload thành công");
     }
-
 }

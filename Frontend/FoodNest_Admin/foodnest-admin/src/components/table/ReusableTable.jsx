@@ -41,10 +41,16 @@ function ReusableTable({
                       {col.field === 'TrangThai' ? (
                         <Chip
                           label={row[col.field]}
-                          color={row[col.field] === 'Hoạt động' ? 'success' : 'error'}
                           size="small"
                           variant="outlined"
+                          sx={{
+                            backgroundColor: row[col.field] === 'Hoạt động' ? '#d0f0c0' : '#fddede',
+                            color: row[col.field] === 'Hoạt động' ? '#2e7d32' : '#c62828',
+                            borderColor: row[col.field] === 'Hoạt động' ? '#a5d6a7' : '#ef9a9a',
+                            fontWeight: 'bold'
+                          }}
                         />
+
                       ) : (
                         row[col.field]
                       )}

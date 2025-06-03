@@ -4,7 +4,7 @@ import ReusableTable from '../components/table/ReusableTable';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function ListUsers() {
+function ListAccountAdmin() {
   const navigate = useNavigate();
 
   const [page, setPage] = useState(1); // UI: 1-based
@@ -92,4 +92,4 @@ function ListUsers() {
   );
 }
 
-export default ListUsers;
+export default ListAccountAdmin;

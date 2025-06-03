@@ -49,7 +49,9 @@ public class SanPhamService {
         return sanPham;
     }
 
-
+    public List<SanPham> getSanPhamByMaGianHang(int maGianHang){
+        return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
+    }
 
     @Transactional
     public void uploadImage(final String id, final MultipartFile file) {
@@ -62,5 +64,4 @@ public class SanPhamService {
         sanPham.setAnhChinh(response.getUrl());
         this.sanPhamRepository.save(sanPham);
     }
-
 }

@@ -64,4 +64,18 @@ public class GianHangController {
         List<GianHangResponse> list = gianHangService.getAllGianHang();
         return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/timkiem")
+    public Page<GianHang> timKiemGianHang(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "7") int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("TenGianHang").ascending());
+        return  gianHangRepository.findByTenGianHangContaining(keyword, pageable);
+    }
+
+    @GetMapping("get/{maGianHang}")
+    public GianHang getGianHangByMaGianHang(@PathVariable("maGianHang") int maGianHang) {
+        return gianHangService.getGianHangByMaGianHang(maGianHang);
+    }
 }
