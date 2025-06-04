@@ -4,6 +4,7 @@ import com.example.foodnest.dto.response.SanPhamResponse;
 import com.example.foodnest.entity.SanPham;
 import com.example.foodnest.mapper.SanPhamMapper;
 import com.example.foodnest.repository.SanPhamRepository;
+import com.example.foodnest.repository.SanPhamRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,8 @@ public class SanPhamService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
+//    @Autowired
+//    private CloudinaryService cloudinaryService;
 
 
     public List<SanPham> getAllSanPham(){
@@ -49,7 +52,7 @@ public class SanPhamService {
     public List<SanPham> getSanPhamByMaGianHang(String maGianHang){
         return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
     }
-//
+
 //    @Transactional
 //    public void uploadImage(final String id, final MultipartFile file) {
 //        final SanPham sanPham = this.sanPhamRepository.findById(id)
