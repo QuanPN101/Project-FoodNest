@@ -1,4 +1,4 @@
-package com.example.foodnest.dto.request;
+package com.example.foodnest.dto.response;
 
 import lombok.*;
 

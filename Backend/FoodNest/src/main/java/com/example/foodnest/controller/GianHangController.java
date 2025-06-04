@@ -20,28 +20,30 @@ public class GianHangController {
         this.gianHangService = gianHangService;
     }
 
+    // Tạo gian hàng - cần truyền maNguoiDung từ Header hoặc SecurityContext
     @PostMapping
-    public ResponseEntity<GianHangResponse> createGianHang(@Valid @RequestBody GianHangCreateRequest request) {
-        GianHangResponse response = gianHangService.createGianHang(request);
+    public ResponseEntity<GianHangResponse> createGianHang(@Valid @RequestBody GianHangCreateRequest request,
+                                                           @RequestHeader("X-User-Id") String maNguoiDung) {
+        GianHangResponse response = gianHangService.createGianHang(request, maNguoiDung);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<GianHangResponse> updateGianHang(@PathVariable("id") String id,
-                                                           @RequestBody GianHangUpdateRequest request) {
-        GianHangResponse response = gianHangService.updateGianHang(id, request);
+    @PutMapping("/{maGianHang}")
+    public ResponseEntity<GianHangResponse> updateGianHang(@PathVariable String maGianHang,
+                                                           @Valid @RequestBody GianHangUpdateRequest request) {
+        GianHangResponse response = gianHangService.updateGianHang(maGianHang, request);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGianHang(@PathVariable("id") String id) {
-        gianHangService.deleteGianHang(id);
+    @DeleteMapping("/{maGianHang}")
+    public ResponseEntity<Void> deleteGianHang(@PathVariable String maGianHang) {
+        gianHangService.deleteGianHang(maGianHang);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GianHangResponse> getGianHangById(@PathVariable("id") String id) {
-        GianHangResponse response = gianHangService.getGianHangById(id);
+    @GetMapping("/{maGianHang}")
+    public ResponseEntity<GianHangResponse> getGianHangById(@PathVariable String maGianHang) {
+        GianHangResponse response = gianHangService.getGianHangById(maGianHang);
         return ResponseEntity.ok(response);
     }
 
@@ -49,5 +51,11 @@ public class GianHangController {
     public ResponseEntity<List<GianHangResponse>> getAllGianHang() {
         List<GianHangResponse> list = gianHangService.getAllGianHang();
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/nguoidung/{maNguoiDung}")
+    public ResponseEntity<List<GianHangResponse>> getGianHangByMaNguoiDung(@PathVariable String maNguoiDung) {
+        List<GianHangResponse> responseList = gianHangService.findByMaNguoiDung(maNguoiDung);
+        return ResponseEntity.ok(responseList);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,15 +29,16 @@ public class GianHang {
     @Column (name = "DiaChi")
     private String diaChi;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
+    @JsonIgnore
     private NguoiDung nguoiDung;
 
-    @Column(name = "TrangThai", updatable = false)
-    @CreationTimestamp
+    @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @Column(name = "NgayTao")
+    @CreationTimestamp
+    @Column(name = "NgayTao", updatable = false)
     private java.time.LocalDateTime ngayTao;
 
     @Column(name = "AnhBiaPreview")

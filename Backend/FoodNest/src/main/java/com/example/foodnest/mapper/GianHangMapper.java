@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.BeanMapping;
 
 @Mapper(componentModel = "spring")
 public interface GianHangMapper {
@@ -28,13 +30,14 @@ public interface GianHangMapper {
     @Mapping(source = "maNguoiDung", target = "nguoiDung", qualifiedByName = "stringToNguoiDung")
     GianHang toGianHang(GianHangCreateRequest request);
 
-    // Map từ Entity -> Response
-    // @Mapping(source = "nguoiDung.maNguoiDung", target = "maNguoiDung")
-    // @Mapping(source = "nguoiDung.hoTen", target = "hoTenChuGianHang")
-    // @Mapping(source = "nguoiDung.email", target = "emailChuGianHang")
-    // @Mapping(source = "nguoiDung.soDienThoai", target = "soDienThoaiChuGianHang")
+    // Map từ Entity -> Response với lấy thông tin chi tiết người dùng chủ gian hàng
+    @Mapping(source = "nguoiDung.maNguoiDung", target = "maNguoiDung")
+    @Mapping(source = "nguoiDung.hoTen", target = "hoTenChuGianHang")
+    @Mapping(source = "nguoiDung.email", target = "emailChuGianHang")
+    @Mapping(source = "nguoiDung.soDienThoai", target = "soDienThoaiChuGianHang")
     GianHangResponse toGianHangResponse(GianHang gianHang);
 
-    // Cập nhật entity từ UpdateRequest
+    // Cập nhật entity từ UpdateRequest, bỏ qua null để không ghi đè các trường không cập nhật
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateGianHang(GianHangUpdateRequest request, @MappingTarget GianHang gianHang);
 }
