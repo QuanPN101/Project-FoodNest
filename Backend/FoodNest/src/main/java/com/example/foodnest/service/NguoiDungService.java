@@ -51,12 +51,15 @@ public class NguoiDungService {
     public String updateNguoiDung(String id, NguoiDungUpdateRequest request) {
         NguoiDung existingNguoiDung = nguoiDungRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+<<<<<<< HEAD
 //        if (request.getEmail() != null) {
 //            if (existingNguoiDung.getMaVaiTro() != 1) {
 //                throw new RuntimeException("Bạn không có quyền thay đổi email!");
 //            }
 //            existingNguoiDung.setEmail(request.getEmail());
 //        }
+=======
+>>>>>>> c434c60893af7413ab8fdc3d3ede1862722c3889
 
         if (request.getMatKhau() != null && !request.getMatKhau().isBlank()) {
             existingNguoiDung.setMatKhau(request.getMatKhau());
@@ -66,7 +69,14 @@ public class NguoiDungService {
             boolean emailExists = nguoiDungRepository.existsByEmailAndMaNguoiDungNot(request.getEmail(), id);
             if (emailExists) {
                 throw new RuntimeException("Email đã được sử dụng bởi người dùng khác");
+
+        if (request.getEmail() != null && !request.getEmail().isBlank()) {
+            Optional<NguoiDung> userWithSameEmail = nguoiDungRepository.findByEmail(request.getEmail());
+
+            if (userWithSameEmail.isPresent() && !userWithSameEmail.get().getMaNguoiDung().equals(id)) {
+                return "Email đã được sử dụng.";
             }
+
             existingNguoiDung.setEmail(request.getEmail());
         }
 

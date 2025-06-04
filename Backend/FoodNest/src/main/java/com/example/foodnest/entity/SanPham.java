@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@JsonIgnoreProperties
 public class SanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -49,4 +51,21 @@ public class SanPham {
     @ManyToOne
     @JoinColumn(name = "ma_loai_san_pham") // tên cột trong bảng SanPham
     private LoaiSanPham loaiSanPham;
+}
+
+    @ManyToMany
+    @JoinTable(
+            name = "sanpham_tuychon",
+            joinColumns = @JoinColumn(name = "MaSanPham"),
+            inverseJoinColumns = @JoinColumn(name = "MaTuyChon")
+    )
+
+
+    private List<TuyChon> tuyChon;
+
+    @Nationalized
+    @Column(name = "deliveryCost")
+    private int deliveryCost;
+
+
 }

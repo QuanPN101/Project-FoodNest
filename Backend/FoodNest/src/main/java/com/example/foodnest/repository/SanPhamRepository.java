@@ -11,4 +11,9 @@ public interface SanPhamRepository extends JpaRepository<SanPham, String> {
     List<SanPham> findByMaGianHang_MaGianHang(String maGianHang);
 
     List<SanPham> findByMaGianHang_MaGianHang(int maGianHang);
+<<<<<<< HEAD
+=======
+  
+    SanPham findByMaSanPham(String maSanPham);
+>>>>>>> c434c60893af7413ab8fdc3d3ede1862722c3889
 }

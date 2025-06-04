@@ -10,7 +10,7 @@ const UserProfile = () => {
         hoTen: user?.hoTen || '',
         diaChi: user?.diaChi || '',
         soDienThoai: user?.soDienThoai || '',
-        AnhChinh: user?.AnhChinh || '', // ảnh đại diện
+        AnhChinh: user?.AnhChinh || '',
         email: user?.email || '',
     });
     const [previewImage, setPreviewImage] = useState(user?.AnhChinh || '');
@@ -25,27 +25,21 @@ const UserProfile = () => {
             const imageUrl = URL.createObjectURL(file);
             setPreviewImage(imageUrl);
             setFormData({ ...formData, AnhChinh: imageUrl });
-
-            // Nếu bạn cần upload thực lên server, lưu file ở đây
-            // hoặc lưu base64 nếu backend yêu cầu
+            // Nếu cần upload thực tế, bạn xử lý ở đây
         }
     };
-    console.log('USER ID:', user?.id);
-    console.log('USER emailemail:', user?.email);
+
     const handleSave = async () => {
         try {
-            const { hoTen, diaChi, soDienThoai } = formData;
-            const payload = { hoTen, diaChi, soDienThoai, email: user.email };
-            console.log('Payload gửi:', payload);
-            // Gửi request PUT
+            const { hoTen, diaChi, soDienThoai, email } = formData;
+            const payload = { hoTen, diaChi, soDienThoai, email };
             const response = await axios.put(`http://localhost:8080/api/nguoidung/${user.id}`, payload);
-            console.log('PUT response:', response);
+            console.log('payload:', payload);
+
             if (response.status === 200) {
-                // Thành công
                 toast.success('Cập nhật thông tin thành công!');
 
-                const updatedUser = { ...user, hoTen, diaChi, soDienThoai };
-
+                const updatedUser = { ...user, hoTen, diaChi, soDienThoai, email };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
                 setEditMode(false);
@@ -53,8 +47,11 @@ const UserProfile = () => {
                 toast.error(response.data.message || 'Cập nhật thất bại!');
             }
         } catch (error) {
-            console.error('Lỗi cập nhật người dùng:', error);
-            toast.error('Đã có lỗi xảy ra!');
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message); // "Email đã được sử dụng."
+            } else {
+                toast.error('Có lỗi xảy ra, vui lòng thử lại.');
+            }
         }
     };
 
@@ -66,11 +63,9 @@ const UserProfile = () => {
 
                     {editMode && (
                         <>
-                            {/* Nút ở giữa ảnh */}
                             <label htmlFor="avatar-upload" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer hover:bg-opacity-70 transition" title="Thay ảnh đại diện">
                                 +
                             </label>
-                            {/* Input file ẩn */}
                             <input id="avatar-upload" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
                         </>
                     )}
@@ -93,7 +88,7 @@ const UserProfile = () => {
                             }
                             :{' '}
                         </span>
-                        {editMode && field !== 'email' ? <input type="text" name={field} value={formData[field]} onChange={handleChange} className="border border-gray-300 rounded px-2 py-1 w-full mt-1" /> : <span>{user?.[field]}</span>}
+                        {editMode ? <input type="text" name={field} value={formData[field]} onChange={handleChange} className="border border-gray-300 rounded px-2 py-1 w-full mt-1" /> : <span>{user?.[field]}</span>}
                     </div>
                 ))}
             </div>
@@ -107,6 +102,13 @@ const UserProfile = () => {
                         onClick={() => {
                             setEditMode(false);
                             setPreviewImage(user?.AnhChinh || '');
+                            setFormData({
+                                hoTen: user?.hoTen || '',
+                                diaChi: user?.diaChi || '',
+                                soDienThoai: user?.soDienThoai || '',
+                                AnhChinh: user?.AnhChinh || '',
+                                email: user?.email || '',
+                            });
                         }}
                         className="w-full bg-gray-300 text-black py-2 rounded-lg hover:bg-gray-400 transition cursor-pointer"
                     >

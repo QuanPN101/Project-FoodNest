@@ -26,10 +26,13 @@ public class SanPhamService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
+<<<<<<< HEAD
 //    @Autowired
 //    private CloudinaryService cloudinaryService;
 
 
+=======
+>>>>>>> c434c60893af7413ab8fdc3d3ede1862722c3889
     public List<SanPham> getAllSanPham(){
         List<SanPham> sp = sanPhamRepository.findAll();
         log.info(sp.toString());
@@ -52,6 +55,7 @@ public class SanPhamService {
     public List<SanPham> getSanPhamByMaGianHang(String maGianHang){
         return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
     }
+<<<<<<< HEAD
 
 //    @Transactional
 //    public void uploadImage(final String id, final MultipartFile file) {
@@ -64,4 +68,6 @@ public class SanPhamService {
 //        sanPham.setAnhChinh(response.getUrl());
 //        this.sanPhamRepository.save(sanPham);
 //    }
+=======
+>>>>>>> c434c60893af7413ab8fdc3d3ede1862722c3889
 }
