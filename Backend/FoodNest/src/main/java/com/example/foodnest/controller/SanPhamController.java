@@ -18,8 +18,8 @@ public class SanPhamController {
 
     @GetMapping
     public List<SanPham> getAllSanPham() {
-            return sanPhamService.getAllSanPham()
-                ;}
+            return sanPhamService.getAllSanPham();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<SanPham> getSanPhamById(@PathVariable String id) {
@@ -31,6 +31,11 @@ public class SanPhamController {
         }
     }
 
+    @GetMapping("/gianhang/{maGianHang}")
+    public List<SanPham> getSanPhamByMaGianHang(@PathVariable String maGianHang) {
+        return sanPhamService.getSanPhamByMaGianHang(maGianHang);
+    }
+
     @GetMapping("/loai/{maLoai}")
     public ResponseEntity<List<SanPham>> getSanPhamByLoai(@PathVariable String maLoai) {
         List<SanPham> sanPhams = sanPhamService.findByLoaiSanPham_MaLoai(maLoai);
@@ -39,4 +44,5 @@ public class SanPhamController {
         }
         return ResponseEntity.ok(sanPhams);
     }
+  
 }

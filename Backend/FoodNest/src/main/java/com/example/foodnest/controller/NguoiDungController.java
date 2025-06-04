@@ -42,6 +42,11 @@ public class NguoiDungController {
         return nguoiDungService.getAllNguoiDung();
     }
 
+    @GetMapping("/getAccount/{maVaiTro}")
+    public List<NguoiDung> getAllByMaVaiTro(@PathVariable int maVaiTro) {
+        return nguoiDungRepository.getAllByMaVaiTro(maVaiTro);
+    }
+
     @GetMapping("/{id}")
     public NguoiDung getNguoiDungById(@PathVariable String id) {
         return nguoiDungService.getNguoiDungById(id);
@@ -51,7 +56,16 @@ public class NguoiDungController {
 //    public String updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
 //        return nguoiDungService.updateNguoiDung(id, request);
 //    }
+  
     @PutMapping("/{id}")
+    public ResponseEntity<String> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+        try {
+            String result = nguoiDungService.updateNguoiDung(id, request);
+            return ResponseEntity.ok(result);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
     public ResponseEntity<?> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
         String result = nguoiDungService.updateNguoiDung(id, request);
 

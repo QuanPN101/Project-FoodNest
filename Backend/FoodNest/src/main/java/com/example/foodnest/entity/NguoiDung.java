@@ -1,8 +1,9 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "NguoiDung")
 @Getter
@@ -12,7 +13,6 @@ import lombok.*;
 @Builder
 public class NguoiDung {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MaNguoiDung")
     private String maNguoiDung;
 
@@ -24,7 +24,7 @@ public class NguoiDung {
 
     @Column(name = "HoTen")
     private String hoTen;
-
+   
     @Column(name = "SoDienThoai")
     private String soDienThoai;
 

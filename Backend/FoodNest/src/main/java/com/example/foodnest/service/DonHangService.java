@@ -14,7 +14,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -35,6 +38,10 @@ public class DonHangService {
         return  donHangRepository.findAllWithNguoiDung();
     }
 
+    public Page<DonHang> searchDonHang(String trangThai, String tenNguoiDung, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("maDonHang").descending());
+        return donHangRepository.searchByFilters(trangThai, tenNguoiDung, pageable);
+    }
 
     public DonHang createDonHang(DonHangCreateRequest request){
         DonHang donHang = new DonHang();
@@ -108,5 +115,5 @@ public class DonHangService {
 
         return donHangResponeList;
     }
-
+  
 }
