@@ -26,10 +26,6 @@ public class SanPhamService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
-//    @Autowired
-//    private CloudinaryService cloudinaryService;
-
-
     public List<SanPham> getAllSanPham(){
         List<SanPham> sp = sanPhamRepository.findAll();
         log.info(sp.toString());
@@ -52,16 +48,4 @@ public class SanPhamService {
     public List<SanPham> getSanPhamByMaGianHang(String maGianHang){
         return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
     }
-
-//    @Transactional
-//    public void uploadImage(final String id, final MultipartFile file) {
-//        final SanPham sanPham = this.sanPhamRepository.findById(id)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sản phẩm không tồn tại"));
-//
-//        FileUploadUtil.assertAllowed(file, FileUploadUtil.IMAGE_PATTERN);
-//        final String fileName = FileUploadUtil.getFileName(file.getOriginalFilename());
-//        final CloudinaryResponse response = this.cloudinaryService.uploadFile(file, fileName);
-//        sanPham.setAnhChinh(response.getUrl());
-//        this.sanPhamRepository.save(sanPham);
-//    }
 }

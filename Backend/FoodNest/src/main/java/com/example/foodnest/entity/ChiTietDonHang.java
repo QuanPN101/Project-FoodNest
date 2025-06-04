@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 @Entity
 public class ChiTietDonHang {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MaChiTiet", nullable = false)
-    private Integer id;
+    private String id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

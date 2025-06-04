@@ -3,6 +3,7 @@ package com.example.foodnest.repository;
 import com.example.foodnest.entity.DonHang;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.example.foodnest.entity.NguoiDung;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +26,8 @@ public interface DonHangRepository extends JpaRepository<DonHang, String> {
     List<DonHang> findAllWithNguoiDung();
 
     long countDonHangByTrangThaiDonHang(String trangThai);
+
+
+    List<DonHang> findByMaNguoiDung(NguoiDung maNguoiDung);
 
 }
