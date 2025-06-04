@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-
+@JsonIgnoreProperties
 public class SanPham {
     @Id
     @Size(max = 50)
@@ -80,5 +80,12 @@ public class SanPham {
             inverseJoinColumns = @JoinColumn(name = "MaTuyChon")
     )
 
+
     private List<TuyChon> tuyChon;
+
+    @Nationalized
+    @Column(name = "deliveryCost")
+    private int deliveryCost;
+
+
 }

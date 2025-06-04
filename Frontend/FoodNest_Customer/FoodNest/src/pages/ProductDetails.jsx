@@ -1,9 +1,10 @@
 import { Profiler, use, useEffect, useState } from 'react';
 import { useAppContext } from '../context/Appcontext';
-import { Link, Links, Navigate, NavLink, useParams } from 'react-router-dom';
+import { Link, Links, Navigate, NavLink, useFetcher, useParams } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import ProductCard from '../components/ProductCard';
 import toast from 'react-hot-toast';
+import { getSanPhamByLoai } from '../api/sanPhamApi';
 const ProductDetails = () => {
     const { products, navigate, currency, addToCart, setListProduct, listProduct } = useAppContext();
     const { id } = useParams();
@@ -21,10 +22,13 @@ const ProductDetails = () => {
         }
     }, [products]);
 
-    // useEffect(() => {
-    //   setThumbnail(product?.image[0] ? product.image[0] : null);
-    // }, [product]);
-    console.log(selectedTuyChon);
+    useEffect(() => {
+        const getSPByLoai = async () => {
+            const data = await getSanPhamByLoai(product.loaiSanPham.maLoai);
+            setRelatedProducts(data);
+        };
+        getSPByLoai();
+    }, [product, product]);
 
     const handleCheckboxChange = (e, item) => {
         if (e.target.checked) {
@@ -200,13 +204,11 @@ const ProductDetails = () => {
                         <p className="text-3xl font-medium">Sản phẩm liên quan</p>
                         <div className="w-20 h-0.5 bg-primary rounded-full mt-2"></div>
                     </div>
-                    {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
-            {relatedProducts
-              .filter((product) => product.inStock)
-              .map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
-          </div> */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
+                        {relatedProducts.slice(0, 5).map((product, index) => (
+                            <ProductCard key={index} product={product} />
+                        ))}
+                    </div>
                     <button
                         onClick={() => {
                             navigate('/products');

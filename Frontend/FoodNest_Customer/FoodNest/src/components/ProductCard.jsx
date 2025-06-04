@@ -4,7 +4,6 @@ import { useAppContext } from '../context/Appcontext';
 
 const ProductCard = ({ product }) => {
     const { currency, addToCart, updateCartItem, removeFromCart, cartItems, listProduct, navigate } = useAppContext();
-    console.log(product);
 
     return (
         product && (
@@ -41,30 +40,14 @@ const ProductCard = ({ product }) => {
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
+                                navigate(`products/detail/${product.maSanPham}`);
                             }}
                             className="text-primary"
                         >
-                            {!cartItems[product.maSanPham] ? (
-                                <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer " onClick={() => addToCart(product.maSanPham)}>
-                                    <img src={assets.cart_icon} alt="cart_icon" />
-                                    Thêm
-                                </button>
-                            ) : (
-                                <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
-                                    <button
-                                        onClick={() => {
-                                            removeFromCart(product.maSanPham);
-                                        }}
-                                        className="cursor-pointer text-md px-2 h-full"
-                                    >
-                                        -
-                                    </button>
-                                    <span className="w-5 text-center">{cartItems[product.maSanPham]}</span>
-                                    <button onClick={() => addToCart(product.maSanPham)} className="cursor-pointer text-md px-2 h-full">
-                                        +
-                                    </button>
-                                </div>
-                            )}
+                            {/* <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer ">
+                                <img src={assets.cart_icon} alt="cart_icon" />
+                                Xem
+                            </button> */}
                         </div>
                     </div>
                 </div>

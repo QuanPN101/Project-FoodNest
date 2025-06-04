@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { getAllLoaiSanPham } from '../api/loaiSanPhamApi';
 import { getSanPhamByLoai } from '../api/sanPhamApi';
+import { reverseGeocode } from '../api/reverseGeocode';
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
@@ -23,6 +24,7 @@ export const AppContextProvider = ({ children }) => {
     const [isSeller, setisSeller] = useState(false);
     const [products, setProducts] = useState([]);
     // const [cartItems, setCartItems] = useState({});
+
     const [cartItems, setCartItems] = useState(() => {
         try {
             const storedCart = localStorage.getItem('cartItems');
@@ -35,7 +37,8 @@ export const AppContextProvider = ({ children }) => {
     const [searchQuery, setSearchQuery] = useState({});
     const [loaiSanPham, setLoaiSanPham] = useState([]);
     const [listProduct, setListProduct] = useState([]);
-
+    const [selectedCoord, setSelectedCoords] = useState(0, 0);
+    const [displayName, setDisplayName] = useState('');
     // Fetch all product
     const fetchProducts = async () => {
         try {
@@ -236,6 +239,15 @@ export const AppContextProvider = ({ children }) => {
             // localStorage.removeItem('user');
         }
     }, []);
+
+    useEffect(() => {
+        const getDN = async () => {
+            const dn = await reverseGeocode(selectedCoord.lat, selectedCoord.lng);
+
+            setDisplayName(dn);
+        };
+        getDN();
+    }, [selectedCoord]);
     const value = {
         currency,
         navigate,
@@ -259,6 +271,9 @@ export const AppContextProvider = ({ children }) => {
         setListProduct,
         listProduct,
         increaseQuantity,
+        selectedCoord,
+        setSelectedCoords,
+        displayName,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

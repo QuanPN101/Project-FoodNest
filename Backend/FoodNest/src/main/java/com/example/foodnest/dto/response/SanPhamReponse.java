@@ -1,16 +1,13 @@
 package com.example.foodnest.dto.response;
 
-import com.example.foodnest.entity.GianHang;
 import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-
 
 @Data
 @Builder
-public class SanPhamResponse {
+public class SanPhamReponse {
     private String maSanPham;
     private String tenSanPham;
     private String moTa;
@@ -18,9 +15,5 @@ public class SanPhamResponse {
     private Integer soLuong;
     private String anhChinh;
     private Boolean trangThai;
-    private Instant ngayTao;
-
-    private String maGianHang;
-    private String tenLoai;
-    private String maLoai;
+    private int deliveryCost;
 }

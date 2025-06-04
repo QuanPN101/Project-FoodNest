@@ -39,7 +39,7 @@ const Cart = () => {
 
                 <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
                     <p className="text-left">Chi tiết sản phẩm</p>
-                    <p className="text-center">Tổng</p>
+                    <p className="text-center">Giá</p>
                     <p className="text-center"></p>
                 </div>
 
@@ -119,7 +119,7 @@ const Cart = () => {
             </div>
 
             <div className="max-w-[360px] w-full bg-gray-100/40 p-5 max-md:mt-16 border border-gray-300/70">
-                <h2 className="text-xl md:text-xl font-medium">Tóm tắt đơn hàng</h2>
+                {/*  <h2 className="text-xl md:text-xl font-medium">Tóm tắt đơn hàng</h2>
                 <hr className="border-gray-300 my-5" />
 
                 <div className="mb-6">
@@ -157,27 +157,24 @@ const Cart = () => {
                 <hr className="border-gray-300" />
 
                 <div className="text-gray-500 mt-4 space-y-2">
-                    <p className="flex justify-between">
-                        <span>Giá </span>
-                        <span>
-                            {Number(getCartAmount()).toLocaleString('vi-VN')} {currency}
-                        </span>
-                    </p>
-                    <p className="flex justify-between">
-                        <span>Phí giao hàng</span>
-                        <span className="text-green-600">Miễn phí</span>
-                    </p>
                     <p className="flex justify-between text-lg font-medium mt-3">
-                        <span>Tổng tiền:</span>
+                        <span>Tổng tiền sản phẩm:</span>
                         <span>
                             {Number(getCartAmount()).toLocaleString('vi-VN')} {currency}
                         </span>
                     </p>
+                </div>*/}
+                <div className="text-gray-500 mt-4 space-y-2 pt-4 border-t border-gray-300">
+                    <p className="flex justify-between text-lg font-medium">
+                        <span>Tổng tiền sản phẩm:</span>
+                        <span>
+                            {Number(getCartAmount()).toLocaleString('vi-VN')} {currency}
+                        </span>
+                    </p>
+                    <button onClick={placeOrder} className="w-full py-3 mt-4 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition">
+                        {paymentOption === 'COD' ? 'Đặt hàng' : 'Tiến hành thanh toán'}
+                    </button>
                 </div>
-
-                <button onClick={placeOrder} className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition">
-                    {paymentOption === 'COD' ? 'Đặt hàng' : 'Tiến hành thanh toán'}
-                </button>
             </div>
         </div>
     ) : null;

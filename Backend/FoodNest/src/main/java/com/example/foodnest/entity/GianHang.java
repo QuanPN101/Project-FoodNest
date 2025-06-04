@@ -40,4 +40,10 @@ public class GianHang {
     @Column(name = "NgayTao")
     private java.time.LocalDateTime ngayTao;
 
+    @Column(name = "lon")
+    private float lon;
+
+    @Column(name = "lat")
+    private float lat;
+
 }

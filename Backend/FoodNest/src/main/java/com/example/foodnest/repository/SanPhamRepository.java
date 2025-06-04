@@ -8,4 +8,6 @@ import java.util.List;
 public interface SanPhamRepository extends JpaRepository<SanPham, String> {
     List<SanPham> findByLoaiSanPham_MaLoai(String maLoai);
 
+    SanPham findByMaSanPham(String maSanPham);
+
 }

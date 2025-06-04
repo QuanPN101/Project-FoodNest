@@ -39,6 +39,4 @@ public class SanPhamController {
         }
         return ResponseEntity.ok(sanPhams);
     }
-
-
 }
