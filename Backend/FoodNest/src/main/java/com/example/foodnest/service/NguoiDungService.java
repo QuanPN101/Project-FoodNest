@@ -52,25 +52,21 @@ public class NguoiDungService {
         NguoiDung existingNguoiDung = nguoiDungRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
 
+        // Cập nhật mật khẩu nếu có
         if (request.getMatKhau() != null && !request.getMatKhau().isBlank()) {
             existingNguoiDung.setMatKhau(request.getMatKhau());
         }
 
+        // Kiểm tra và cập nhật email nếu khác email hiện tại
         if (request.getEmail() != null && !request.getEmail().equals(existingNguoiDung.getEmail())) {
             boolean emailExists = nguoiDungRepository.existsByEmailAndMaNguoiDungNot(request.getEmail(), id);
             if (emailExists) {
                 throw new RuntimeException("Email đã được sử dụng bởi người dùng khác");
-
-        if (request.getEmail() != null && !request.getEmail().isBlank()) {
-            Optional<NguoiDung> userWithSameEmail = nguoiDungRepository.findByEmail(request.getEmail());
-
-            if (userWithSameEmail.isPresent() && !userWithSameEmail.get().getMaNguoiDung().equals(id)) {
-                return "Email đã được sử dụng.";
             }
-
             existingNguoiDung.setEmail(request.getEmail());
         }
 
+        // Kiểm tra và cập nhật số điện thoại nếu khác số hiện tại
         if (request.getSoDienThoai() != null && !request.getSoDienThoai().equals(existingNguoiDung.getSoDienThoai())) {
             boolean phoneExists = nguoiDungRepository.existsBySoDienThoaiAndMaNguoiDungNot(request.getSoDienThoai(), id);
             if (phoneExists) {
@@ -79,7 +75,7 @@ public class NguoiDungService {
             existingNguoiDung.setSoDienThoai(request.getSoDienThoai());
         }
 
-        // Cập nhật các trường khác (không gồm MatKhau) trong mapper
+        // Cập nhật các trường còn lại qua mapper
         nguoiDungMapper.updateNguoiDung(request, existingNguoiDung);
 
         nguoiDungRepository.save(existingNguoiDung);
@@ -87,26 +83,26 @@ public class NguoiDungService {
         return "Cập nhật thành công";
     }
 
+    public Page<NguoiDung> timNguoiDung (String keyword,int page){
+                Pageable pageable = PageRequest.of(page, 7, Sort.by("HoTen").ascending());
+                return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
+            }
 
-    public Page<NguoiDung> timNguoiDung(String keyword, int page) {
-        Pageable pageable = PageRequest.of(page, 7, Sort.by("HoTen").ascending());
-        return nguoiDungRepository.findByHoTenContaining(keyword, pageable);
-    }
+            public boolean doiMatKhau (String maNguoiDung, String currentPassword, String newPassword){
+                Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findById(maNguoiDung); // tránh null khi gọi từ csdl
+                if (!optionalNguoiDung.isPresent()) {
+                    return false;
+                }
+                NguoiDung nguoiDung = optionalNguoiDung.get();
 
-    public boolean doiMatKhau(String maNguoiDung, String currentPassword, String newPassword) {
-        Optional<NguoiDung> optionalNguoiDung = nguoiDungRepository.findById(maNguoiDung); // tránh null khi gọi từ csdl
-        if(!optionalNguoiDung.isPresent()) {
-            return false;
+                // Kiểm tra mật khẩu hiện tại có đúng không
+                if (!currentPassword.equals(nguoiDung.getMatKhau())) {
+                    return false;
+                }
+
+                nguoiDung.setMatKhau(newPassword);
+                nguoiDungRepository.save(nguoiDung);
+                return true;
+            }
         }
-        NguoiDung nguoiDung = optionalNguoiDung.get();
 
-        // Kiểm tra mật khẩu hiện tại có đúng không
-        if (!currentPassword.equals(nguoiDung.getMatKhau())) {
-            return false;
-        }
-
-        nguoiDung.setMatKhau(newPassword);
-        nguoiDungRepository.save(nguoiDung);
-        return true;
-    }
-}

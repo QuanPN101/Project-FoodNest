@@ -57,16 +57,16 @@ public class NguoiDungController {
 //        return nguoiDungService.updateNguoiDung(id, request);
 //    }
   
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
-        try {
-            String result = nguoiDungService.updateNguoiDung(id, request);
-            return ResponseEntity.ok(result);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-    }
-    public ResponseEntity<?> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+//    public ResponseEntity<String> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+//        try {
+//            String result = nguoiDungService.updateNguoiDung(id, request);
+//            return ResponseEntity.ok(result);
+//        } catch (RuntimeException ex) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//        }
+//    }
+@PutMapping("/{id}")
+public ResponseEntity<?> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
         String result = nguoiDungService.updateNguoiDung(id, request);
 
         if ("Email đã được sử dụng.".equals(result)) {

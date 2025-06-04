@@ -1,14 +1,16 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
 @Table(name = "SanPham")
 @Getter
 @Setter
@@ -51,7 +53,7 @@ public class SanPham {
     @ManyToOne
     @JoinColumn(name = "ma_loai_san_pham") // tên cột trong bảng SanPham
     private LoaiSanPham loaiSanPham;
-}
+
 
     @ManyToMany
     @JoinTable(
