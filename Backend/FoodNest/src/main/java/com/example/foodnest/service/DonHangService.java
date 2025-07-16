@@ -45,7 +45,7 @@ public class DonHangService {
         donHang.setEmail(request.getEmail());
         donHang.setHoTen(request.getHoTen());
         donHang.setSoDienThoai(request.getSoDienThoai());
-
+        donHang.setPhuongThucThanhToan(request.getPhuongThucThanhToan());   
         NguoiDung nguoiDung =  nguoiDungRepository.findById(request.getMaNguoiDung())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng."));
         donHang.setMaNguoiDung(nguoiDung);

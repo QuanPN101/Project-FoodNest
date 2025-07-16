@@ -6,6 +6,7 @@ import { faTruck, faFilterCircleDollar } from '@fortawesome/free-solid-svg-icons
 import MapView from '../components/MapView';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 export default function Payment() {
     const [formData, setFormData] = useState({
         email: '',
@@ -16,7 +17,7 @@ export default function Payment() {
         district: '',
         ward: '',
         note: '',
-        payment: '',
+        payment: 'cod',
         discountCode: '',
     });
 
@@ -31,17 +32,21 @@ export default function Payment() {
     const { user, listProduct, getCartCount, getCartAmount, currency, displayName, selectedCoord, navigate } = useAppContext();
     const [totalDeliveryCost, setTotalDeliveryCost] = useState(0);
     const [isAddressSelected, setIsAddressSelected] = useState(false);
+
     const handleCreateOrder = async () => {
         const formData = new FormData();
 
         formData.append('maNguoiDung', user.id);
-        formData.append('trangThai', 'Đã gửi');
+        formData.append('trangThai', 'Chờ xác nhận');
         formData.append('tongTien', totalDeliveryCost + Number(getCartAmount()));
         formData.append('diaChiGiaoHang', displayName);
         formData.append('email', email);
         formData.append('soDienThoai', phone);
         formData.append('hoTen', name);
-
+        formData.append('phuongThucThanhToan', 'Thanh toán khi nhận hàng');
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
         listProduct.forEach((sp, index) => {
             formData.append(`chiTietSanPham[${index}].maSanPham`, sp.maSanPham);
             formData.append(`chiTietSanPham[${index}].soLuong`, sp.soLuongMua);
@@ -92,8 +97,11 @@ export default function Payment() {
         let temp = 0;
         listProduct.map((item) => {
             const fee = haversineDistance(selectedCoord.lat, selectedCoord.lng, item.maGianHang.lat, item.maGianHang.lon);
+            console.log('fee', fee);
+
             temp = temp + fee * item.deliveryCost;
         });
+        console.log('temp', temp);
 
         setTotalDeliveryCost(temp);
     }, [selectedCoord]);
@@ -156,7 +164,7 @@ export default function Payment() {
                         </div>
                         <div className="space-y-2">
                             <label className="flex items-center gap-2">
-                                <input type="radio" name="payment" value="cod" onChange={handleChange} /> Thanh toán khi nhận hàng
+                                <input type="radio" defaultChecked name="payment" value="cod" onChange={handleChange} /> Thanh toán khi nhận hàng
                             </label>
                             <label className="flex items-center gap-2">
                                 <input type="radio" name="payment" value="bank" onChange={handleChange} /> Chuyển khoản
@@ -168,10 +176,9 @@ export default function Payment() {
                         <h3 className="text-lg font-medium">Đơn hàng ({getCartCount()} sản phẩm)</h3>
                         <div className="items-center gap-4 border-b pb-4">
                             <div>
-                                <p>Tên shop</p>
                                 {listProduct.map((item, index) => (
                                     <div className="flex items-center">
-                                        <img src={assets.no_image} alt="Product" className="w-12 h-12 mr-4" />
+                                        <img src={item.anhChinh} alt="Product" className="w-12 h-12 mr-4" />
                                         <div key={index}>
                                             <p className="text-sm">{item.tenSanPham}</p>
                                             <p className="font-semibold text-sm text-gray-600">
@@ -218,9 +225,10 @@ export default function Payment() {
                         </div>
 
                         <div className="mt-4 flex justify-between items-center">
-                            <a href="#" className="text-primary text-sm">
+                            <Link className="text-primary text-sm" to={'/cart'}>
+                                {' '}
                                 &lt; Quay về giỏ hàng
-                            </a>
+                            </Link>
                             <button className="bg-primary text-white px-6 py-2 rounded" onClick={() => handleCreateOrder()}>
                                 Đặt hàng
                             </button>

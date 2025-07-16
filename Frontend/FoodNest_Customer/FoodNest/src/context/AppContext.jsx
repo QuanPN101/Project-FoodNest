@@ -71,18 +71,6 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    // Add product to cart
-    // const addToCart = (itemId) => {
-    //     let cartData = structuredClone(cartItems);
-    //     if (cartData[itemId]) {
-    //         cartData[itemId] += 1;
-    //     } else {
-    //         cartData[itemId] = 1;
-    //     }
-    //     setCartItems(cartData);
-    //     toast.success('Thêm thành công');
-    // };
-
     const addToCart = (itemId) => {
         const product = products.find((p) => p.maSanPham === itemId);
         if (!product) return;
@@ -99,14 +87,6 @@ export const AppContextProvider = ({ children }) => {
         toast.success('Đã thêm vào giỏ hàng');
     };
 
-    // Update Cart Item Quantity
-    // const updateCartItem = (itemId, quantity) => {
-    //     let cartData = structuredClone(cartItems);
-    //     cartData[itemId] = quantity;
-    //     setCartItems(cartData);
-    //     toast.success('Đã cập nhật giỏ hàng');
-    // };
-
     const updateCartItem = (itemId, quantity) => {
         const product = listProduct.find((p) => p.maSanPham === itemId);
         if (!product) return;
@@ -122,32 +102,6 @@ export const AppContextProvider = ({ children }) => {
         toast.success('Đã cập nhật giỏ hàng');
     };
 
-    // Remove Product from Cart
-    // const removeFromCart = (id) => {
-    //     let itemWasRemoved = false;
-
-    //     const updatedCart = listProduct
-    //         .map((item) => {
-    //             if (item.maSanPham === id) {
-    //                 const newQty = item.soLuongMua - 1;
-    //                 if (newQty <= 0) {
-    //                     itemWasRemoved = true;
-    //                     return null;
-    //                 }
-    //                 return { ...item, soLuongMua: newQty };
-    //             }
-    //             return item;
-    //         })
-    //         .filter((item) => item !== null); // loại bỏ item đã đánh dấu
-
-    //     setListProduct(updatedCart);
-
-    //     if (itemWasRemoved) {
-    //         toast.success('Xóa sản phẩm thành công');
-    //     } else {
-    //         toast.success('Giảm số lượng sản phẩm thành công');
-    //     }
-    // };
     const removeFromCart = (id, options, note) => {
         let itemWasRemoved = false;
 
@@ -176,22 +130,6 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    // const increaseQuantity = (itemId) => {
-    //     const updatedCart = listProduct
-    //         .map((item) => {
-    //             if (item.maSanPham === itemId) {
-    //                 const newQty = item.soLuongMua + 1;
-
-    //                 return { ...item, soLuongMua: newQty };
-    //             }
-    //             return item;
-    //         })
-    //         .filter((item) => item !== null);
-
-    //     setListProduct(updatedCart);
-
-    //     toast.success('Cập nhập số lượng thành công');
-    // };
     const increaseQuantity = (id, options, note) => {
         const updatedCart = listProduct.map((item) => {
             const isSameProduct = item.maSanPham === id && JSON.stringify(item.options) === JSON.stringify(options) && item.note === note;
