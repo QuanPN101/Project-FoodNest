@@ -34,23 +34,36 @@ function OrderAndTransaction() {
 
       switch (trangThai) {
         case 'Chờ xác nhận':
-          trangThaiLabel = <span style={{ color: '#d97706', fontWeight: 'bold' }}>🟡 {trangThai}</span>;
+          trangThaiLabel = <span style={{ color: '#d97706', fontWeight: 'bold' }}>{trangThai}</span>; // cam
+          break;
+        case 'Đã gửi':
+          trangThaiLabel = <span style={{ color: '#0ea5e9', fontWeight: 'bold' }}>{trangThai}</span>; // xanh dương nhạt
           break;
         case 'Đang vận chuyển':
-          trangThaiLabel = <span style={{ color: '#2563eb', fontWeight: 'bold' }}>🔵 {trangThai}</span>;
+          trangThaiLabel = <span style={{ color: '#2563eb', fontWeight: 'bold' }}>{trangThai}</span>; // xanh dương
           break;
         case 'Đã giao hàng':
-          trangThaiLabel = <span style={{ color: '#16a34a', fontWeight: 'bold' }}>✅ {trangThai}</span>;
+          trangThaiLabel = <span style={{ color: '#16a34a', fontWeight: 'bold' }}>{trangThai}</span>; // xanh lá
+          break;
+        case 'Đã nhận hàng':
+          trangThaiLabel = <span style={{ color: '#22c55e', fontWeight: 'bold' }}>{trangThai}</span>; // xanh lá sáng
+          break;
+        case 'Đã hủy':
+          trangThaiLabel = <span style={{ color: '#ef4444', fontWeight: 'bold' }}>{trangThai}</span>; // đỏ
+          break;
+        case 'Từ chối đơn hàng':
+          trangThaiLabel = <span style={{ color: '#991b1b', fontWeight: 'bold' }}>{trangThai}</span>; // đỏ đậm
           break;
         default:
-          trangThaiLabel = <span>{trangThai || 'Không rõ'}</span>;
+          trangThaiLabel = <span style={{ color: '#6b7280' }}>{trangThai || 'Không rõ'}</span>; // xám
       }
 
+
       return {
-        id: donHang.maDonHang,
+        id: donHang.maDonHang || '',
         hoTen: donHang.maNguoiDung?.hoTen || '',
-          soDienThoai: donHang.maNguoiDung?.soDienThoai || '',
-        diaChi: donHang.diaChiGiaoHang || '',
+        soDienThoai: donHang.maNguoiDung?.soDienThoai || '',
+        // diaChi: donHang.diaChiGiaoHang || '',
         ngayDat: new Date(donHang.ngayDat).toLocaleDateString('vi-VN'),
         ngayGiao: donHang.ngayGiaoHang
           ? new Date(donHang.ngayGiaoHang).toLocaleDateString('vi-VN')
@@ -81,11 +94,12 @@ function OrderAndTransaction() {
   };
 
   const columns = [
+    { label: 'Mã đơn hàng', field: 'id' },
     { label: 'Tên khách hàng', field: 'hoTen' },
     { label: 'Số điện thoại', field: 'soDienThoai' },
-    { label: 'Địa chỉ', field: 'diaChi' },
+    // { label: 'Địa chỉ', field: 'diaChi' },
     { label: 'Ngày đặt', field: 'ngayDat' },
-    { label: 'Ngày giao', field: 'ngayGiao' },
+    // { label: 'Ngày giao', field: 'ngayGiao' },
     { label: 'Trạng thái', field: 'trangThai' },
   ];
 

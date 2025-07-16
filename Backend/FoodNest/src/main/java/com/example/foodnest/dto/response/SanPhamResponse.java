@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-
+@Builder
 @Data
 @Builder
 public class SanPhamResponse {

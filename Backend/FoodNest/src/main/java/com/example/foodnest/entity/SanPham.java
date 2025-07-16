@@ -36,7 +36,10 @@ public class SanPham {
 
     @Column(name = "SoLuong")
     private int soLuong;
-
+    //    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "MaGianHang", nullable = false, referencedColumnName = "MaGianHang")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaGianHang", nullable = false, referencedColumnName = "MaGianHang")
     private GianHang maGianHang;
@@ -68,6 +71,4 @@ public class SanPham {
     @Nationalized
     @Column(name = "deliveryCost")
     private int deliveryCost;
-
-
 }

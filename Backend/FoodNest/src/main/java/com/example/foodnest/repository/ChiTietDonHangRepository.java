@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ChiTietDonHangRepository extends JpaRepository<ChiTietDonHang, String> {
     List<ChiTietDonHang> findByMaDonHang(DonHang maDonHang);
+    void deleteByMaDonHang_MaDonHang(String maDonHang);
 }

@@ -32,22 +32,23 @@ const MyOrder = () => {
                             <strong>Mã Đơn Hàng:</strong> {orderData.maDonHang}
                         </p>
                         <p>
-                            <strong>Ngày Đặt:</strong> {new Date(orderData.ngayDat).toLocaleString()}
-                        </p>
-                        <p>
-                            <strong>Trạng Thái:</strong> {orderData.trangThaiDonHang}
-                        </p>
-                        <p>
-                            <strong>Địa Chỉ Giao Hàng:</strong> {orderData.diaChiGiaoHang}
-                        </p>
-                        <p>
-                            <strong>Tổng Tiền:</strong> {orderData.tongTien.toLocaleString()} VND
+                            <strong>Tên người nhận: </strong> {orderData.hoTen}
                         </p>
                         <p>
                             <strong>Số điện thoại: </strong> {orderData.soDienThoai}
                         </p>
                         <p>
-                            <strong>Người nhận hàng: </strong> {orderData.hoTen}
+                            <strong>Địa Chỉ Giao Hàng:</strong> {orderData.diaChiGiaoHang}
+                        </p>
+                        <p>
+                            <strong>Ngày Đặt:</strong> {new Date(orderData.ngayDat).toLocaleString()}
+                        </p>
+                        <p>
+                            <strong>Trạng Thái:</strong> {orderData.trangThaiDonHang}
+                        </p>
+
+                        <p>
+                            <strong>Tổng Tiền:</strong> {orderData.tongTien.toLocaleString()} {currency}
                         </p>
                     </div>
 
@@ -64,8 +65,12 @@ const MyOrder = () => {
                                 </div>
                                 <div>
                                     <p className="text-sm font-semibold">Số Lượng: {item.soLuong}</p>
-                                    <p className="text-sm text-gray-700">Đơn Giá: {item.donGia.toLocaleString()} VND</p>
-                                    <p className="text-sm font-semibold">Thành Tiền: {(item.soLuong * item.donGia).toLocaleString()} VND</p>
+                                    <p className="text-sm text-gray-700">
+                                        Đơn Giá: {item.donGia.toLocaleString()} {currency}
+                                    </p>
+                                    <p className="text-sm font-semibold">
+                                        Thành Tiền: {(item.soLuong * item.donGia).toLocaleString()} {currency}
+                                    </p>
                                 </div>
                             </div>
                         ))}

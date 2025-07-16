@@ -2,7 +2,9 @@ import React from 'react'
 
 function ComplaintAndViolation() {
   return (
-    <div>ComplaintAndViolation</div>
+    <div className="alert alert-secondary ">
+      <strong>Chưa hoàn thành!</strong>
+  </div>
   )
 }
 

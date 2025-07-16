@@ -36,7 +36,7 @@ const FormLogin = () => {
 
     try {
       // 1. Gọi api đăng nhập
-      const res = await axios.post("http://localhost:8080/api/auth", formData);
+      const res = await axios.post("http://localhost:8080/api/auth/admin", formData);
       if (res.data.code === 1000) {
         const basicUser = res.data.result; // chỉ có id, hoTen, anhDaiDien, maVaiTro
 

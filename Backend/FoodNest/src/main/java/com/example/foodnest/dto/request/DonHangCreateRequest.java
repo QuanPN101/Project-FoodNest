@@ -22,6 +22,7 @@ public class DonHangCreateRequest {
     private String diaChi;
     private String soDienThoai;
     private String email;
-
+  
+    private String phuongThucThanhToan;
     private List<ChiTietSanPhamRequest> chiTietSanPham;
 }

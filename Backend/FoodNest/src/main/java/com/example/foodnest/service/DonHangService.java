@@ -10,9 +10,9 @@ import com.example.foodnest.entity.DonHang;
 import com.example.foodnest.entity.NguoiDung;
 import com.example.foodnest.entity.SanPham;
 import com.example.foodnest.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +38,19 @@ public class DonHangService {
         return  donHangRepository.findAllWithNguoiDung();
     }
 
+    public List<DonHang> getALlDonHang() {
+        return  donHangRepository.findAll();
+    }
+
+    @Transactional
+    public void xoaDonHangVaChiTiet(String maDonHang) {
+        // Xoá chi tiết đơn hàng trước
+        chiTietDonHangRepository.deleteByMaDonHang_MaDonHang(maDonHang);
+
+        // Sau đó xoá đơn hàng
+        donHangRepository.deleteById(maDonHang);
+    }
+
     public Page<DonHang> searchDonHang(String trangThai, String tenNguoiDung, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("maDonHang").descending());
         return donHangRepository.searchByFilters(trangThai, tenNguoiDung, pageable);
@@ -52,7 +65,7 @@ public class DonHangService {
         donHang.setEmail(request.getEmail());
         donHang.setHoTen(request.getHoTen());
         donHang.setSoDienThoai(request.getSoDienThoai());
-
+        donHang.setPhuongThucThanhToan(request.getPhuongThucThanhToan());
         NguoiDung nguoiDung =  nguoiDungRepository.findById(request.getMaNguoiDung())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng."));
         donHang.setMaNguoiDung(nguoiDung);
@@ -109,11 +122,10 @@ public class DonHangService {
                 listChiTietDonHangResponseList.add(chiTietDonHangResponse);
             }
             donHangRespone.setDsChiTietDonHang(listChiTietDonHangResponseList);
-           donHangResponeList.add(donHangRespone);
+            donHangResponeList.add(donHangRespone);
 
         }
 
         return donHangResponeList;
     }
-  
 }

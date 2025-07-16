@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../context/Appcontext';
 import { assets, dummyAddress } from '../assets/assets';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
     const { user, products, currency, cartItems, removeFromCart, updateCartItem, increaseQuantity, getCartCount, navigate, getCartAmount, listProduct } = useAppContext();
@@ -21,6 +22,10 @@ const Cart = () => {
     };
 
     const placeOrder = async () => {
+        if (listProduct.length === 0) {
+            toast.success('Giỏ hàng đang trống. Vui lòng thêm sản phẩm trước khi đặt hàng.');
+            return;
+        }
         navigate('/order');
     };
 
@@ -53,7 +58,7 @@ const Cart = () => {
                                 }}
                                 className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded"
                             >
-                                <img className="max-w-full h-full object-cover" src={assets.no_image} alt={product.tenSanPham} />
+                                <img className="max-w-full h-full object-cover" src={product.anhChinh} alt={product.tenSanPham} />
                             </div>
                             <div>
                                 <p className="hidden md:block font-semibold">{product.tenSanPham}</p>

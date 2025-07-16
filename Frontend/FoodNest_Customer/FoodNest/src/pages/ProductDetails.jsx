@@ -62,7 +62,7 @@ const ProductDetails = () => {
                         </div> */}
 
                         <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
-                            <img src={assets.no_image} alt="Selected product" />
+                            <img src={product.anhChinh} alt="Selected product" />
                         </div>
                     </div>
 

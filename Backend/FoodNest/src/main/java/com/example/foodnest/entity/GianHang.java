@@ -39,13 +39,12 @@ public class GianHang {
     @Column(name = "NgayTao")
     private java.time.LocalDateTime ngayTao;
 
-    @Column(name = "AnhBiaPreview")
-    private String anhBiaPreview;
+    @Column(name = "anhDaiDien")
+    private String anhDaiDien;
 
     @Column(name = "lon")
     private float lon;
 
     @Column(name = "lat")
     private float lat;
-
 }

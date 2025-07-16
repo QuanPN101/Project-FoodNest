@@ -5,6 +5,8 @@ import com.example.foodnest.dto.response.ApiResponse;
 import com.example.foodnest.dto.request.NguoiDungCreateRequest;
 import com.example.foodnest.dto.request.NguoiDungUpdateRequest;
 import com.example.foodnest.entity.NguoiDung;
+import com.example.foodnest.repository.DonHangRepository;
+import com.example.foodnest.repository.GianHangRepository;
 import com.example.foodnest.repository.NguoiDungRepository;
 import com.example.foodnest.service.NguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/nguoidung")
@@ -27,6 +30,10 @@ public class NguoiDungController {
     private NguoiDungService nguoiDungService;
     @Autowired
     NguoiDungRepository nguoiDungRepository;
+    @Autowired
+    DonHangRepository donHangRepository;
+    @Autowired
+    GianHangRepository gianHangRepository;
 
     @PostMapping
     public ApiResponse<NguoiDung> createNguoiDung(@RequestBody NguoiDungCreateRequest request) {
@@ -35,6 +42,48 @@ public class NguoiDungController {
                 .result(nguoiDungService.createNguoiDung(request))
                 .message("Successfully Created NguoiDung")
                 .build();
+    }
+
+    @GetMapping("/can-delete/{id}")
+    public ResponseEntity<Boolean> coTheXoaNguoiDung(@PathVariable String id) {
+        Optional<NguoiDung> nguoiDungOpt = nguoiDungRepository.findById(id);
+
+        if (nguoiDungOpt.isEmpty()) {
+            return ResponseEntity.ok(false);
+        }
+
+        NguoiDung nguoiDung = nguoiDungOpt.get();
+
+        long coDonHang = donHangRepository.countByMaNguoiDung_MaNguoiDung(id);
+        boolean coGianHang = gianHangRepository.existsByNguoiDung_MaNguoiDung(id);
+        boolean dangHoatDong = Boolean.TRUE.equals(nguoiDung.getTrangThai());
+
+        boolean coTheXoa = !(coDonHang > 0) && !coGianHang && !dangHoatDong;
+
+        return ResponseEntity.ok(coTheXoa);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> xoaNguoiDung(@PathVariable String id) {
+        try {
+            long donHangCount = donHangRepository.countByMaNguoiDung_MaNguoiDung(id);
+            if (donHangCount > 0) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Không thể xóa người dùng vì đã có đơn hàng.");
+            }
+            if (gianHangRepository.existsByNguoiDung_MaNguoiDung(id)) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Không thể xóa người dùng vì đã có gian hàng.");
+            }
+
+            nguoiDungRepository.deleteById(id);
+            return ResponseEntity.ok("Xóa người dùng thành công");
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi hệ thống khi xóa người dùng: " + e.getMessage());
+        }
     }
 
     @GetMapping
@@ -73,11 +122,6 @@ public ResponseEntity<?> updateNguoiDungById(@PathVariable String id, @RequestBo
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Collections.singletonMap("message", result));
         }
-
-        return ResponseEntity.ok(Collections.singletonMap("message", result));
-    }
-
-
     @GetMapping("/timkiem")
     public Page<NguoiDung> timKiemNguoiDung(
             @RequestParam(defaultValue = "") String keyword,

@@ -39,6 +39,9 @@ public class NguoiDung {
 
     @Column(name = "DiaChi")
     private String diaChi;
+
+    @Column(name = "NgayTao")
+    private String ngayTao;
 }
 
 

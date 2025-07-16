@@ -14,10 +14,10 @@ const ProductCard = ({ product }) => {
                 }}
                 className="border border-gray-500/20 cursor-pointer rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full"
             >
-                <div className="group cursor-pointer flex items-center justify-center px-2">
-                    <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={assets.no_image} alt={product.tenSanPham} />
+                <div className="group cursor-pointer flex items-center justify-center px-2 h-1/2">
+                    <img className="group-hover:scale-105 transition max-w-26 md:max-w-36 object-cover w-full h-full" src={product.anhChinh} alt={product.tenSanPham} />
                 </div>
-                <div className="text-gray-500/60 text-sm">
+                <div className="text-gray-500/60 text-sm mt-3">
                     <p>{product.loaiSanPham.tenLoai}</p>
                     <p className="text-gray-700 font-medium text-lg truncate w-full">{product.tenSanPham}</p>
                     <div className="flex items-center gap-0.5">

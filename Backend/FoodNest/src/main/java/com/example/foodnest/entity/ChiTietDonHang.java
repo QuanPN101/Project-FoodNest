@@ -1,5 +1,6 @@
 package com.example.foodnest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,10 +22,11 @@ public class ChiTietDonHang {
     @JoinColumn(name = "MaDonHang", nullable = false)
     private DonHang maDonHang;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "MaSanPham", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private SanPham maSanPham;
+
 
     @NotNull
     @Column(name = "SoLuong", nullable = false)
