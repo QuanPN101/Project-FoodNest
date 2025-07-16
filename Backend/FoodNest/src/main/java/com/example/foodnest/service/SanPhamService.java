@@ -4,6 +4,7 @@ import com.example.foodnest.dto.response.SanPhamResponse;
 import com.example.foodnest.entity.SanPham;
 import com.example.foodnest.mapper.SanPhamMapper;
 import com.example.foodnest.repository.SanPhamRepository;
+import com.example.foodnest.repository.SanPhamRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,6 @@ public class SanPhamService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
-
     public List<SanPham> getAllSanPham(){
         List<SanPham> sp = sanPhamRepository.findAll();
         log.info(sp.toString());
@@ -45,6 +45,7 @@ public class SanPhamService {
         return sanPham;
     }
 
-
-
+    public List<SanPham> getSanPhamByMaGianHang(String maGianHang){
+        return sanPhamRepository.findByMaGianHang_MaGianHang(maGianHang);
+    }
 }

@@ -7,32 +7,78 @@ import ReusableTable from '../components/table/ReusableTable';
 function OrderAndTransaction() {
   const navigate = useNavigate();
   const [donHangs, setDonHangs] = useState([]);
-  const [filteredDonHangs, setFilteredDonHangs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [page, setPage] = useState(1); // UI: 1-based
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
+    fetchOrders(page - 1, searchKeyword); // Backend: 0-based
+  }, [page, searchKeyword]);
+
+  const fetchOrders = async (pageIndex, keyword) => {
     setLoading(true);
-    axios.get('http://localhost:8080/api/donhang')
-      .then(response => {
-        const mapped = response.data.map((donHang) => ({
-          id: donHang.maDonHang,
-          hoTen: donHang.maNguoiDung?.hoTen || '',
+    try {
+      const response = await axios.get('http://localhost:8080/api/donhang/timkiem', {
+        params: {
+          page: pageIndex,
+          size: 7,
+          tenNguoiDung: keyword || '',
+        }
+      });
+
+      const pageData = response.data;
+      const mapped = (response.data.content || []).map(donHang => {
+      const trangThai = donHang.trangThaiDonHang;
+      let trangThaiLabel;
+
+      switch (trangThai) {
+        case 'Chờ xác nhận':
+          trangThaiLabel = <span style={{ color: '#d97706', fontWeight: 'bold' }}>🟡 {trangThai}</span>;
+          break;
+        case 'Đang vận chuyển':
+          trangThaiLabel = <span style={{ color: '#2563eb', fontWeight: 'bold' }}>🔵 {trangThai}</span>;
+          break;
+        case 'Đã giao hàng':
+          trangThaiLabel = <span style={{ color: '#16a34a', fontWeight: 'bold' }}>✅ {trangThai}</span>;
+          break;
+        default:
+          trangThaiLabel = <span>{trangThai || 'Không rõ'}</span>;
+      }
+
+      return {
+        id: donHang.maDonHang,
+        hoTen: donHang.maNguoiDung?.hoTen || '',
           soDienThoai: donHang.maNguoiDung?.soDienThoai || '',
-          diaChi: donHang.diaChiGiaoHang || '',
-          ngayDat: new Date(donHang.ngayDat).toLocaleDateString('vi-VN'),
-          ngayGiao: donHang.ngayGiaoHang
-            ? new Date(donHang.ngayGiaoHang).toLocaleDateString('vi-VN')
-            : 'Chưa giao',
-          trangThai: donHang.trangThaiDonHang || '',
-        }));
-        setDonHangs(mapped);
-        setFilteredDonHangs(mapped); // Gán ban đầu
-      })
-      .catch(error => {
-        console.error("Lỗi khi gọi API:", error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+        diaChi: donHang.diaChiGiaoHang || '',
+        ngayDat: new Date(donHang.ngayDat).toLocaleDateString('vi-VN'),
+        ngayGiao: donHang.ngayGiaoHang
+          ? new Date(donHang.ngayGiaoHang).toLocaleDateString('vi-VN')
+          : 'Chưa giao',
+        trangThai: trangThaiLabel,
+      };
+    });
+
+
+      setDonHangs(mapped);
+      setTotalCount(pageData.totalElements || 0);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+      setDonHangs([]);
+      setTotalCount(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (keyword) => {
+    setSearchKeyword(keyword);
+    setPage(1); // reset về trang đầu
+  };
+
+  const handleActionClick = (row) => {
+    navigate(`/orders/${row.id}`);
+  };
 
   const columns = [
     { label: 'Tên khách hàng', field: 'hoTen' },
@@ -43,31 +89,22 @@ function OrderAndTransaction() {
     { label: 'Trạng thái', field: 'trangThai' },
   ];
 
-  const handleSearch = (keyword) => {
-    const lowerKeyword = keyword.toLowerCase();
-    const filtered = donHangs.filter(dh =>
-      dh.hoTen.toLowerCase().includes(lowerKeyword) ||
-      dh.soDienThoai.includes(keyword)
-    );
-    setFilteredDonHangs(filtered);
-  };
-
-  const handleActionClick = (row) => {
-    // Ví dụ chuyển sang trang chi tiết
-    navigate(`/donhang/${row.id}`);
-  };
-
   return (
     <div>
       <h1>Danh sách đơn hàng</h1>
 
-      <SearchBar placeholder="Tìm theo tên hoặc số điện thoại..." onSearch={handleSearch} />
+      <SearchBar placeholder="Tìm theo tên khách hàng..." onSearch={handleSearch} />
 
       <ReusableTable
         columns={columns}
-        rows={filteredDonHangs}
+        rows={donHangs}
         loading={loading}
         onActionClick={handleActionClick}
+        pagination={{
+          count: Math.ceil(totalCount / 7),
+          page: page,
+          onChange: (e, value) => setPage(value)
+        }}
       />
     </div>
   );

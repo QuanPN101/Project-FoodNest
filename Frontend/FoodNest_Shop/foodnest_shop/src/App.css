@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { stores } from "./mockStores";
+
+const EditStore = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const store = stores.find((s) => s.ma_gian_hang === parseInt(id));
+  const [form, setForm] = useState({ ...store });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    alert("Đã lưu thay đổi (giả lập). Quay về danh sách.");
+    navigate("/");
+  };
+
+  if (!store) {
+    return (
+      <div>
+        <h5>Không tìm thấy gian hàng với ID: {id}</h5>
+        <button className="btn btn-secondary" onClick={() => navigate("/")}>Quay lại</button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="mb-3">
+        <label>Tên gian hàng</label>
+        <input
+          type="text"
+          className="form-control"
+          value={form.ten_gian_hang}
+          onChange={(e) => setForm({ ...form, ten_gian_hang: e.target.value })}
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label>Mô tả</label>
+        <textarea
+          className="form-control"
+          value={form.mo_ta}
+          onChange={(e) => setForm({ ...form, mo_ta: e.target.value })}
+          rows={3}
+        />
+      </div>
+
+      <div className="mb-3">
+        <label>Địa chỉ</label>
+        <input
+          type="text"
+          className="form-control"
+          value={form.dia_chi}
+          onChange={(e) => setForm({ ...form, dia_chi: e.target.value })}
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label>Link ảnh/logo</label>
+        <input
+          type="text"
+          className="form-control"
+          value={form.logo}
+          onChange={(e) => setForm({ ...form, logo: e.target.value })}
+        />
+      </div>
+
+      <div className="mb-3">
+        <label>Trạng thái hoạt động</label>
+        <select
+          className="form-select"
+          value={form.trang_thai}
+          onChange={(e) => setForm({ ...form, trang_thai: parseInt(e.target.value) })}
+        >
+          <option value={1}>Đang hoạt động</option>
+          <option value={0}>Tạm nghỉ</option>
+        </select>
+      </div>
+
+      <button type="submit" className="btn btn-success me-2">Lưu</button>
+      <button type="button" className="btn btn-secondary" onClick={() => navigate("/")}>Huỷ</button>
+    </form>
+  );
+};
+
+export default EditStore;

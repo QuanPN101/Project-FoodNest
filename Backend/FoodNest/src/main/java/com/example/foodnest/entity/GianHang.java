@@ -1,11 +1,10 @@
 package com.example.foodnest.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.List;
 
 @Entity
 @Table(name="GianHang")
@@ -17,11 +16,10 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class GianHang {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaGianHang")
-    private String maGianHang;
+    private int maGianHang;
 
-    @Column(name = "TenGianHang", nullable = false)
+    @Column(name = "TenGianHang", nullable = false, length = 100)
     private String tenGianHang;
 
     @Column (name = "MoTa")
@@ -34,11 +32,15 @@ public class GianHang {
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
 
-    @Column(name = "TrangThai")
+    @Column(name = "TrangThai", updatable = false)
+    @CreationTimestamp
     private Boolean trangThai;
 
     @Column(name = "NgayTao")
     private java.time.LocalDateTime ngayTao;
+
+    @Column(name = "AnhBiaPreview")
+    private String anhBiaPreview;
 
     @Column(name = "lon")
     private float lon;
