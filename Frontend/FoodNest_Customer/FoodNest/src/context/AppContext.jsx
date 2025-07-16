@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { getAllLoaiSanPham } from '../api/loaiSanPhamApi';
 import { getSanPhamByLoai } from '../api/sanPhamApi';
+import { reverseGeocode } from '../api/reverseGeocode';
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
@@ -23,6 +24,7 @@ export const AppContextProvider = ({ children }) => {
     const [isSeller, setisSeller] = useState(false);
     const [products, setProducts] = useState([]);
     // const [cartItems, setCartItems] = useState({});
+
     const [cartItems, setCartItems] = useState(() => {
         try {
             const storedCart = localStorage.getItem('cartItems');
@@ -35,7 +37,8 @@ export const AppContextProvider = ({ children }) => {
     const [searchQuery, setSearchQuery] = useState({});
     const [loaiSanPham, setLoaiSanPham] = useState([]);
     const [listProduct, setListProduct] = useState([]);
-
+    const [selectedCoord, setSelectedCoords] = useState(0, 0);
+    const [displayName, setDisplayName] = useState('');
     // Fetch all product
     const fetchProducts = async () => {
         try {
@@ -68,18 +71,6 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    // Add product to cart
-    // const addToCart = (itemId) => {
-    //     let cartData = structuredClone(cartItems);
-    //     if (cartData[itemId]) {
-    //         cartData[itemId] += 1;
-    //     } else {
-    //         cartData[itemId] = 1;
-    //     }
-    //     setCartItems(cartData);
-    //     toast.success('Thêm thành công');
-    // };
-
     const addToCart = (itemId) => {
         const product = products.find((p) => p.maSanPham === itemId);
         if (!product) return;
@@ -96,14 +87,6 @@ export const AppContextProvider = ({ children }) => {
         toast.success('Đã thêm vào giỏ hàng');
     };
 
-    // Update Cart Item Quantity
-    // const updateCartItem = (itemId, quantity) => {
-    //     let cartData = structuredClone(cartItems);
-    //     cartData[itemId] = quantity;
-    //     setCartItems(cartData);
-    //     toast.success('Đã cập nhật giỏ hàng');
-    // };
-
     const updateCartItem = (itemId, quantity) => {
         const product = listProduct.find((p) => p.maSanPham === itemId);
         if (!product) return;
@@ -119,13 +102,14 @@ export const AppContextProvider = ({ children }) => {
         toast.success('Đã cập nhật giỏ hàng');
     };
 
-    // Remove Product from Cart
-    const removeFromCart = (id) => {
+    const removeFromCart = (id, options, note) => {
         let itemWasRemoved = false;
 
         const updatedCart = listProduct
             .map((item) => {
-                if (item.maSanPham === id) {
+                const isSameProduct = item.maSanPham === id && JSON.stringify(item.options) === JSON.stringify(options) && item.note === note;
+
+                if (isSameProduct) {
                     const newQty = item.soLuongMua - 1;
                     if (newQty <= 0) {
                         itemWasRemoved = true;
@@ -135,7 +119,7 @@ export const AppContextProvider = ({ children }) => {
                 }
                 return item;
             })
-            .filter((item) => item !== null); // loại bỏ item đã đánh dấu
+            .filter((item) => item !== null); // loại bỏ item đã đánh dấu null
 
         setListProduct(updatedCart);
 
@@ -146,22 +130,21 @@ export const AppContextProvider = ({ children }) => {
         }
     };
 
-    const increaseQuantity = (itemId) => {
-        const updatedCart = listProduct
-            .map((item) => {
-                if (item.maSanPham === itemId) {
-                    const newQty = item.soLuongMua + 1;
+    const increaseQuantity = (id, options, note) => {
+        const updatedCart = listProduct.map((item) => {
+            const isSameProduct = item.maSanPham === id && JSON.stringify(item.options) === JSON.stringify(options) && item.note === note;
 
-                    return { ...item, soLuongMua: newQty };
-                }
-                return item;
-            })
-            .filter((item) => item !== null);
+            if (isSameProduct) {
+                const newQty = item.soLuongMua + 1;
+                return { ...item, soLuongMua: newQty };
+            }
+            return item;
+        });
 
         setListProduct(updatedCart);
-
-        toast.success('Cập nhập số lượng thành công');
+        toast.success('Cập nhật số lượng thành công');
     };
+
     // Get Cart Item Count
     const getCartCount = () => {
         return listProduct.length;
@@ -194,6 +177,15 @@ export const AppContextProvider = ({ children }) => {
             // localStorage.removeItem('user');
         }
     }, []);
+
+    useEffect(() => {
+        const getDN = async () => {
+            const dn = await reverseGeocode(selectedCoord.lat, selectedCoord.lng);
+
+            setDisplayName(dn);
+        };
+        getDN();
+    }, [selectedCoord]);
     const value = {
         currency,
         navigate,
@@ -217,6 +209,9 @@ export const AppContextProvider = ({ children }) => {
         setListProduct,
         listProduct,
         increaseQuantity,
+        selectedCoord,
+        setSelectedCoords,
+        displayName,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

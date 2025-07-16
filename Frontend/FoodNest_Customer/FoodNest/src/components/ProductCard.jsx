@@ -3,16 +3,8 @@ import { assets } from '../assets/assets';
 import { useAppContext } from '../context/Appcontext';
 
 const ProductCard = ({ product }) => {
-    const {
-        currency,
-        addToCart,
-        updateCartItem,
-        removeFromCart,
-        cartItems,
+    const { currency, addToCart, updateCartItem, removeFromCart, cartItems, listProduct, navigate } = useAppContext();
 
-        navigate,
-    } = useAppContext();
-    console.log(product);
     return (
         product && (
             <div
@@ -22,10 +14,10 @@ const ProductCard = ({ product }) => {
                 }}
                 className="border border-gray-500/20 cursor-pointer rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full"
             >
-                <div className="group cursor-pointer flex items-center justify-center px-2">
-                    <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={assets.no_image} alt={product.tenSanPham} />
+                <div className="group cursor-pointer flex items-center justify-center px-2 h-1/2">
+                    <img className="group-hover:scale-105 transition max-w-26 md:max-w-36 object-cover w-full h-full" src={product.anhChinh} alt={product.tenSanPham} />
                 </div>
-                <div className="text-gray-500/60 text-sm">
+                <div className="text-gray-500/60 text-sm mt-3">
                     <p>{product.loaiSanPham.tenLoai}</p>
                     <p className="text-gray-700 font-medium text-lg truncate w-full">{product.tenSanPham}</p>
                     <div className="flex items-center gap-0.5">
@@ -48,30 +40,14 @@ const ProductCard = ({ product }) => {
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
+                                navigate(`products/detail/${product.maSanPham}`);
                             }}
                             className="text-primary"
                         >
-                            {!cartItems[product.maSanPham] ? (
-                                <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer " onClick={() => addToCart(product.maSanPham)}>
-                                    <img src={assets.cart_icon} alt="cart_icon" />
-                                    Thêm
-                                </button>
-                            ) : (
-                                <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
-                                    <button
-                                        onClick={() => {
-                                            removeFromCart(product.maSanPham);
-                                        }}
-                                        className="cursor-pointer text-md px-2 h-full"
-                                    >
-                                        -
-                                    </button>
-                                    <span className="w-5 text-center">{cartItems[product.maSanPham]}</span>
-                                    <button onClick={() => addToCart(product.maSanPham)} className="cursor-pointer text-md px-2 h-full">
-                                        +
-                                    </button>
-                                </div>
-                            )}
+                            {/* <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer ">
+                                <img src={assets.cart_icon} alt="cart_icon" />
+                                Xem
+                            </button> */}
                         </div>
                     </div>
                 </div>
