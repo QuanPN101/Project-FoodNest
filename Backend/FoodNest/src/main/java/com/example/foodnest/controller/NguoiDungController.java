@@ -101,16 +101,27 @@ public class NguoiDungController {
         return nguoiDungService.getNguoiDungById(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
-        try {
-            String result = nguoiDungService.updateNguoiDung(id, request);
-            return ResponseEntity.ok(result);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-    }
+//    @PutMapping("/{id}")
+//    public String updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+//        return nguoiDungService.updateNguoiDung(id, request);
+//    }
+  
+//    public ResponseEntity<String> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+//        try {
+//            String result = nguoiDungService.updateNguoiDung(id, request);
+//            return ResponseEntity.ok(result);
+//        } catch (RuntimeException ex) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//        }
+//    }
+@PutMapping("/{id}")
+public ResponseEntity<?> updateNguoiDungById(@PathVariable String id, @RequestBody NguoiDungUpdateRequest request) {
+        String result = nguoiDungService.updateNguoiDung(id, request);
 
+        if ("Email đã được sử dụng.".equals(result)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("message", result));
+        }
     @GetMapping("/timkiem")
     public Page<NguoiDung> timKiemNguoiDung(
             @RequestParam(defaultValue = "") String keyword,
@@ -129,7 +140,7 @@ public class NguoiDungController {
 
         if (!result) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Collections.singletonMap("message", "Mật khẩu hiện tại không đúng hoặc người dùng không tồn tại."));
+                    .body(Collections.singletonMap("message", "Mật khẩu hiện tại không đúng."));
         }
 
         return ResponseEntity.ok(Collections.singletonMap("message", "Đổi mật khẩu thành công."));

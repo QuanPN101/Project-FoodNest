@@ -13,7 +13,6 @@ import lombok.*;
 @Builder
 public class NguoiDung {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "MaNguoiDung")
     private String maNguoiDung;
 
@@ -25,7 +24,7 @@ public class NguoiDung {
 
     @Column(name = "HoTen")
     private String hoTen;
-
+   
     @Column(name = "SoDienThoai")
     private String soDienThoai;
 

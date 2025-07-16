@@ -11,5 +11,4 @@ import org.mapstruct.Mapping;
 public interface SanPhamMapper {
     @Mapping(source = "maGianHang.maGianHang", target = "maGianHang")
     SanPhamResponse toSanPhamResponse(SanPham sanPham);
-
 }

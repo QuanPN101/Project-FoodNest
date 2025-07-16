@@ -37,7 +37,7 @@ public class DonHangController {
     public List<DonHang> getAllDonHangWithNguoiDung() {
         return donHangService.getAllWithNguoiDung();
     }
-
+  
     @GetMapping("/timkiem")
     public ResponseEntity<Page<DonHang>> searchDonHang(
             @RequestParam(required = false) String trangThai,
@@ -48,7 +48,6 @@ public class DonHangController {
         Page<DonHang> result = donHangService.searchDonHang(trangThai, tenNguoiDung, page, size);
         return ResponseEntity.ok(result);
     }
-
     @PostMapping
     public DonHang addDonHang(@ModelAttribute DonHangCreateRequest request) {
         return donHangService.createDonHang(request);

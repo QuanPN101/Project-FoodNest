@@ -32,7 +32,6 @@ export default function Payment() {
     const { user, listProduct, getCartCount, getCartAmount, currency, displayName, selectedCoord, navigate } = useAppContext();
     const [totalDeliveryCost, setTotalDeliveryCost] = useState(0);
     const [isAddressSelected, setIsAddressSelected] = useState(false);
-
     const handleCreateOrder = async () => {
         const formData = new FormData();
 
@@ -68,7 +67,6 @@ export default function Payment() {
                 toast.error('Số điện thoại không hợp lệ');
                 return;
             }
-
             try {
                 const response = await axios.post('http://localhost:8080/api/donhang', formData);
                 toast.success('Đặt đơn hàng thành công');
@@ -89,7 +87,6 @@ export default function Payment() {
 
         const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
         const d = R * c; // in meters
         return (d / 1000).toFixed(2);
     }
@@ -113,7 +110,6 @@ export default function Payment() {
                 {/* Thông tin nhận hàng */}
                 <div className="flex-1 space-y-6">
                     <h3 className="text-2xl text-primary font-semibold">Thông tin nhận hàng</h3>
-
                     {[
                         { label: 'Email', name: 'email', type: 'email', value: email, onChange: setEmail },
                         { label: 'Họ tên', name: 'name', type: 'text', value: name, onChange: setName },

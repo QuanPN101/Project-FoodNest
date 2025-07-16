@@ -17,7 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 public class GianHang {
     @Id
     @Column(name = "MaGianHang")
-    private int maGianHang;
+    private String maGianHang;
 
     @Column(name = "TenGianHang", nullable = false, length = 100)
     private String tenGianHang;
@@ -47,5 +47,4 @@ public class GianHang {
 
     @Column(name = "lat")
     private float lat;
-
 }

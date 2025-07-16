@@ -9,6 +9,7 @@ import java.time.Instant;
 
 @Builder
 @Data
+@Builder
 public class SanPhamResponse {
     private String maSanPham;
     private String tenSanPham;

@@ -101,7 +101,6 @@ export const AppContextProvider = ({ children }) => {
         setCartItems(cartData);
         toast.success('Đã cập nhật giỏ hàng');
     };
-
     const removeFromCart = (id, options, note) => {
         let itemWasRemoved = false;
 
@@ -129,7 +128,6 @@ export const AppContextProvider = ({ children }) => {
             toast.success('Giảm số lượng sản phẩm thành công');
         }
     };
-
     const increaseQuantity = (id, options, note) => {
         const updatedCart = listProduct.map((item) => {
             const isSameProduct = item.maSanPham === id && JSON.stringify(item.options) === JSON.stringify(options) && item.note === note;
@@ -140,7 +138,6 @@ export const AppContextProvider = ({ children }) => {
             }
             return item;
         });
-
         setListProduct(updatedCart);
         toast.success('Cập nhật số lượng thành công');
     };

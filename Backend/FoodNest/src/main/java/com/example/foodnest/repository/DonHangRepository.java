@@ -26,13 +26,10 @@ public interface DonHangRepository extends JpaRepository<DonHang, String> {
     List<DonHang> findAll();
 
     long countDonHangByTrangThaiDonHang(String trangThai);
-
     @Query("SELECT d FROM DonHang d JOIN FETCH d.maNguoiDung")
     List<DonHang> findAllWithNguoiDung();
 
     List<DonHang> findByMaNguoiDung(NguoiDung maNguoiDung);
 
     long countByMaNguoiDung_MaNguoiDung(String maNguoiDung);
-
-
 }

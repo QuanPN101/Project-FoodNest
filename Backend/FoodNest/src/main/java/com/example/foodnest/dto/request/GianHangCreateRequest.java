@@ -16,5 +16,4 @@ public class GianHangCreateRequest {
     @NotBlank(message = "Ảnh bìa không được để trống")
     private String anhBiaPreview;
     private boolean trangThai;
-
 }
