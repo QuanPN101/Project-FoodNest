@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function ListUsers() {
   const navigate = useNavigate();
 
-  const [page, setPage] = useState(1); // UI: 1-based
+  const [page, setPage] = useState(1);
   const [userRows, setUserRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
@@ -18,11 +18,12 @@ function ListUsers() {
     { label: 'Địa chỉ', field: 'DiaChi' },
     { label: 'Email', field: 'Email' },
     { label: 'Số điện thoại', field: 'SoDienThoai' },
+    // { label: 'Vai trò', field: 'MaVaiTro' },
     { label: 'Trạng thái', field: 'TrangThai' }
   ];
 
   useEffect(() => {
-    fetchUsers(page - 1, searchKeyword); // Backend: 0-based
+    fetchUsers(page - 1, searchKeyword);
   }, [page, searchKeyword]);
 
   const fetchUsers = async (pageIndex, keyword) => {
@@ -44,6 +45,7 @@ function ListUsers() {
         DiaChi: user.diaChi,
         Email: user.email,
         SoDienThoai: user.soDienThoai,
+        // MaVaiTro: user.maVaiTro,
         TrangThai: user.trangThai ? 'Hoạt động' : 'Không hoạt động'
       }));
 

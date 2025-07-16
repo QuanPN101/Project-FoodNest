@@ -23,4 +23,9 @@ public class AuthService {
                 ))
                 .orElse(null);
     }
+    public NguoiDung login_customer(LoginRequest request) {
+        return nguoiDungRepository.findByEmail(request.getEmail())
+                .filter(nguoiDung -> nguoiDung.getMatKhau().equals(request.getMatKhau()))
+                .orElse(null);
+    }
 }

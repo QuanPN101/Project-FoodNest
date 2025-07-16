@@ -27,7 +27,17 @@ const StoreDetail = () => {
         {/* Phần 1: Ảnh + tiêu đề + mô tả */}
         <div className="row mb-4">
           <div className="col-md-3">
-            <div className="bg-secondary rounded" style={{ width: "100%", height: 150 }}></div>
+            <div 
+              className="rounded" 
+              style={{ 
+                width: "100%", 
+                height: 150, 
+                backgroundImage: `url(${gianHang?.anhDaiDien || 'default-image-url'})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }} 
+            ></div>
+
           </div>
           <div className="col-md-8">
             <h3><strong>{gianHang?.tenGianHang}</strong></h3>
@@ -42,11 +52,12 @@ const StoreDetail = () => {
         <div className="row mb-4">
           <div className="col-md-4">
             <h5><strong>Thông tin chi tiết khác</strong></h5>
-            <p>Chủ gian hàng: {gianHang?.nguoiDung?.hoTen}</p>
-            <p>Email: {gianHang?.nguoiDung?.email}</p>
-            <p>Địa chỉ: {gianHang?.diaChi}</p>
-            <p>SĐT: {gianHang?.nguoiDung?.soDienThoai}</p>
+            <p><strong>Chủ gian hàng:</strong> {gianHang?.nguoiDung?.hoTen}</p>
+            <p><strong>Email:</strong> {gianHang?.nguoiDung?.email}</p>
+            <p><strong>Địa chỉ:</strong> {gianHang?.diaChi}</p>
+            <p><strong>SĐT:</strong> {gianHang?.nguoiDung?.soDienThoai}</p>
           </div>
+
 
           <div className="col-md-8">
             <h5><strong>Món ăn nổi bật</strong></h5>

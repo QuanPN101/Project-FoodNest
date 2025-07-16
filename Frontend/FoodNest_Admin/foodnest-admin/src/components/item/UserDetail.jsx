@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link ,useParams } from 'react-router-dom';
+import { Link ,useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function UserDetail() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [canDelete, setCanDelete] = useState(false);
+  const navigator = useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:8080/api/nguoidung/${id}`)
@@ -13,12 +16,33 @@ function UserDetail() {
       .catch(err => console.error('Lỗi lấy chi tiết người dùng:', err));
   }, [id]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/nguoidung/can-delete/${id}`)
+      .then(res => setCanDelete(res.data))
+      .catch(err => console.error("Lỗi kiểm tra xóa người dùng:", err));
+  }, [id]);
+
+  const handleDeleteUser = (id) => {
+  if (window.confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
+    axios.delete(`http://localhost:8080/api/nguoidung/${id}`)
+      .then(res => {
+        toast.info("Xóa thành công!");
+        navigator('/account');
+      })
+      .catch(err => {
+        console.error(err);
+        toast.error("Xóa thất bại!");
+      });
+  }
+};
+
+
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setImagePreview(URL.createObjectURL(file));
+  //   }
+  // };
 
   if (!user) return <div>Đang tải chi tiết người dùng...</div>;
 
@@ -30,7 +54,7 @@ function UserDetail() {
           <div className="card-body">
             <form>
               <div className="row mb-3">
-                <label className="col-sm-2 col-form-label">Họ và tên</label>
+                <label className="col-sm-2 col-form-label fw-bold text-end">Họ và tên:</label>
                 <div className="col-sm-10">
                   <p class="form-control" style={{margin: '0'}}>
                     {user.hoTen}
@@ -40,7 +64,7 @@ function UserDetail() {
 
               
               <div className="row mb-3">
-                <label className="col-sm-2 col-form-label">Email</label>
+                <label className="col-sm-2 col-form-label fw-bold text-end">Email:</label>
                 <div className="col-sm-10">
                   <p class="form-control">
                     {user.email}
@@ -50,7 +74,7 @@ function UserDetail() {
 
               
               <div className="row mb-3">
-                <label className="col-sm-2 col-form-label">Địa chỉ</label>
+                <label className="col-sm-2 col-form-label fw-bold text-end">Địa chỉ:</label>
                 <div className="col-sm-10">
                   <p class="form-control">
                     {user.diaChi}
@@ -60,7 +84,7 @@ function UserDetail() {
 
               
               <div className="row mb-3">
-                <label className="col-sm-2 col-form-label">Số điện thoại</label>
+                <label className="col-sm-2 col-form-label fw-bold text-end">Số điện thoại:</label>
                 <div className="col-sm-10">
                   <p class="form-control">
                     {user.soDienThoai}
@@ -68,41 +92,41 @@ function UserDetail() {
                 </div>
               </div>
 
-              
               <div className="row mb-3">
-                
-                <fieldset className="col-md-6">
-                  <legend className="col-form-label pt-0">Vai trò</legend>
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="role" value="admin" defaultChecked />
-                    <label className="form-check-label">Quản trị viên</label>
-                  </div>
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="role" value="user" />
-                    <label className="form-check-label">Người dùng</label>
-                  </div>
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="role" value="vendor" />
-                    <label className="form-check-label">Chủ gian hàng</label>
-                  </div>
-                </fieldset>
-
-                <fieldset className="col-md-6">
-                  <legend className="col-form-label pt-0">Trạng thái</legend>
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="status" id="active" value="active" defaultChecked />
-                    <label className="form-check-label" htmlFor="active">Hoạt động</label>
-                  </div>
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="status" id="inactive" value="inactive" />
-                    <label className="form-check-label" htmlFor="inactive">Không hoạt động</label>
-                  </div>  
-                </fieldset>
-
+                <label className="col-sm-2 col-form-label fw-bold text-end">Vai trò:</label>
+                <div className="col-sm-10">
+                  <p className="form-control">
+                    {user.maVaiTro === 1
+                      ? "Khách hàng"
+                      : user.maVaiTro === 2
+                      ? "Chủ Gian hàng"
+                      : user.maVaiTro === 3
+                      ? "Admin"
+                      : "Không xác định"}
+                  </p>
+                </div>
               </div>
-            
+
               <div className="row mb-3">
-                <label className="col-sm-2 col-form-label">Ảnh đại diện</label>
+                <label className="col-sm-2 col-form-label fw-bold text-end">Trạng thái:</label>
+                <div className="col-sm-10">
+                  <p className="form-control">
+                    {user.trangThai ? "Đang hoạt động" : "Đã bị khóa"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="row mb-3">
+                <label className="col-sm-2 col-form-label fw-bold text-end">Ngày tạo:</label>
+                <div className="col-sm-10">
+                  <p class="form-control">
+                    {user.ngayTao}
+                  </p>
+                </div>
+              </div>
+          
+              <div className="row mb-3">
+                <label className="col-sm-2 col-form-label fw-bold text-end">Ảnh đại diện:</label>
                 <div className="col-sm-10 d-flex align-items-center">
                   {imagePreview ? (
                     <img
@@ -118,7 +142,17 @@ function UserDetail() {
  
               <div className="row mb-3">
                 <div className="col-sm-10 offset-sm-2 d-flex gap-2">
-                  <button type="submit" className="btn btn-danger">Xóa thông tin</button>
+                  {canDelete && (
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteUser(user.maNguoiDung)}
+                    >
+                      Xóa người dùng
+                    </button>
+
+                  )}
+
                   <Link to="/account" className="btn btn-secondary">Quay lại</Link>
                 </div>
               </div>
@@ -132,3 +166,4 @@ function UserDetail() {
 }
 
 export default UserDetail;
+

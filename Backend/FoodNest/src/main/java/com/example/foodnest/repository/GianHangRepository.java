@@ -15,4 +15,5 @@ public interface GianHangRepository extends JpaRepository<GianHang, Integer> {
     Page<GianHang> findByTenGianHangContaining(String keyword, Pageable pageable);
     GianHang getGianHangByMaGianHang(int maGianHang);
     long countGianHangByTrangThai(boolean trangThai);
+    boolean existsByNguoiDung_MaNguoiDung(String maNguoiDung);
 }

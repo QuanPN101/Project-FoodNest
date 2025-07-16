@@ -19,7 +19,7 @@ const Sidebar = () => {
         <SidebarItem link="account" icon="bi bi-person-gear" text="Tài khoản" customClass="collapsed" />
 
 
-        <SidebarDropdown
+        {/* <SidebarDropdown
           title="Tài khoản"
           icon="bi bi-person-gear"
           targetId="nav-account"
@@ -27,23 +27,28 @@ const Sidebar = () => {
             { link: 'customers', text: 'Khách hàng' },
             { link: 'admins', text: 'Admin' },
           ]}
-        />
-
-        <SidebarDropdown
+        /> */}
+        <SidebarItem link="liststores" icon="bi bi-shop" text="Danh sách gian hàng" customClass="collapsed" />
+        {/* <SidebarDropdown
           title="Gian hàng"
           icon="bi bi-shop"
           targetId="components-nav"
           items={[
             { link: 'liststores', text: 'Danh sách gian hàng' },
-            { link: 'storesregister', text: 'Gian hàng đăng ký mới' },
+            
           ]}
-        />
+        /> */}
         
         
         
         <li className="nav-heading">Trang</li>
 
-        <SidebarItem link="/fanpage" icon="bi bi-person" text="Fanpage" customClass="collapsed" />
+        {/* <SidebarItem link="/fanpage" icon="bi bi-person" text="Fanpage" customClass="collapsed" /> */}
+        {/* <a href="http://localhost:5173/" className="sidebar-item collapsed">
+          <i className="bi bi-person"></i>
+          <span>Fanpage</span>
+        </a> */}
+
         <SidebarItem link="/home" icon="bi bi-question-circle" text="Website" customClass="collapsed" />
 
       </ul>

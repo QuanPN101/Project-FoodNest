@@ -19,6 +19,7 @@ import java.time.Instant;
 public class DonHang {
     @Id
     @Column(name = "MaDonHang", nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String maDonHang;
 
     @NotNull
@@ -53,4 +54,18 @@ public class DonHang {
     @Column(name = "DiaChiGiaoHang", nullable = false)
     private String diaChiGiaoHang;
 
+    @Size(max = 255)
+    @Column(name = "Email", nullable = false)
+    private String email;
+
+    @Size(max = 255)
+    @Column(name = "HoTen", nullable = false)
+    private String hoTen;
+
+    @Size(max = 255)
+    @Column(name = "SoDienThoai", nullable = false)
+    private String soDienThoai;
+
+    @Column(name = "PhuongThucThanhToan", nullable = false)
+    private String phuongThucThanhToan;
 }

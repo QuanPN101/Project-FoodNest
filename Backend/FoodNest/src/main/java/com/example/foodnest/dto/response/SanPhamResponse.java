@@ -1,12 +1,13 @@
 package com.example.foodnest.dto.response;
 
 import com.example.foodnest.entity.GianHang;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-
+@Builder
 @Data
 public class SanPhamResponse {
     private String maSanPham;

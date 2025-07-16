@@ -47,8 +47,10 @@ function ListStore() {
         hoTenChuGianHang: store.nguoiDung?.hoTen || '',
         emailChuGianHang: store.nguoiDung?.email || '',
         soDienThoaiChuGianHang: store.nguoiDung?.soDienThoai || '',
-        TrangThai: store.trangThai ? 'Hoạt động' : 'Ngừng hoạt động',
-        ngayTao: new Date(store.ngayTao).toLocaleDateString('vi-VN')
+        TrangThai: store.trangThai ? 'Hoạt động' : 'Không hoạt động',
+        ngayTao: new Date(store.ngayTao).toLocaleDateString('vi-VN'),
+        lon: store.lon || '',
+        lat: store.lat || ''
       }));
 
       setStoreRows(mappedData);

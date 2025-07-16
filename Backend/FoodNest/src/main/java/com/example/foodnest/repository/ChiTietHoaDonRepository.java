@@ -16,4 +16,5 @@ public interface ChiTietHoaDonRepository extends JpaRepository<ChiTietDonHang, L
             "GROUP BY sp.MaSanPham, sp.TenSanPham " +
             "ORDER BY TongSoLuong DESC", nativeQuery = true)
     List<Object[]> findTop10BestSellingProducts();
+    List<ChiTietDonHang> findByMaDonHang_MaDonHang(String maDonHang);
 }

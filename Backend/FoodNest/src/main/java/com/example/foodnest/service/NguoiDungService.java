@@ -4,6 +4,7 @@ import com.example.foodnest.dto.request.NguoiDungCreateRequest;
 import com.example.foodnest.dto.request.NguoiDungUpdateRequest;
 import com.example.foodnest.entity.NguoiDung;
 import com.example.foodnest.mapper.NguoiDungMapper;
+import com.example.foodnest.repository.DonHangRepository;
 import com.example.foodnest.repository.NguoiDungRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ public class NguoiDungService {
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
     @Autowired
+    private DonHangRepository donHangRepository;
+    @Autowired
     NguoiDungMapper nguoiDungMapper;
 
     public NguoiDung createNguoiDung(NguoiDungCreateRequest request) {
@@ -35,8 +38,22 @@ public class NguoiDungService {
         }
 
         NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(request);
-        nguoiDung.setMaVaiTro(1);
+        nguoiDung.setMaVaiTro(3);
         return nguoiDungRepository.save(nguoiDung);
+    }
+
+
+    public void xoaNguoiDung(String id) {
+        if (!nguoiDungRepository.existsById(id)) {
+            throw new RuntimeException("Người dùng không tồn tại.");
+        }
+
+        long soLuongDonHang = donHangRepository.countByMaNguoiDung_MaNguoiDung(id);
+        if (soLuongDonHang > 0) {
+            throw new RuntimeException("Không thể xóa người dùng đã có đơn hàng.");
+        }
+
+        nguoiDungRepository.deleteById(id);
     }
 
     public List<NguoiDung> getAllNguoiDung() {
